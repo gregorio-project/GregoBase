@@ -1,0 +1,371 @@
+html, body {
+	margin: 0px;
+	background: #fff;
+	background-image: url("wp-content/themes/gregobase/bg.png");
+	background-repeat: repeat-x;
+	background-position: top;
+	color: #000;
+	font-family: 'Libre Baskerville', Georgia, serif;
+	height:100%;
+	max-height:100%;
+	font-size: 10pt;
+}
+
+h1 {
+    font-size:18pt;
+    font-weight:bold;
+	padding: 0px;
+}
+
+h1 a {
+	color: #222;
+	text-decoration:none;
+}
+
+a:link
+{
+  color: #004b91;
+}
+
+a:active, a:hover
+{
+  color: #ff4b33;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+td {
+	vertical-align: top;
+	border-top: solid lightgray 1px;
+}
+
+table.registration {
+	margin-left:auto; 
+	margin-right:auto;
+}
+
+table.registration th {
+	text-align: right;
+}
+
+table.registration td {
+	text-align: left;
+	border: none;
+}
+
+td ul {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+h4 + ul {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+h4 {
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+}
+
+#header {
+	position: absolute;
+	top: 0px;
+	width: 1024px;
+	height: 150px;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+#title {
+	padding: 0.2em 12px;
+}
+#description {
+	padding: 0em 15px;
+    color:#222;
+    font-size:12pt;
+    font-style:italic;
+}
+#header_overlay {
+	position: absolute;
+	top: 0px;
+	width: 190px;
+	height: 150px;
+	background-image: url("wp-content/themes/gregobase/monks.png");
+	background-repeat: no-repeat;
+	background-position: right;
+	left: 50%;
+	margin-left: 322px;
+}
+
+#content {
+	box-sizing:border-box;
+	-moz-box-sizing:border-box; /* Firefox */
+	-webkit-box-sizing:border-box; /* Safari */
+	position: absolute;
+	top: 150px;
+	bottom: 0px;
+	width: 1024px;
+	overflow: auto;
+	padding-left: 20px;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	border-left: solid 1px #e6e6e6;
+}
+
+#score {
+	position: absolute;
+	width:475px;
+	top: 0px;
+	left: 15px;
+	bottom: 0px;
+	overflow: auto;
+}
+
+#info {
+	position: absolute;
+	top: 0px;
+	left: 490px;
+	right:0px;
+	bottom: 0px;
+	overflow: auto;
+	padding-left: 20px;
+}
+
+.version {
+	color: #999;
+	font-size: 8pt;
+}
+
+ul.incipit {
+    list-style: none;
+    padding:0;
+    margin:0;
+}
+
+ul.incipit li { 
+    padding-left: 2em; 
+}
+
+.usage-marker:before {
+    content: "■";
+    padding-right:7px;
+}
+
+.usage:after {
+    content: "■";
+    padding-left:4px;
+}
+
+.ky:before, .ky:after {
+    color: #085abd;
+}
+
+.al:before, .al:after {
+    color: #84c6ff;
+}
+
+.an:before, .an:after {
+    color: #efce31;
+}
+
+.ca:before, .ca:after {
+    color: #67674c;
+}
+
+.co:before, .co:after {
+    color: #94944a;
+}
+
+.gr:before, .gr:after {
+    color: #a6ff4b;
+}
+
+.hy:before, .hy:after {
+    color: #c68c63;
+}
+
+.im:before, .im:after {
+    color: #845239;
+}
+
+.in:before, .in:after {
+    color: #c52d31;
+}
+
+.of:before, .of:after {
+    color: #7b7b52;
+}
+
+.ps:before, .ps:after {
+    color: #567d8e;
+}
+
+.re:before, .re:after {
+    color: #736342;
+}
+
+.se:before, .se:after {
+    color: #8c7b5a;
+}
+
+.tr:before, .tr:after {
+    color: #d68c10;
+}
+
+.va:before, .va:after {
+    color: #cccccc;
+}
+
+.todo {
+	color: #999;
+}
+
+ins {
+	color: white;
+	background: green;
+	text-decoration: none;
+	}
+
+del {
+	color: white;
+	background: red;
+	text-decoration: none;
+	}
+
+textarea#gabc {
+    width: 440px;
+    height: 200px;
+}
+/* =Menu
+-------------------------------------------------------------- */
+
+.skip-link {
+    display:none;
+}
+#access {
+	position: absolute;
+	top: 121px;
+    height:28px;
+    font-size:13px;
+    overflow:visible;
+    z-index:100;
+}
+/*** ESSENTIAL STYLES ***/
+.sf-menu, .sf-menu * {
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+.sf-menu {
+	line-height:1.0;
+}
+.sf-menu ul {
+	position:absolute;
+	top:-999em;
+	width:10em; /* left offset of submenus need to match (see below) */
+}
+.sf-menu ul li {
+	width:100%;
+}
+.sf-menu li:hover {
+	visibility:inherit; /* fixes IE7 'sticky bug' */
+}
+.sf-menu li {
+	float:left;
+	position:relative;
+}
+.sf-menu a {
+	display:block;
+	position:relative;
+}
+.sf-menu li:hover ul,
+.sf-menu li.sfHover ul {
+	left:0;
+	top:2.5em; /* match top ul list item height */
+	z-index:99;
+}
+ul.sf-menu li:hover li ul,
+ul.sf-menu li.sfHover li ul {
+	top:-999em;
+}
+ul.sf-menu li li:hover ul,
+ul.sf-menu li li.sfHover ul {
+	left:10em; /* match ul width */
+	top:0;
+}
+ul.sf-menu li li:hover li ul,
+ul.sf-menu li li.sfHover li ul {
+	top:-999em;
+}
+ul.sf-menu li li li:hover ul,
+ul.sf-menu li li li.sfHover ul {
+	left:10em; /* match ul width */
+	top:0;
+}
+
+/*** THEMATIC SKIN ***/
+.sf-menu {
+	float:left;
+	margin-left:1px;
+}
+.sf-menu a {
+  	border-color:#e6e6e6;
+    border-style:solid;
+    border-width:1px;
+	padding:7px 13px;
+	text-decoration:none;
+	margin-left:-1px;
+}
+.ie7 .sf-menu a {
+	width:100%;
+}
+.sf-menu .current-menu-item a,
+.sf-menu .current-menu-parent a,
+.sf-menu .current-menu-ancestor a,
+.sf-menu .current-post-ancestor a,
+.sf-menu .current_page_item a,
+.sf-menu .current_page_ancestor a,
+.sf-menu .current_page_parent a {
+    border-bottom-color:#fff;
+}
+.sf-menu a, .sf-menu a:visited  { /* visited pseudo selector so IE6 applies text colour*/
+	color:#666;
+}
+.sf-menu li {
+	background:#fff;
+}
+.sf-menu li li {
+	background:#fff;
+}
+.sf-menu li li li {
+	background:#9AAEDB;
+}
+.sf-menu li:hover, .sf-menu li.sfHover,
+.sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active {
+    background:#fafafa;
+	outline: 0;
+    border-bottom-color:#e6e6e6;
+}
+.sf-menu ul {
+    border-bottom:1px solid #e6e6e6;
+}
+.sf-menu li:hover ul,
+.sf-menu li.sfHover ul {
+	top:127px; /* overriding essential styles */
+}
+.sf-menu ul ul {
+    margin-top:0;
+}
+.sf-menu ul a {
+    background:#fafafa;
+	border-bottom:none;
+}
+.sf-menu ul a:hover {
+    color: #FF4B33;
+}

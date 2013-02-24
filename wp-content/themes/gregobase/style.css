@@ -1,0 +1,90 @@
+/*   
+Theme Name: GregoBase
+Theme URI: http://thematictheme.com/
+Description: Use this theme to start your Thematic Child Theme development.
+Author: Ian Stewart
+Author URI: http://themeshaper.com/
+Template: thematic
+Version: 1.0
+Tags: white, three-columns, two-columns, fixed-width, theme-options, left-sidebar, right-sidebar, threaded-comments, sticky-post, microformats
+License: GNU General Public License v2.0
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+.
+The Thematic Theme is copyright Ian Stewart http://themeshaper.com/
+This work, like WordPress, is released under GNU General Public License, version 2 (GPL).
+.
+
+*/
+
+/* Reset browser defaults */
+@import url('../thematic/library/styles/reset.css');
+
+/* Apply basic typography styles */
+@import url('../thematic/library/styles/typography.css');
+
+/* Apply a basic layout */
+@import url('../thematic/library/layouts/2c-r-fixed.css');
+
+/* Apply basic image styles */
+@import url('../thematic/library/styles/images.css');
+
+/* Apply default theme styles and colors */
+/* It's better to actually copy over default.css into this file (or link to a copy in your child theme) if you're going to do anything outrageous */
+@import url('default.css');
+
+/* Prepare theme for plugins */
+@import url('../thematic/library/styles/plugins.css');
+
+@import url("http://fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700");
+
+body {
+	background: #fff;
+	background-image: url("bg.png");
+	background-repeat: repeat-x;
+	background-position: top;
+}
+#wrapper
+{
+	position: absolute;
+	top: 0px;
+	width: 1024px;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	bottom: 0px;
+}
+#header
+{
+	position: absolute;
+	top: 0px;
+}
+#branding
+{
+	position: absolute;
+	top: 0px;
+	width: 1024px;
+	height: 150px;
+	background-image: url("monks.png");
+	background-repeat: no-repeat;
+	background-position: right;
+	padding: 0px;
+}
+#main
+{
+	box-sizing:border-box;
+	-moz-box-sizing:border-box; /* Firefox */
+	-webkit-box-sizing:border-box; /* Safari */
+	position: absolute;
+	top: 150px;
+	bottom: 0px;
+	width: 1024px;
+	overflow: auto;
+	padding-left: 20px;
+	border-left: solid 1px #e6e6e6;
+}
+#siteinfo
+{
+	visibility:hidden;
+}
