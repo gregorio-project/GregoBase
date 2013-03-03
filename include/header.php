@@ -52,16 +52,21 @@ $hours = array('matins','lauds','prime','terce','sext','none','vespers','complin
 
 function custom_split($str) {
 	global $days, $hours;
-	$test = preg_split('/(?=[a-z]+[^A-Z]?)|(?<=\D)\d|(?<=\d)\D|[ \.,\(\)]/', $str,0,PREG_SPLIT_NO_EMPTY);
+	$test = preg_split('/(?<=\D)\d|(?<=\d)\D|[ \.,\(\)]/', $str,0,PREG_SPLIT_NO_EMPTY);
 	$i = 1;
 	while(count($test) > $i) {
 		if(ctype_alpha($test[$i]) && ctype_alpha($test[$i-1]) &&
 		   !RomanNumber::IsRomanNumber($test[$i]) && !RomanNumber::IsRomanNumber($test[$i-1]) &&
+		   !(RomanNumber::IsRomanNumber(substr($test[$i],0,-1)) && in_array(substr($test[$i],-1), array('a','b','c'))) &&
 		   !in_array(strtolower($test[$i]),$days) && !in_array(strtolower($test[$i-1]),$days) &&
 		   !in_array(strtolower($test[$i]),$hours) && !in_array(strtolower($test[$i-1]),$hours)) {
 			$test[$i-1] = $test[$i-1].$test[$i];
 			unset($test[$i]);
 			$test = array_values($test);
+		} elseif(RomanNumber::IsRomanNumber(substr($test[$i],0,-1)) && in_array(substr($test[$i],-1), array('a','b','c'))) {
+			array_splice($test, $i+1, 0, array(substr($test[$i],-1))); 
+			$test[$i] = substr($test[$i],0,-1);
+			$i+=2;
 		} else {
 			$i++;
 		}
