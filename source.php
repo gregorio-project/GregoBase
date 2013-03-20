@@ -9,13 +9,13 @@ if(array_key_exists("id", $_GET)) {
 }
 $chants = array();
 if($s == "none") {
-	$sql1 = 'SELECT * FROM '.$db['chants'].' c WHERE NOT EXISTS (SELECT * FROM '.$db['chant_sources'].' cs WHERE c.id = cs.chant_id)';
+	$sql1 = 'SELECT * FROM '.db('chants').' c WHERE NOT EXISTS (SELECT * FROM '.db('chant_sources').' cs WHERE c.id = cs.chant_id)';
 	$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 	while($c = $req1->fetch_assoc()) {
 		$chants[''][] = array($c['id'],1,1);
 	}
 } else {
-	$sql1 = 'SELECT * FROM '.$db['chant_sources'].' WHERE `source` = "'.$s.'" ORDER BY sequence ASC';
+	$sql1 = 'SELECT * FROM '.db('chant_sources').' WHERE `source` = "'.$s.'" ORDER BY sequence ASC';
 	$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 	while($c = $req1->fetch_assoc()) {
 		$chants[$c['page']][] = array($c['chant_id'],$c['sequence'],$c['extent']);

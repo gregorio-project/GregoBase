@@ -8,7 +8,7 @@ if(array_key_exists("id", $_GET)) {
 } else {
 	die('No id');
 }
-$sql1 = 'SELECT * FROM '.$db['chants'].' WHERE id = '.$id;
+$sql1 = 'SELECT * FROM '.db('chants').' WHERE id = '.$id;
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 $c = $req1->fetch_assoc();
 if(!$c) {
@@ -19,11 +19,11 @@ $title = $c['incipit'];
 include('include/header.php');
 
 if(isset($_POST['proofread']) && $_POST['proofread'] == 'Me' && $c) {
-	$mysqli->query('INSERT into '.$db['proofreading'].' VALUES ('.$id.','.$current_user->ID.','.time().')') or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
+	$mysqli->query('INSERT into '.db('proofreading').' VALUES ('.$id.','.$current_user->ID.','.time().')') or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 }
 
 $c_p = array();
-$sql1 = 'SELECT * FROM '.$db['chant_sources'].' WHERE chant_id = '.$id.' ORDER BY source';
+$sql1 = 'SELECT * FROM '.db('chant_sources').' WHERE chant_id = '.$id.' ORDER BY source';
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 while ($s = $req1->fetch_assoc()) {
 	$c_s = array($s['source'], $s['page']);
@@ -80,7 +80,7 @@ if(count($c_p) > 0) {
 	echo "</ul>\n";
 }
 
-$sql1 = 'SELECT * FROM '.$db['proofreading'].' WHERE chant_id = '.$c['id'].' ORDER BY time DESC';
+$sql1 = 'SELECT * FROM '.db('proofreading').' WHERE chant_id = '.$c['id'].' ORDER BY time DESC';
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 $proof = array();
 $proof_done = False;
@@ -117,19 +117,18 @@ if(is_string($content)) {
 	}
 	echo "</ul></li>\n";
 }
-echo '<li><a href="download.php?id='.$c['id'].'&amp;format=pdf">PDF</a></li>'."\n";
-echo '<li><a href="download.php?id='.$c['id'].'&amp;format=eps">EPS</a></li>'."\n";
-echo '<li><a href="download.php?id='.$c['id'].'&amp;format=png">PNG</a></li>'."\n";
+foreach(array('pdf','eps','png') as $a) {
+	echo '<li><a href="download.php?id='.$c['id'].'&amp;format='.$a.'">'.strtoupper($a).'</a></li>'."\n";
+}
 echo "</ul>\n";
 if($c['gabc_verses'] || $c['tex_verses']){
 	echo "<ul>\n";
-	echo '<li><a href="download.php?id='.$c['id'].'&amp;format=gabc&amp;1verse=1">GABC (1st verse)</a></li>'."\n";
-	echo '<li><a href="download.php?id='.$c['id'].'&amp;format=pdf&amp;1verse=1">PDF (1st verse)</a></li>'."\n";
-	echo '<li><a href="download.php?id='.$c['id'].'&amp;format=eps&amp;1verse=1">EPS (1st verse)</a></li>'."\n";
-	echo '<li><a href="download.php?id='.$c['id'].'&amp;format=png&amp;1verse=1">PNG (1st verse)</a></li>'."\n";
+	foreach(array('gabc','pdf','eps','png') as $a) {
+		echo '<li><a href="download.php?id='.$c['id'].'&amp;format='.$a.'&amp;1verse=1">'.strtoupper($a).' (1st verse only)</a></li>'."\n";
+	}
 	echo "</ul>\n";
 }
-$sql1 = 'SELECT * FROM '.$db['changesets'].' WHERE chant_id = '.$c['id'].' ORDER BY time DESC';
+$sql1 = 'SELECT * FROM '.db('changesets').' WHERE chant_id = '.$c['id'].' ORDER BY time DESC';
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 if($req1->num_rows > 0 || $c['transcriber'] > '') {
 	echo "<h4>History</h4>\n<ul>\n";

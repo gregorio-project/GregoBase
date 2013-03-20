@@ -18,20 +18,11 @@ $mysqli = new mysqli(HOST, USER, PASSWORD, DATABASE);
 
 $mysqli->query('SET NAMES utf8');
 
+$db_prefix = 'gregobase_';
 function db($s) {
-	$db_prefix = 'gregobase_';
+	global $db_prefix;
 	return $db_prefix.$s;
 }
-
-$db_prefix = 'gregobase_';
-$db = array('booklets'      => $db_prefix.'booklets',
-            'chants'        => $db_prefix.'chants',
-            'chant_sources' => $db_prefix.'chant_sources',
-            'sources'       => $db_prefix.'sources',
-            'changes'       => $db_prefix.'changes',
-            'changesets'    => $db_prefix.'changesets',
-            'users'         => $db_prefix.'users',
-            'proofreading'  => $db_prefix.'proofreading');
 
 require_once('./wp-blog-header.php');
 $current_user = wp_get_current_user();

@@ -15,7 +15,7 @@ if(array_key_exists('1verse', $_GET) && $_GET['1verse'] == '1') {
 	$suffix = "";
 }
 
-$sql1 = 'SELECT * FROM '.$db['chants'].' WHERE id = '.$id;
+$sql1 = 'SELECT * FROM '.db('chants').' WHERE id = '.$id;
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 $c = $req1->fetch_assoc();
 if(!$c) {
@@ -54,7 +54,7 @@ if(array_key_exists('format', $_GET)) {
 			}
 		}
 		$c_p = array();
-		$sql1 = 'SELECT * FROM '.$db['chant_sources'].' WHERE chant_id = '.$id;
+		$sql1 = 'SELECT * FROM '.db('chant_sources').' WHERE chant_id = '.$id;
 		$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 		while ($s = $req1->fetch_assoc()) {
 			$c_p[] = array($s['source'], $s['page']);

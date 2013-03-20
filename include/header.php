@@ -117,12 +117,11 @@ echo <<<HEADER1
 <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' />
 <link rel="stylesheet" type="text/css" href="style.css" />
 HEADER1;
-if(!$logged_in) {
-	echo '<script type="text/javascript" src="sha512.js"></script>
-<script type="text/javascript" src="forms.js"></script>
-';
+if(isset($custom_header)) {
+	echo $custom_header;
 }
 echo <<<HEADER2
+
 </head>
 
 <body>

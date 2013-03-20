@@ -8,7 +8,7 @@ if(array_key_exists("id", $_GET)) {
 } else {
 	die('No id');
 }
-$sql1 = 'SELECT * FROM '.$db['chants'].' WHERE id = '.$id;
+$sql1 = 'SELECT * FROM '.db('chants').' WHERE id = '.$id;
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 $c = $req1->fetch_assoc();
 if(!$c) {
@@ -21,11 +21,11 @@ include('include/header.php');
 if(!$logged_in) {
 	echo "Please login";
 } elseif(count($_POST) > 0) {
-	#$mysqli->query('INSERT into '.$db['proofreading'].' VALUES ('.$id.','.$_SESSION['user_id'].','.time().')') or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
+	#$mysqli->query('INSERT into '.db('proofreading').' VALUES ('.$id.','.$_SESSION['user_id'].','.time().')') or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 } else {
 
 	$c_p = array();
-	$sql1 = 'SELECT * FROM '.$db['chant_sources'].' WHERE chant_id = '.$id;
+	$sql1 = 'SELECT * FROM '.db('chant_sources').' WHERE chant_id = '.$id;
 	$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 	while ($s = $req1->fetch_assoc()) {
 		$c_s = array($s['source'], $s['page']);

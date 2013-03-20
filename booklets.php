@@ -5,7 +5,7 @@ $title = 'Booklets';
 include('include/header.php');
 echo "<h2>$title</h2>\n";
 
-$sql1 = 'SELECT * FROM '.$db['booklets'].' ORDER BY filename';
+$sql1 = 'SELECT * FROM '.db('booklets').' ORDER BY filename';
 
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 echo "<ul class=\"incipit\">\n";

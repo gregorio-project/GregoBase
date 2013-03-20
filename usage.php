@@ -13,7 +13,7 @@ if(!array_key_exists($id,$txt['usage'])) {
 $title = 'Usage - '.$txt['usage'][$id];
 include('include/header.php');
 echo "<h2>$title</h2>\n";
-$sql1 = 'SELECT * FROM '.$db['chants'].' WHERE `office-part` = "'.$id.'" ORDER BY incipit ASC';
+$sql1 = 'SELECT * FROM '.db('chants').' WHERE `office-part` = "'.$id.'" ORDER BY incipit ASC';
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 $chants = array();
 while($c = $req1->fetch_assoc()) {
