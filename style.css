@@ -242,6 +242,16 @@ textarea#gabc {
     width: 440px;
     height: 200px;
 }
+
+.alphabet {
+	list-style:none;
+}
+.alphabet li {
+	float:left;
+	position:relative;
+	margin-right:10px;
+}
+
 /* =Menu
 -------------------------------------------------------------- */
 
