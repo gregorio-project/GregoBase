@@ -238,9 +238,17 @@ del {
 	text-decoration: none;
 	}
 
-textarea#gabc {
-    width: 440px;
-    height: 200px;
+textarea.gabc {
+    width: 450px;
+}
+
+.clone1,.clone2 {
+    border-bottom: 1px dashed gray;
+}
+
+.edit {
+	float:right;
+	margin-right: 15px;
 }
 
 .alphabet {

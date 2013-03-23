@@ -2,25 +2,25 @@
 include('include/db.php');
 include('include/finediff.php');
 
-if(array_key_exists("id", $_GET)) {
-	$id = intval($_GET['id']);
+if(array_key_exists("changeset", $_GET)) {
+	$chgset = explode('|',$_GET['changeset']);
 } else {
-	die('No id');
+	die('No changeset');
 }
-$sql1 = 'SELECT * FROM '.db('chants').' WHERE id = '.$id;
+$sql1 = 'SELECT * FROM '.db('chants').' WHERE id = '.intval($chgset[1]);
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 $c = $req1->fetch_assoc();
 
 $title = 'History - '.$c['incipit'];
 include('include/header.php');
 echo "<h2>$title</h2>\n";
-
-$sql1 = 'SELECT * FROM '.db('changesets').' WHERE chant_id = '.$id.' ORDER BY time DESC';
+$sql1 = 'SELECT * FROM '.db('changesets').' WHERE `user_id` = '.intval($chgset[2]).' AND `chant_id` = '.intval($chgset[1]).' AND `time` = '.intval($chgset[0]);
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 while($m = $req1->fetch_assoc()) {
-	echo "<h4>".date("M d, Y",$m['time'])." (".username_from_id($m['user_id']).")</h4>\n";
+	$user_info = get_userdata($m['user_id']);
+	echo "<h4>".date("M d, Y",$m['time'])." (".$user_info->display_name.")</h4>\n";
 	echo "<p>".$m['comment']."</p>\n";
-	$sql2 = 'SELECT * FROM '.db('changes').' WHERE changeset = "'.$m['user_id'].'|'.$id.'|'.$m['time'].'" ORDER BY field';
+	$sql2 = 'SELECT * FROM '.db('changes').' WHERE changeset = "'.$mysqli->real_escape_string($_GET['changeset']).'" ORDER BY field';
 	$req2 = $mysqli->query($sql2) or die('Erreur SQL !<br />'.$sql2.'<br />'.$mysqli->error);
 	while($f = $req2->fetch_assoc()) {
 		echo '<p><i>'.$f['field']."</i><br />\n";
