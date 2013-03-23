@@ -44,7 +44,7 @@ if(array_key_exists('format', $_GET)) {
 		} elseif(is_array($content)) {
 			$gabcs = array();
 			foreach($content as $e) {
-				if($e[0] == 'score') $gabcs[] = $e[1];
+				if($e[0] == 'gabc') $gabcs[] = $e[1];
 			}
 			if(array_key_exists('elem', $_GET) && (int)$_GET['elem'] < count($gabcs)+1) {
 				$gabc = $gabcs[(int)$_GET['elem']-1];

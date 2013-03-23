@@ -64,7 +64,7 @@ if(count($c_p) > 0) {
 	echo "<h4>Sources</h4>\n<ul>\n";
 	$cnt = 1;
 	foreach($c_p as $s) {
-		$source_label = "<i>".$sources[$s[0]]['title'].", ".$sources[$s[0]]['editor'].", ".$sources[$s[0]]['year']."</i>, p. ".$s[1];
+		$source_label = "<i>".$sources[$s[0]]['title'].", ".$sources[$s[0]]['editor'].", ".$sources[$s[0]]['year']."</i>".($s[1]>''?", p. ".$s[1]:'');
 		if (count($s) > 2) {
 			echo '<li><a href="#source_'.$cnt.'">'.$source_label."</a></li>\n";
 			$sources_img .= '<p><a name="source_'.$cnt.'">'.$source_label."</a><br />\n";
@@ -109,7 +109,7 @@ if(is_string($content)) {
 } elseif(is_array($content)) {
 	$gabcs = array();
 	foreach($content as $e) {
-		if($e[0] == 'score') $gabcs[] = $e[1];
+		if($e[0] == 'gabc') $gabcs[] = $e[1];
 	}
 	echo "<li>GABC<ul>";
 	for($i = 0; $i < count($gabcs); $i++) {
