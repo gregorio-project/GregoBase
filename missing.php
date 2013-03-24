@@ -1,7 +1,7 @@
 <?php
 include('include/db.php');
 
-$title = 'TODO';
+$title = 'Missing scores';
 include('include/header.php');
 echo "<h2>$title</h2>\n";
 

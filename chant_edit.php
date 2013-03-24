@@ -261,7 +261,7 @@ if(!$logged_in) {
 	$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
 	$id = $mysqli->insert_id;
 	foreach(array('version','office-part','mode','mode_var','commentary','initial','transcriber','gabc','gabc_verses','tex_verses') as $k) {
-		if($mypost[$k] > '') {
+		if($mypost[$k] > '' && $mypost[$k] != "(c4)") {
 			$sql = 'UPDATE '.db('chants').' SET `'.$k.'` = "'.$mysqli->real_escape_string($mypost[$k]).'" WHERE `id` = '.$id;
 			$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
 		}
