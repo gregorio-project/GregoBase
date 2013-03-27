@@ -206,7 +206,7 @@ while ($s = $req->fetch_assoc()) {
 	$c_s[] = $s;
 }
 
-$title = $c['incipit'];
+$title = $c['incipit']?$c['incipit']:'New score';
 $custom_header = <<<HEADER
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="autoresize.jquery.js"></script>
