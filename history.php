@@ -25,7 +25,17 @@ while($m = $req1->fetch_assoc()) {
 	while($f = $req2->fetch_assoc()) {
 		echo '<p><i>'.$f['field']."</i><br />\n";
 		$from_text = $f['changed'];
-		$to_text = $c[$f['field']];
+		if($f['field'] == 'sources') {
+			$c_s = array();
+			$sql = 'SELECT * FROM '.db('chant_sources').' WHERE chant_id = '.intval($chgset[1]);
+			$req = $mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
+			while ($s = $req->fetch_assoc()) {
+				$c_s[] = $s;
+			}
+			$to_text = json_encode($c_s);
+		} else {
+			$to_text = $c[$f['field']];
+		}
 		$diff = new FineDiff($from_text, $to_text, FineDiff::$wordGranularity);
 		$opcodes = FineDiff::getDiffOpcodes($from_text, $to_text);
 		echo '<tt>'.FineDiff::renderDiffToHTMLFromOpcodes($from_text, $opcodes)."</tt></p>\n";
