@@ -60,7 +60,7 @@ td ul {
 	margin-bottom: 0px;
 }
 
-h4 + ul {
+ul {
 	margin-top: 0px;
 	margin-bottom: 0px;
 }
@@ -135,6 +135,19 @@ h4 {
 	bottom: 0px;
 	overflow: auto;
 	padding-left: 20px;
+}
+
+#updates {
+	position: absolute;
+	top: 15px;
+	right:15px;
+	width: 240px;
+	border: solid 1px #e6e6e6;
+	padding: 15px;
+}
+
+#updates h4 {
+	margin-top: 0px;
 }
 
 .version {

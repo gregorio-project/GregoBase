@@ -43,6 +43,26 @@ if($req1->num_rows > 0) {
 	echo "<li><a href=\"source.php?id=none\">No source</a></li>\n";
 }
 echo "</ul></div>\n";
+echo '<div id="updates"><h4><a href="updates.php">Latest updates</a></h4>'."\n";
+$sql1 = 'SELECT * FROM '.db('changesets').' ORDER BY `time` DESC LIMIT 10';
+$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
+$mod = array();
 
+while($m = $req1->fetch_assoc()) {
+	$d = date("Y-m-d",$m['time']);
+	if(!array_key_exists($d,$mod)) $mod[$d] = array();
+	$mod[$d][] = $m;
+}
+foreach($mod as $d => $ml) {
+	echo $d;
+	echo "<ul>\n";
+	foreach($ml as $m) {
+		$user_info = get_userdata($m['user_id']);
+		echo '<li><a href="chant.php?id='.$m['chant_id'].'">'.format_incipit(chant_from_id($m['chant_id'])[1])."</a><br />\n";
+		echo "<i>".$m['comment']."</i></li>\n";
+	}
+	echo "</ul><br />\n";
+}
+echo "</div>";
 include('include/footer.php');
 ?>
