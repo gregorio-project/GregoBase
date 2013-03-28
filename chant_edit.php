@@ -127,11 +127,11 @@ function mgabc2tex($c, $firstverse = False) {
 	if($ann[$c['office-part']]) {
 		$tex .= '\gresetfirstannotation{\small \textbf{'.$ann[$c['office-part']].".}}\n";
 	}
-	if($c['mode']) {
+	if($c['mode'] || $c['mode_var']) {
 		if($c['mode'] == 'p') {
 			$mode = "T. pereg.";
 		} else {
-			$mode = $c['mode'];
+			$mode = $c['mode'].' '.$c['mode_var'];
 		}
 		$tex .= '\gresetsecondannotation{\small \textbf{'.$mode.".}}\n";
 	}
