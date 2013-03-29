@@ -8,7 +8,7 @@ include('include/header.php');
 echo "<h3>Chants</h3>\n";
 echo "<h4>by incipit</h4>\n";
 $sql1 = 'SELECT DISTINCT UPPER(SUBSTRING(incipit,1,1)) AS letters FROM '.db('chants').' ORDER BY letters ASC';
-$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error());
+$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 echo "<div><ul class=\"alphabet\">\n";
 while($s = $req1->fetch_assoc()) {
 	echo "<li><a href=\"incipit.php?letter=".$s['letters']."\">".($s['letters']?$s['letters']:"no incipit")."</a></li>\n";
@@ -17,7 +17,7 @@ echo "</ul></div>\n<div style=\"clear:both;\"></div>";
 
 echo "<h4>by usage</h4>\n";
 $sql1 = 'SELECT * FROM '.db('chants').' WHERE `office-part` != "" GROUP BY `office-part` ORDER BY `office-part`';
-$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error());
+$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 echo "<div><ul>\n";
 while($s = $req1->fetch_assoc()) {
 	echo '<li class="usage '.$s['office-part'].'"><a href="usage.php?id='.$s['office-part'].'">'.$txt['usage'][$s['office-part']]."</a></li>\n";
@@ -38,7 +38,7 @@ foreach($sources as $id => $s) {
 	}
 }
 $sql1 = 'SELECT * FROM '.db('chants').' c WHERE NOT EXISTS (SELECT * FROM '.db('chant_sources').' cs WHERE c.id = cs.chant_id)';
-$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error());
+$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 if($req1->num_rows > 0) {
 	echo "<li><a href=\"source.php?id=none\">No source</a></li>\n";
 }
