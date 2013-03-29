@@ -6,7 +6,6 @@ $_POST = array();
 include('include/db.php');
 include('include/txt.php');
 include('include/sources.php');
-include('include/finediff.php');
 
 function makeimg($c) {
 	$tex = mgabc2tex($c);
