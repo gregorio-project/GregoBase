@@ -392,7 +392,13 @@ if(!$logged_in) {
 	echo "</select>\n";
 
 	echo "<h4>Mode</h4>\n";
-	echo '<input name="mode" value="'.$c['mode'].'" size="3" /> - Ending <input name="mode_var" value="'.$c['mode_var'].'" size="3" />'."\n";
+	echo '<select name="mode">'."\n";
+	echo '<option value=""></option>'."\n";
+	foreach(array(1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 'p' => 'T. pereg.') as $k => $v) {
+		echo '<option value="'.$k.'"'.($c['mode']==$k?' selected="selected"':'').'>'.$v.'</option>'."\n";
+	}
+	echo "</select>\n";
+	echo ' - Ending <input name="mode_var" value="'.$c['mode_var'].'" size="3" />'."\n";
 	echo '<h4>Commentary</h4><input name="commentary" value="'.$c['commentary'].'" />';
 	echo "<h4>Initial style</h4>\n";
 	echo '<select name="initial">'."\n";
