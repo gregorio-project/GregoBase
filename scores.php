@@ -5,7 +5,7 @@ include('include/sources.php');
 $title = 'Home';
 include('include/header.php');
 
-echo "<h3>Chants</h3>\n";
+echo "<h2>Chants</h2>\n";
 echo "<h4>by incipit</h4>\n";
 $sql1 = 'SELECT DISTINCT UPPER(SUBSTRING(incipit,1,1)) AS letters FROM '.db('chants').' ORDER BY letters ASC';
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
