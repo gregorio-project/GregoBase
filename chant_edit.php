@@ -259,6 +259,7 @@ if(!$logged_in) {
 	$sql = 'INSERT into '.db('chants').' (`incipit`) VALUES ("'.$mysqli->real_escape_string($mypost['incipit']).'")';
 	$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
 	$id = $mysqli->insert_id;
+	$mypost['id'] = $id;
 	foreach(array('version','office-part','mode','mode_var','commentary','initial','transcriber','gabc','gabc_verses','tex_verses') as $k) {
 		if($mypost[$k] > '' && $mypost[$k] != "(c4)") {
 			$sql = 'UPDATE '.db('chants').' SET `'.$k.'` = "'.$mysqli->real_escape_string($mypost[$k]).'" WHERE `id` = '.$id;
