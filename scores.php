@@ -57,7 +57,6 @@ foreach($mod as $d => $ml) {
 	echo $d;
 	echo "<ul>\n";
 	foreach($ml as $m) {
-		$user_info = get_userdata($m['user_id']);
 		echo '<li><a href="chant.php?id='.$m['chant_id'].'">'.format_incipit(chant_from_id($m['chant_id'])[1])."</a><br />\n";
 		echo "<i>".$m['comment']."</i></li>\n";
 	}
