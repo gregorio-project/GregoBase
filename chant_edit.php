@@ -130,7 +130,7 @@ function mgabc2tex($c, $firstverse = False) {
 		if($c['mode'] == 'p') {
 			$mode = "T. pereg.";
 		} else {
-			$mode = $c['mode'].' '.$c['mode_var'];
+			$mode = $c['mode'].($c['mode_var']?' '.$c['mode_var']:'');
 		}
 		$tex .= '\gresetsecondannotation{\small \textbf{'.$mode.".}}\n";
 	}
