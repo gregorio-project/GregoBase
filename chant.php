@@ -41,7 +41,7 @@ while ($s = $req1->fetch_assoc()) {
 
 echo '<div id="score"><br />';
 if($c['gabc'] > '') {
-	echo '<img src="scores/'.$id.'.png" alt="" />';
+	echo '<img src="chant_img.php?id='.$id.'" alt="" />';
 } else {
 	if($logged_in != true) {
 		echo 'Yet to be transcribed. Please log-in or register if you would like to do it.';
