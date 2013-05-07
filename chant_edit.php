@@ -257,8 +257,9 @@ if(!$logged_in) {
 		echo '<p class="clone2">';
 		sources_box('0');
 		echo "</select>\n";
-		echo '<input size="5" name="page[]" />';
-		echo '<input size="5" name="extent[]" />';
+		echo '<input size="3" name="page[]" />';
+		echo '<input size="3" name="sequence[]" />';
+		echo '<input size="3" name="extent[]" />';
 		echo '</p>';
 	}
 	echo '<a href="#" class="add" rel=".clone2"><img src="list-add.png" alt="Add more" /></a>';
