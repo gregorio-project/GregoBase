@@ -97,6 +97,7 @@ function mgabc2tex($c, $firstverse = False) {
 \geometry{paperwidth=16cm,paperheight=150cm}
 \usepackage{gregoriotex}
 \usepackage{fullpage}
+\usepackage{Tabbing}
 
 \usepackage[latin]{babel}
 
