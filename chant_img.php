@@ -33,7 +33,7 @@ function mkstemp($suffix) {
 			$random .= $letters[mt_rand(0, $length)];
 		}
 
-		$randomFile = sys_get_temp_dir().'/'.$random.$suffix;
+		$randomFile = __DIR__.'/temp/'.$random.$suffix;
 
 		if( !($fd = @fopen($randomFile, "x+")) )
 			continue;
@@ -144,10 +144,10 @@ function mgabc2tex($c, $firstverse = False) {
 		foreach($g as $l) {
 			if($l[0] == 'gabc') {
 				$tex .= gregorio($l[1],$i);
+				$i = 0;
 			} else {
 				$tex .= "\\vspace{10pt}\n".$l[1]."\\par\n";
 			}
-			$i = 0;
 		}
 	} elseif($c['gabc_verses'] && !$firstverse) {
 		$tex .= gregorio($g."\n".$c['gabc_verses'],$i);
