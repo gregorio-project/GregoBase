@@ -245,10 +245,9 @@ if(!$logged_in) {
 	foreach ($c_s as $s) {
 		echo '<p class="clone2'.($i>0?' copy'.$i:'').'">';
 		sources_box($s['source']);
-		echo "</select>\n";
-		echo '<input size="3" name="page[]" value="'.$s['page'].'" />';
-		echo '<input size="3" name="sequence[]" value="'.$s['sequence'].'" />';
-		echo '<input size="3" name="extent[]" value="'.$s['extent'].'" />';
+		echo '<input size="2" name="page[]" value="'.$s['page'].'" />';
+		echo '<input size="2" name="sequence[]" value="'.$s['sequence'].'" />';
+		echo '<input size="2" name="extent[]" value="'.$s['extent'].'" />';
 		echo ($i>0?' <a class="remove" href="#" onclick="$(this).parent().slideUp(function(){ $(this).remove() }); return false"><img src="list-remove.png" alt="Remove" /></a>':'');
 		echo '</p>';
 		$i++;
@@ -257,9 +256,9 @@ if(!$logged_in) {
 		echo '<p class="clone2">';
 		sources_box('0');
 		echo "</select>\n";
-		echo '<input size="3" name="page[]" />';
-		echo '<input size="3" name="sequence[]" />';
-		echo '<input size="3" name="extent[]" />';
+		echo '<input size="2" name="page[]" />';
+		echo '<input size="2" name="sequence[]" />';
+		echo '<input size="2" name="extent[]" />';
 		echo '</p>';
 	}
 	echo '<a href="#" class="add" rel=".clone2"><img src="list-add.png" alt="Add more" /></a>';
