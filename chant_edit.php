@@ -224,9 +224,9 @@ if(!$logged_in) {
 	echo '<h4>Commentary</h4><input name="commentary" value="'.$c['commentary'].'" />';
 	echo "<h4>Initial style</h4>\n";
 	echo '<select name="initial">'."\n";
-	echo '<option value="0">No initial</option>'."\n";
-	echo '<option value="1" selected="selected">1-line initial</option>'."\n";
-	echo '<option value="2">2-lines initial</option>'."\n";
+	echo '<option value="0"'.($c['initial']==$k?' selected="selected"':'').'>No initial</option>'."\n";
+	echo '<option value="1"'.($c['initial']==$k || !isset($c['initial'])?' selected="selected"':'').'>1-line initial</option>'."\n";
+	echo '<option value="2"'.($c['initial']==$k?' selected="selected"':'').'>2-lines initial</option>'."\n";
 	echo "</select>\n";
 
 	echo '<h4>Original transcriber</h4><input name="transcriber" value="'.$c['transcriber'].'" />';
