@@ -180,6 +180,11 @@ ul.incipit li {
     padding-left:4px;
 }
 
+.add-chant:before {
+    content: "➕";
+    padding-right:7px;
+}
+
 .ky:before, .ky:after {
     color: #085abd;
 }
@@ -276,6 +281,10 @@ textarea.gabc {
 	float:left;
 	position:relative;
 	margin-right:10px;
+}
+
+a.prevnext {
+	text-decoration: none;
 }
 
 /* =Menu

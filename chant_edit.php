@@ -24,7 +24,9 @@ $req = $mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->e
 while ($s = $req->fetch_assoc()) {
 	$c_s[] = $s;
 }
-
+if($id == 0 && array_key_exists('source', $_GET) && array_key_exists('page', $_GET)) {
+	$c_s[] = ['source' => intval($_GET['source']), 'page' => $_GET['page'], 'sequence' => 0, 'extent' => 1];
+}
 $title = $c['incipit']?$c['incipit']:'New score';
 $custom_header = <<<HEADER
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -87,7 +89,7 @@ if(!$logged_in) {
 		}
 	}
 	foreach($s_p as $s) {
-		$sql = 'INSERT into '.db('chant_sources').' VALUES ('.$id.','.$s['source'].',"'.$mysqli->real_escape_string($s['page']).'",'.intval($s['sequence']).','.intval($s['extent']).')';
+		$sql = 'INSERT into '.db('chant_sources').' VALUES ('.$id.','.$s['source'].',"'.$mysqli->real_escape_string($s['page']).'",'.intval($s['sequence']).','.max(1,intval($s['extent'])).')';
 		$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
 	}
 	$t = time();
@@ -265,6 +267,14 @@ if(!$logged_in) {
 	
 	echo '<p><input type="hidden" name="id" value="'.$id.'" /><input type="submit" /></p>';
 
+	foreach ($c_s as $s) {
+		$source_label = "<i>".$sources[$s['source']]['title'].", ".$sources[$s['source']]['editor'].", ".$sources[$s['source']]['year']."</i>".($s['page']>''?", p. ".$s['page']:'');
+		echo '<p>'.$source_label."<br />\n";
+		for($i = 0; $i < max(1,$s['extent']); $i++) {
+			echo '<img src="sources/'.$s['source'].'/'.(array_search($s['page'],$sources[$s['source']]['pages'])+$i).'.png" alt="" /><br />'."\n";
+		}
+		echo "</p>\n<hr />\n";
+	}
 	echo "</div>\n";
 	echo "</form>\n";
 }

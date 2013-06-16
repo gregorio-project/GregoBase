@@ -33,7 +33,7 @@ while ($s = $req1->fetch_assoc()) {
 		} else {
 			$p = $s['page'];
 		}
-		$c_p[] = array($s['source'], $s['page'], $p, $s['extent']);
+		$c_p[] = array($s['source'], $s['page'], $p, intval($s['extent']), intval($s['sequence']));
 	} else {
 		$c_p[] = $c_s;
 	}
@@ -67,8 +67,49 @@ if(count($c_p) > 0) {
 		$source_label = "<i>".$sources[$s[0]]['title'].", ".$sources[$s[0]]['editor'].", ".$sources[$s[0]]['year']."</i>".($s[1]>''?", p. ".$s[1]:'');
 		if (count($s) > 2) {
 			echo '<li><a href="#source_'.$cnt.'">'.$source_label."</a></li>\n";
-			$sources_img .= '<p><a name="source_'.$cnt.'">'.$source_label."</a><br />\n";
-			for($i = 0; $i < $s[3]; $i++) {
+			$sources_img .= '<p><a name="source_'.$cnt.'">'.$source_label."</a> &nbsp;";
+			$chants = array();
+			$sql1 = 'SELECT * FROM '.db('chant_sources').' WHERE `source` = "'.$s[0].'" ORDER BY sequence ASC';
+			$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
+			while($co = $req1->fetch_assoc()) {
+				$chants[$co['page']][] = array(intval($co['chant_id']),intval($co['sequence']),intval($co['extent']));
+			}
+			$prev = false;
+			if(array_search([$id,$s[4],$s[3]], $chants[$s[1]]) > 0) {
+				$prev = $chants[$s[1]][array_search([$id,$s[4],$s[3]], $chants[$s[1]])-1];
+			} elseif(is_array($sources[$s[0]]['pages'])) {
+				$j = $s[2];
+				while($j > 0) {
+					$j--;
+					if(array_key_exists($sources[$s[0]]['pages'][$j], $chants) && count($chants[$sources[$s[0]]['pages'][$j]]) > 0) {
+						$prev = end($chants[$sources[$s[0]]['pages'][$j]]);
+						break;
+					}
+				}
+			} else {
+				uksort($chants, 'strnatcmp');
+				// TODO
+			}
+			if($prev) $sources_img .= ' <a class="prevnext" href="chant.php?id='.$prev[0].'" title="Previous chant in this source" >◀</a>';
+			$next = false;
+			if(count($chants[$s[1]]) > 1 && array_search([$id,$s[4],$s[3]], $chants[$s[1]]) < count($chants[$s[1]])) {
+				$next = $chants[$s[1]][array_search([$id,$s[4],$s[3]], $chants[$s[1]])+1];
+			} elseif(is_array($sources[$s[0]]['pages'])) {
+				$j = $s[2];
+				while($j < count($sources[$s[0]]['pages'])) {
+					$j++;
+					if(array_key_exists($sources[$s[0]]['pages'][$j], $chants) && count($chants[$sources[$s[0]]['pages'][$j]]) > 0) {
+						$next = $chants[$sources[$s[0]]['pages'][$j]][0];
+						break;
+					}
+				}
+			} else {
+				uksort($chants, 'strnatcmp');
+				// TODO
+			}
+			if($next) $sources_img .= ' <a class="prevnext" href="chant.php?id='.$next[0].'" title="Next chant in this source" >▶</a>';
+			$sources_img .= "<br />\n";
+			for($i = 0; $i < max(1, $s[3]); $i++) {
 				$sources_img .= '<img src="sources/'.$s[0].'/'.($s[2]+$i).'.png" alt="" /><br />'."\n";
 			}
 			$sources_img .= "</p>\n<hr />\n";
