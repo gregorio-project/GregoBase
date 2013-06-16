@@ -92,7 +92,7 @@ if(count($c_p) > 0) {
 			}
 			if($prev) $sources_img .= ' <a class="prevnext" href="chant.php?id='.$prev[0].'" title="Previous chant in this source" >◀</a>';
 			$next = false;
-			if(count($chants[$s[1]]) > 1 && array_search([$id,$s[4],$s[3]], $chants[$s[1]]) < count($chants[$s[1]])) {
+			if(count($chants[$s[1]]) > 1 && array_search([$id,$s[4],$s[3]], $chants[$s[1]]) < count($chants[$s[1]])-1) {
 				$next = $chants[$s[1]][array_search([$id,$s[4],$s[3]], $chants[$s[1]])+1];
 			} elseif(is_array($sources[$s[0]]['pages'])) {
 				$j = $s[2];
