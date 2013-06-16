@@ -14,6 +14,7 @@ HEADER1;
 if(isset($custom_header)) {
 	echo $custom_header;
 }
+$login = $logged_in ? '<li class="page_item"><a href="'.wp_logout_url('http'.(empty($_SERVER['HTTPS'])?'':'s').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']).'">Logout</a></li>' : '<li class="page_item"><a href="./wp-login.php?redirect_to='.urlencode('http'.(empty($_SERVER['HTTPS'])?'':'s').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']).'&amp;reauth=1">Login</a></li>';
 echo <<<HEADER2
 
 </head>
@@ -24,7 +25,7 @@ echo <<<HEADER2
 <div id="description">A database of gregorian scores</div>
 <div id="access">
 
-	<div class="menu"><ul class="sf-menu"><li class="page_item current_page_item"><a href="scores.php">Scores</a></li><li class="page_item"><a href="./?page_id=18">Participate</a></li><li class="page_item"><a href="./?page_id=5">Todo</a></li><li class="page_item"><a href="./?page_id=2">About</a></li></ul></div>
+	<div class="menu"><ul class="sf-menu"><li class="page_item current_page_item"><a href="scores.php">Scores</a></li><li class="page_item"><a href="./?page_id=18">Participate</a></li><li class="page_item"><a href="./?page_id=5">Todo</a></li><li class="page_item"><a href="./?page_id=2">About</a></li>$login</ul></div>
 	
 </div><!-- #access -->
 </div>
