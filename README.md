@@ -19,4 +19,4 @@ If you want to have a local copy of http://gregobase.selapa.net
 * Import `grego_online.sql` into your db (of course the user data aren't in that file so you won't see who made the changes)
 
 ### Limitations
-* There's no interface for sources edition yet so you need to add them direclty into the database
+* There's no interface for sources edition yet so you need to add them directly into the database
