@@ -15,4 +15,4 @@
 
 If you want to have a local copy of http://gregobase.selapa.net
 
-* Import `grego_online.sql` into your db
+* Import `grego_online.sql` into your db (of course the user data aren't in that file so you won't see who made the changes)
