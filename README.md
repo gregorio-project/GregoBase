@@ -1,6 +1,6 @@
 # Gregobase
 
-## Prerequisites
+### Prerequisites
 * A working installation of [WordPress](http://wordpress.org/) (used for user management only)
 * [gregorio](https://gna.org/projects/gregorio/)
 * [LuaLaTeX](http://www.tug.org/texlive/)
@@ -8,7 +8,7 @@
 * [PDFCrop](http://pdfcrop.sourceforge.net/)
 * [GhostScript](http://www.ghostscript.com/)
 
-## Install
+### Install
 * Copy all GregoBase files into the WordPress directory
 * Set your database connection data in `include/db.php`
 * Import `gregobase_structure.sql` into your db
@@ -18,5 +18,5 @@ If you want to have a local copy of http://gregobase.selapa.net
 
 * Import `grego_online.sql` into your db (of course the user data aren't in that file so you won't see who made the changes)
 
-## Limitations
+### Limitations
 * There's no interface for sources edition yet so you need to add them direclty into the database
