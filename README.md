@@ -10,6 +10,7 @@
 
 ### Install
 * Copy all GregoBase files into the WordPress directory
+* Make sure directories `temp`, `scores`, `scores/pdf`, `scores/png` and `scores/eps` are writeable by the server 
 * Set your database connection data in `include/db.php`
 * Import `gregobase_structure.sql` into your db
 * Add an item to your menu linking to`your_wordpress_install/scores.php` or access it directly
