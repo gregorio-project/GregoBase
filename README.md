@@ -12,7 +12,11 @@
 * Copy all GregoBase files into the WordPress directory
 * Set your database connection data in `include/db.php`
 * Import `gregobase_structure.sql` into your db
+* Add an item to your menu linking to`your_wordpress_install/scores.php` or access it directly
 
 If you want to have a local copy of http://gregobase.selapa.net
 
 * Import `grego_online.sql` into your db (of course the user data aren't in that file so you won't see who made the changes)
+
+## Limitations
+* There's no interface for sources edition yet so you need to add them direclty into the database
