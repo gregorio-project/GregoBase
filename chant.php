@@ -55,9 +55,28 @@ if($logged_in) {
 	echo ' <span class="edit"><a href="chant_edit.php?id='.$id.'">Edit</a></span>';
 }
 echo '</h3>
-<h4>Version</h4><ul><li>'.$c['version']."</li></ul>\n";
+';
+if($c['version'] > '') echo '<h4>Version</h4><ul><li>'.$c['version']."</li></ul>\n";
 
 echo '<h4>Usage</h4><ul><li><span class="usage '.$c['office-part'].'">'.$txt['usage'][$c['office-part']]."</span></li></ul>\n";
+
+$tags = array();
+$sql = 'SELECT * FROM '.db('chant_tags').' WHERE chant_id = '.$id;
+$req = $mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
+while ($t = $req->fetch_assoc()) {
+	$sql1 = 'SELECT * FROM '.db('tags').' WHERE id = '.$t['tag_id'];
+	$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
+	$tt = $req1->fetch_assoc();
+	$tags[$tt['id']] = $tt['tag'];
+}
+natcasesort($tags);
+
+if(count($tags) > 0) {
+	echo "<h4>Tags</h4><ul>\n";
+	foreach($tags as $t) echo "<li>".$t."</li>\n";
+	echo "</ul>\n";
+}
+
 
 $sources_img = "";
 if(count($c_p) > 0) {

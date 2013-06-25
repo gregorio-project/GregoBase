@@ -27,6 +27,17 @@ while ($s = $req->fetch_assoc()) {
 if($id == 0 && array_key_exists('source', $_GET) && array_key_exists('page', $_GET)) {
 	$c_s[] = ['source' => intval($_GET['source']), 'page' => $_GET['page'], 'sequence' => 0, 'extent' => 1];
 }
+$tags = array();
+$sql = 'SELECT * FROM '.db('chant_tags').' WHERE chant_id = '.$id;
+$req = $mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
+while ($t = $req->fetch_assoc()) {
+	$sql1 = 'SELECT * FROM '.db('tags').' WHERE id = '.$t['tag_id'];
+	$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
+	$tt = $req1->fetch_assoc();
+	$tags[$tt['id']] = $tt['tag'];
+}
+natcasesort($tags);
+
 $title = $c['incipit']?$c['incipit']:'New score';
 $custom_header = <<<HEADER
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -88,6 +99,20 @@ if(!$logged_in) {
 			$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
 		}
 	}
+	foreach($mypost['tags'] as $t) {
+		$sql1 = 'SELECT * FROM '.db('tags').' WHERE tag LIKE '.$mysqli->real_escape_string($t);
+		$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
+		$tt = $req1->fetch_assoc();
+		if($tt) {
+			$tid = $tt['id'];
+		} else {
+			$sql2 = 'INSERT into '.db('tags').' (`tag`) VALUES ("'.$mysqli->real_escape_string($t).'")';
+			$mysqli->query($sql2) or die('Erreur SQL !<br />'.$sql2.'<br />'.$mysqli->error);
+			$tid = $mysqli->insert_id;
+		}
+		$sql3 = 'INSERT into '.db('chant_tags').' VALUES ('.$id.','.$tid.')';
+		$mysqli->query($sql3) or die('Erreur SQL !<br />'.$sql3.'<br />'.$mysqli->error);
+	}
 	foreach($s_p as $s) {
 		$sql = 'INSERT into '.db('chant_sources').' VALUES ('.$id.','.$s['source'].',"'.$mysqli->real_escape_string($s['page']).'",'.intval($s['sequence']).','.max(1,intval($s['extent'])).')';
 		$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
@@ -124,6 +149,10 @@ if(!$logged_in) {
 	unset($mypost['page']);
 	unset($mypost['sequence']);
 	unset($mypost['extent']);
+	
+	$new_tags = $mypost['tags'];
+	natcasesort($new_tags);
+	unset($mypost['tags']);
 
 	$fields = array('id','incipit','version','office-part','mode','mode_var','commentary','initial','transcriber','gabc','gabc_verses','tex_verses');
 	$old = array();
@@ -135,7 +164,7 @@ if(!$logged_in) {
 			$new[$f] = $myfield;
 		}
 	}
-	if($c_s != $s_p || count($old) > 0) {
+	if($c_s != $s_p || $new_tags != $tags || count($old) > 0) {
 		$t = time();
 		$uid = $current_user->ID;
 		$chgset = $t.'|'.$id.'|'.$uid;
@@ -150,6 +179,26 @@ if(!$logged_in) {
 			if(in_array($k, array('office-part','mode','mode_var','commentary','initial','gabc','gabc_verses','tex_verses'))) {
 				$mod = True;
 			}
+		}
+		if($new_tags != $tags) {
+			$sql = 'DELETE FROM  '.db('chant_tags').' WHERE `chant_id` = '.$id;
+			$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
+			foreach($new_tags as $t) {
+				$sql1 = 'SELECT * FROM '.db('tags').' WHERE tag LIKE "'.$mysqli->real_escape_string($t).'"';
+				$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
+				$tt = $req1->fetch_assoc();
+				if($tt) {
+					$tid = $tt['id'];
+				} else {
+					$sql2 = 'INSERT into '.db('tags').' (`tag`) VALUES ("'.$mysqli->real_escape_string($t).'")';
+					$mysqli->query($sql2) or die('Erreur SQL !<br />'.$sql2.'<br />'.$mysqli->error);
+					$tid = $mysqli->insert_id;
+				}
+				$sql3 = 'INSERT into '.db('chant_tags').' VALUES ('.$id.','.$tid.')';
+				$mysqli->query($sql3) or die('Erreur SQL !<br />'.$sql3.'<br />'.$mysqli->error);
+			}
+			$sql = 'INSERT into '.db('changes').' VALUES ("'.$chgset.'","tags","'.$mysqli->real_escape_string(json_encode($tags, JSON_UNESCAPED_SLASHES)).'")';
+			$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
 		}
 		if($c_s != $s_p) {
 			$sql = 'DELETE FROM  '.db('chant_sources').' WHERE `chant_id` = '.$id;
@@ -229,8 +278,24 @@ if(!$logged_in) {
 	echo '<option value="2"'.($c['initial']== '2' ?' selected="selected"':'').'>2-lines initial</option>'."\n";
 	echo "</select>\n";
 
-	echo '<h4>Original transcriber</h4><input name="transcriber" value="'.$c['transcriber'].'" />';
+	echo '<h4>Original transcriber</h4><input name="transcriber" value="'.$c['transcriber'].'" />'."\n";
 
+	echo "<h4>Tags</h4>\n";
+	$i = 0;
+	foreach ($tags as $t) {
+		echo '<p class="clone3'.($i>0?' copy'.$i:'').'">';
+		echo '<input name="tags[]" value="'.$t.'" />';
+		echo ($i>0?' <a class="remove" href="#" onclick="$(this).parent().slideUp(function(){ $(this).remove() }); return false"><img src="list-remove.png" alt="Remove" /></a>':'');
+		echo '</p>';
+		$i++;
+	}
+	if(count($tags) == 0) {
+		echo '<p class="clone3">';
+		echo '<input name="tags[]" />';
+		echo '</p>';
+	}
+	echo '<a href="#" class="add" rel=".clone3"><img src="list-add.png" alt="Add more" /></a>';
+	
 	function sources_box($so) {
 		global $sources;
 		$sources_box = '<select name="source[]">'."\n";
@@ -257,7 +322,6 @@ if(!$logged_in) {
 	if(count($c_s) == 0) {
 		echo '<p class="clone2">';
 		sources_box('0');
-		echo "</select>\n";
 		echo '<input size="2" name="page[]" />';
 		echo '<input size="2" name="sequence[]" />';
 		echo '<input size="2" name="extent[]" />';

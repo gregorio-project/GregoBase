@@ -42,6 +42,18 @@ while($f = $req2->fetch_assoc()) {
 			$c_s[] = $s;
 		}
 		$to_text = json_encode($c_s);
+	} elseif($f['field'] == 'tags') {
+		$tags = array();
+		$sql = 'SELECT * FROM '.db('chant_tags').' WHERE chant_id = '.intval($chgset[1]);
+		$req = $mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
+		while ($t = $req->fetch_assoc()) {
+			$sql1 = 'SELECT * FROM '.db('tags').' WHERE id = '.$t['tag_id'];
+			$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
+			$tt = $req1->fetch_assoc();
+			$tags[] = $tt['tag'];
+		}
+		natcasesort($tags);
+		$to_text = json_encode($tags);
 	} else {
 		$to_text = $c[$f['field']];
 	}
