@@ -119,6 +119,8 @@ function mgabc2tex($c, $firstverse = False) {
 {\fontsize{144}{144}\selectfont #1}
 }
 
+\tolerance=9999
+\pretolerance=500
 ';
 	if($c['commentary']) {
 		$tex .= '\commentary{{\small \emph{'.$c['commentary']."}}}\n";
