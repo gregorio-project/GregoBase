@@ -100,18 +100,20 @@ if(!$logged_in) {
 		}
 	}
 	foreach($mypost['tags'] as $t) {
-		$sql1 = 'SELECT * FROM '.db('tags').' WHERE tag LIKE '.$mysqli->real_escape_string($t);
-		$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
-		$tt = $req1->fetch_assoc();
-		if($tt) {
-			$tid = $tt['id'];
-		} else {
-			$sql2 = 'INSERT into '.db('tags').' (`tag`) VALUES ("'.$mysqli->real_escape_string($t).'")';
-			$mysqli->query($sql2) or die('Erreur SQL !<br />'.$sql2.'<br />'.$mysqli->error);
-			$tid = $mysqli->insert_id;
+		if($t > '') {
+			$sql1 = 'SELECT * FROM '.db('tags').' WHERE tag LIKE '.$mysqli->real_escape_string($t);
+			$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
+			$tt = $req1->fetch_assoc();
+			if($tt) {
+				$tid = $tt['id'];
+			} else {
+				$sql2 = 'INSERT into '.db('tags').' (`tag`) VALUES ("'.$mysqli->real_escape_string($t).'")';
+				$mysqli->query($sql2) or die('Erreur SQL !<br />'.$sql2.'<br />'.$mysqli->error);
+				$tid = $mysqli->insert_id;
+			}
+			$sql3 = 'INSERT into '.db('chant_tags').' VALUES ('.$id.','.$tid.')';
+			$mysqli->query($sql3) or die('Erreur SQL !<br />'.$sql3.'<br />'.$mysqli->error);
 		}
-		$sql3 = 'INSERT into '.db('chant_tags').' VALUES ('.$id.','.$tid.')';
-		$mysqli->query($sql3) or die('Erreur SQL !<br />'.$sql3.'<br />'.$mysqli->error);
 	}
 	foreach($s_p as $s) {
 		$sql = 'INSERT into '.db('chant_sources').' VALUES ('.$id.','.$s['source'].',"'.$mysqli->real_escape_string($s['page']).'",'.intval($s['sequence']).','.max(1,intval($s['extent'])).')';
@@ -149,8 +151,11 @@ if(!$logged_in) {
 	unset($mypost['page']);
 	unset($mypost['sequence']);
 	unset($mypost['extent']);
-	
-	$new_tags = $mypost['tags'];
+
+	$new_tags = [];
+	foreach($mypost['tags'] as $t) {
+		if($t > '') $new_tags[] = $t;
+	}
 	natcasesort($new_tags);
 	unset($mypost['tags']);
 
@@ -332,12 +337,14 @@ if(!$logged_in) {
 	echo '<p><input type="hidden" name="id" value="'.$id.'" /><input type="submit" /></p>';
 
 	foreach ($c_s as $s) {
-		$source_label = "<i>".$sources[$s['source']]['title'].", ".$sources[$s['source']]['editor'].", ".$sources[$s['source']]['year']."</i>".($s['page']>''?", p. ".$s['page']:'');
-		echo '<p>'.$source_label."<br />\n";
-		for($i = 0; $i < max(1,$s['extent']); $i++) {
-			echo '<img src="sources/'.$s['source'].'/'.(array_search($s['page'],$sources[$s['source']]['pages'])+$i).'.png" alt="" /><br />'."\n";
+		if(is_dir('./sources/'.$s['source'])) {
+			$source_label = "<i>".$sources[$s['source']]['title'].", ".$sources[$s['source']]['editor'].", ".$sources[$s['source']]['year']."</i>".($s['page']>''?", p. ".$s['page']:'');
+			echo '<p>'.$source_label."<br />\n";
+			for($i = 0; $i < max(1,$s['extent']); $i++) {
+				echo '<img src="sources/'.$s['source'].'/'.(array_search($s['page'],$sources[$s['source']]['pages'])+$i).'.png" alt="" /><br />'."\n";
+			}
+			echo "</p>\n<hr />\n";
 		}
-		echo "</p>\n<hr />\n";
 	}
 	echo "</div>\n";
 	echo "</form>\n";
