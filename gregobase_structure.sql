@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.0
+-- version 4.0.4
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Lun 17 Juin 2013 à 09:37
+-- Généré le: Mer 26 Juin 2013 à 17:28
 -- Version du serveur: 5.5.31-0ubuntu0.12.04.2
--- Version de PHP: 5.4.15-1~precise+1
+-- Version de PHP: 5.4.17RC1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données: `grego`
 --
+CREATE DATABASE IF NOT EXISTS `grego` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `grego`;
 
 -- --------------------------------------------------------
 
@@ -104,6 +106,18 @@ CREATE TABLE IF NOT EXISTS `gregobase_chant_sources` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `gregobase_chant_tags`
+--
+
+CREATE TABLE IF NOT EXISTS `gregobase_chant_tags` (
+  `chant_id` int(11) NOT NULL,
+  `tag_id` int(11) NOT NULL,
+  PRIMARY KEY (`chant_id`,`tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `gregobase_proofreading`
 --
 
@@ -129,6 +143,19 @@ CREATE TABLE IF NOT EXISTS `gregobase_sources` (
   `pages` mediumtext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `gregobase_tags`
+--
+
+CREATE TABLE IF NOT EXISTS `gregobase_tags` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tag` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `tag` (`tag`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
