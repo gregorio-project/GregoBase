@@ -337,7 +337,7 @@ if(!$logged_in) {
 	echo '<p><input type="hidden" name="id" value="'.$id.'" /><input type="submit" /></p>';
 
 	foreach ($c_s as $s) {
-		if(is_dir('./sources/'.$s['source'])) {
+		if(is_dir('./sources/'.$s['source']) && !(is_array($sources[$s['source']]['pages']) && !in_array($s['page'],$sources[$s['source']]['pages']))) {
 			$source_label = "<i>".$sources[$s['source']]['title'].", ".$sources[$s['source']]['editor'].", ".$sources[$s['source']]['year']."</i>".($s['page']>''?", p. ".$s['page']:'');
 			echo '<p>'.$source_label."<br />\n";
 			for($i = 0; $i < max(1,$s['extent']); $i++) {
