@@ -93,7 +93,7 @@ if(!$logged_in) {
 	$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
 	$id = $mysqli->insert_id;
 	$mypost['id'] = $id;
-	foreach(array('version','office-part','mode','mode_var','commentary','initial','transcriber','gabc','gabc_verses','tex_verses') as $k) {
+	foreach(array('version','office-part','mode','mode_var','commentary','initial','transcriber','gabc','gabc_verses','tex_verses','remarks') as $k) {
 		if($mypost[$k] > '' && $mypost[$k] != "(c4)") {
 			$sql = 'UPDATE '.db('chants').' SET `'.$k.'` = "'.$mysqli->real_escape_string($mypost[$k]).'" WHERE `id` = '.$id;
 			$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
@@ -159,7 +159,7 @@ if(!$logged_in) {
 	natcasesort($new_tags);
 	unset($mypost['tags']);
 
-	$fields = array('id','incipit','version','office-part','mode','mode_var','commentary','initial','transcriber','gabc','gabc_verses','tex_verses');
+	$fields = array('id','incipit','version','office-part','mode','mode_var','commentary','initial','transcriber','gabc','gabc_verses','tex_verses','remarks');
 	$old = array();
 	$new = array();
 	foreach($fields as $f) {
@@ -334,6 +334,9 @@ if(!$logged_in) {
 	}
 	echo '<a href="#" class="add" rel=".clone2"><img src="list-add.png" alt="Add more" /></a>';
 	
+	echo "<h4>Remarks</h4>\n";
+	echo '<textarea name="remarks" class="gabc">'.$c['remarks']."</textarea>\n";
+
 	echo '<p><input type="hidden" name="id" value="'.$id.'" /><input type="submit" /></p>';
 
 	foreach ($c_s as $s) {

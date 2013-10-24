@@ -192,6 +192,9 @@ if($c['gabc_verses'] || $c['tex_verses']){
 	}
 	echo "</ul>\n";
 }
+if($c['remarks'] > '') {
+	echo "<h4>Remarks</h4>\n<p class=\"remarks\">".nl2br($c['remarks'])."</p>\n";
+}
 $sql1 = 'SELECT * FROM '.db('changesets').' WHERE chant_id = '.$c['id'].' ORDER BY time DESC';
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 if($req1->num_rows > 0 || $c['transcriber'] > '') {

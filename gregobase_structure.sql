@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4
+-- version 4.0.8
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Mer 26 Juin 2013 à 17:28
--- Version du serveur: 5.5.31-0ubuntu0.12.04.2
--- Version de PHP: 5.4.17RC1
+-- Généré le: Jeu 24 Octobre 2013 à 07:46
+-- Version du serveur: 10.0.4-MariaDB-1~raring-log
+-- Version de PHP: 5.5.5-1+debphp.org~raring+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Base de données: `grego`
 --
-CREATE DATABASE IF NOT EXISTS `grego` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `grego`;
 
 -- --------------------------------------------------------
 
@@ -37,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `gregobase_booklets` (
   `content` text COLLATE utf8_unicode_ci,
   `options` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=432 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -85,8 +83,9 @@ CREATE TABLE IF NOT EXISTS `gregobase_chants` (
   `gabc` text COLLATE utf8_unicode_ci,
   `gabc_verses` text COLLATE utf8_unicode_ci,
   `tex_verses` text COLLATE utf8_unicode_ci,
+  `remarks` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3302 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -142,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `gregobase_sources` (
   `caption` text COLLATE utf8_unicode_ci NOT NULL,
   `pages` mediumtext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -155,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `gregobase_tags` (
   `tag` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `tag` (`tag`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
