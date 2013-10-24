@@ -73,11 +73,11 @@ if(array_key_exists('images', $_GET) && $_GET['images'] == '1') {
 	if(is_array($sources[$s]['pages'])) {
 		echo '<p><a href="source.php?id='.$s.'&images=1">Show source images</a></p>'."\n";
 	}
-	echo "<table>\n<tr><th>Page</th><th>Incipit</th></tr>";
+	echo "<table>\n<tr>".($s == "none"?"":"<th>Page</th>")."<th>Incipit</th></tr>";
 	if(is_array($sources[$s]['pages'])) {
 		foreach($sources[$s]['pages'] as $p) {
 			if(array_key_exists($p,$chants)) {
-				echo "<tr><td>$p</td><td>";
+				echo "<tr>".($s == "none"?"":"<td>$p</td>")."<td>";
 				echo "<ul class=\"incipit\">\n";
 				$ch = $chants[$p];
 				unset($chants[$p]);
@@ -98,7 +98,7 @@ if(array_key_exists('images', $_GET) && $_GET['images'] == '1') {
 	}
 	uksort($chants, 'strnatcmp');
 	foreach($chants as $p => $ch) {
-		echo "<tr><td>$p</td><td><ul class=\"incipit\">";
+		echo "<tr>".($s == "none"?"":"<td>$p</td>")."<td><ul class=\"incipit\">";
 		$l = array();
 		foreach($ch as $c) {
 			$t = chant_from_id($c[0]);
