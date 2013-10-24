@@ -16,6 +16,8 @@ $txt['usage']['ps'] = 'Psalmus';
 $txt['usage']['re'] = 'Responsorium';
 $txt['usage']['se'] = 'Sequentia';
 $txt['usage']['tr'] = 'Tractus';
+$txt['usage']['or'] = 'Cantus in ordine missae occurentes';
+$txt['usage']['pr'] = 'Praefationes in tono solemni';
 $txt['usage']['va'] = 'Varia';
 
 $txt['usage_s'] = array();
@@ -33,5 +35,7 @@ $txt['usage_s']['ps'] = '';
 $txt['usage_s']['re'] = 'Resp';
 $txt['usage_s']['se'] = 'Seq';
 $txt['usage_s']['tr'] = 'Tract';
+$txt['usage_s']['or'] = '';
+$txt['usage_s']['pr'] = '';
 $txt['usage_s']['va'] = '';
 ?>
