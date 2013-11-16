@@ -16,7 +16,7 @@ $txt['usage']['ps'] = 'Psalmus';
 $txt['usage']['re'] = 'Responsorium';
 $txt['usage']['se'] = 'Sequentia';
 $txt['usage']['tr'] = 'Tractus';
-$txt['usage']['or'] = 'Cantus in ordine missae occurentes';
+$txt['usage']['or'] = 'Toni Communes';
 $txt['usage']['pr'] = 'Praefationes in tono solemni';
 $txt['usage']['va'] = 'Varia';
 

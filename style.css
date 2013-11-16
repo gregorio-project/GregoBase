@@ -229,6 +229,14 @@ ul.incipit li {
     color: #7b7b52;
 }
 
+.or:before, .or:after {
+    color: #f0e68c;
+}
+
+.pr:before, .pr:after {
+    color: #db7093;
+}
+
 .ps:before, .ps:after {
     color: #567d8e;
 }
