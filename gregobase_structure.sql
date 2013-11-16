@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Jeu 24 Octobre 2013 à 07:46
--- Version du serveur: 10.0.4-MariaDB-1~raring-log
--- Version de PHP: 5.5.5-1+debphp.org~raring+1
+-- Généré le: Sam 16 Novembre 2013 à 17:06
+-- Version du serveur: 5.5.31-0ubuntu0.12.04.2
+-- Version de PHP: 5.4.17RC1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -112,6 +112,25 @@ CREATE TABLE IF NOT EXISTS `gregobase_chant_tags` (
   `chant_id` int(11) NOT NULL,
   `tag_id` int(11) NOT NULL,
   PRIMARY KEY (`chant_id`,`tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `gregobase_pleasefix`
+--
+
+CREATE TABLE IF NOT EXISTS `gregobase_pleasefix` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `chant_id` int(11) NOT NULL,
+  `pleasefix` text COLLATE utf8_unicode_ci NOT NULL,
+  `time` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `ip` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `fixed` tinyint(1) NOT NULL DEFAULT '0',
+  `fixed_by` int(11) NOT NULL DEFAULT '0',
+  `fixed_time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------

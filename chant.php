@@ -16,10 +16,28 @@ if(!$c) {
 }
 
 $title = $c['incipit'];
+$custom_header = <<<HEADER
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="jquery.bpopup.min.js"></script>
+<style>
+#popup1, #popup2 { 
+    background-color:#fff;
+    border-radius:15px;
+    color:#000;
+    display:none; 
+    padding:20px;
+    min-width:400px;
+    min-height: 80px;
+}</style>
+HEADER;
 include('include/header.php');
 
-if(isset($_POST['proofread']) && $_POST['proofread'] == 'Me' && $c) {
+if(isset($_POST['proofread']) && $_POST['proofread'] == 'Me') {
 	$mysqli->query('INSERT into '.db('proofreading').' VALUES ('.$id.','.$current_user->ID.','.time().')') or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
+}
+
+if(isset($_POST['pleasefix']) && $_POST['pleasefix'] > '') {
+	$mysqli->query('INSERT into '.db('pleasefix').' (chant_id,pleasefix,time,'.($logged_in ? 'user_id' : 'ip').') VALUES ('.$id.',"'.$mysqli->real_escape_string($_POST['pleasefix']).'",'.time().',"'.($logged_in ? $current_user->ID : $_SERVER['REMOTE_ADDR']).'")') or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 }
 
 $c_p = array();
@@ -47,19 +65,37 @@ echo '<div id="score"><br />';
 if($c['gabc'] > '') {
 	echo '<img src="chant_img.php?id='.$id.'" alt="" />';
 } else {
-	if($logged_in != true) {
-		echo 'Yet to be transcribed. Please log-in or register if you would like to do it.';
+	echo 'Yet to be transcribed. ';
+	if($logged_in) {
+		echo 'Please do it !';
+	} else {
+		echo 'Please log-in or register if you would like to do it.';
 	}
 }
 echo '<br />&nbsp;</div>'."\n";
 echo '<div id="info">
 ';
+$sql = 'SELECT * FROM '.db('pleasefix').' WHERE chant_id = '.$id.' AND fixed = 0';
+$req = $mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
 echo '<h3>'.format_incipit($c['incipit']);
+if($req->num_rows > 0) {
+	echo '<span id="push2"> <a href="#"><img src="warning.png" alt="Warning!" /></a></span>';
+}
 if($logged_in) {
 	echo ' <span class="edit"><a href="chant_edit.php?id='.$id.'">Edit</a></span>';
 }
 echo '</h3>
 ';
+if($req->num_rows > 0) {
+	echo '<div id="popup2">';
+	$count = 0;
+	while($fix = $req->fetch_assoc()) {
+		if($count > 0) echo "<hr />";
+		echo '<p><img src="warning.png" alt="Warning!" /> '.nl2br(htmlspecialchars($fix['pleasefix']))."</p>\n";
+		$count++;
+	}
+	echo '</div>';
+}
 if($c['version'] > '') echo '<h4>Version</h4><ul><li>'.$c['version']."</li></ul>\n";
 
 echo '<h4>Usage</h4><ul><li><span class="usage '.$c['office-part'].'">'.$txt['usage'][$c['office-part']]."</span></li></ul>\n";
@@ -165,7 +201,15 @@ foreach($proof as $r) {
 if(count($proof) > 0 || $logged_in) {
 	echo "</ul>\n";
 }
+echo '<p id="push1"><a href="#">Report a problem</a></p>';
+$report_form = 	'<form action="'.$_SERVER['PHP_SELF'].($_SERVER['QUERY_STRING']?'?'.$_SERVER['QUERY_STRING']:'').'" method="post"><textarea name="pleasefix" class="gabc"></textarea><br /><input type="submit" /></form>';
 
+echo <<<POPUP1
+<div id="popup1">
+Please describe the problem:<br />
+$report_form
+</div>
+POPUP1;
 echo "<h4>Download</h4>\n<ul>\n";
 $content = json_decode($c['gabc']);
 if(is_string($content)) {
@@ -216,5 +260,41 @@ echo $sources_img;
 
 echo '</div>';
 
+echo <<<SCRIPT
+<script type="text/javascript">
+    // Semicolon (;) to ensure closing of earlier scripting
+    // Encapsulation
+    // $ is assigned to jQuery
+    ;(function($) {
+
+         // DOM Ready
+        $(function() {
+
+            // Binding a click event
+            // From jQuery v.1.7.0 use .on() instead of .bind()
+            $('#push1').bind('click', function(e) {
+
+                // Prevents the default action to be triggered. 
+                e.preventDefault();
+
+                // Triggering bPopup when click event is fired
+                $('#popup1').bPopup();
+
+            });
+            $('#push2').bind('click', function(e) {
+
+                // Prevents the default action to be triggered. 
+                e.preventDefault();
+
+                // Triggering bPopup when click event is fired
+                $('#popup2').bPopup();
+
+            });
+
+        });
+
+    })(jQuery);
+</script>
+SCRIPT;
 include('include/footer.php');
 ?>

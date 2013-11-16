@@ -125,7 +125,16 @@ if(!$logged_in) {
 	$sql = 'INSERT into '.db('changesets').' VALUES ('.$uid.','.$id.','.$t.', "Added to the database")';
 	$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
 	header('Location: chant.php?id='.$id);
-} elseif(count($mypost) > 3) {
+} elseif(array_key_exists('comment',$mypost)) {
+	$chgset = explode('|',$mypost['changeset']);
+	$sql = 'UPDATE '.db('changesets').' SET `comment` = "'.$mysqli->real_escape_string($mypost['comment']).'"  WHERE `user_id` = '.intval($chgset[2]).' AND `chant_id` = '.intval($chgset[1]).' AND `time` = '.intval($chgset[0]);
+	$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
+	foreach($mypost['fix'] as $fix) {
+		$sql = 'UPDATE '.db('pleasefix').' SET `fixed` = 1, `fixed_by` = '.intval($chgset[2]).', `fixed_time` = '.intval($chgset[0]).'  WHERE `id` = '.$fix;
+		$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
+	}
+	header('Location: chant.php?id='.$id);
+} elseif(count($mypost) > 0) {
 	$gabc = array();
 	for($i=0;$i<count($mypost['type']);$i++) {
 		if($mypost['content'][$i] > '') {
@@ -216,18 +225,22 @@ if(!$logged_in) {
 			$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
 		}
 		echo '<form action="'.$_SERVER['REQUEST_URI'].'" method="post"><input type="hidden" name="changeset" value="'.$chgset.'" />';
-		echo "<h4>Please describe your changes</h4>\n".'<input name="comment" style="width:640px" />'."<br />\n<input type=\"submit\" />\n</form>\n";
+		echo "<h4>Please describe your changes</h4>\n".'<input name="comment" style="width:640px" />'."<br />\n<h4>Does it fix one of these problems?</h4>\n";
+		$sql = 'SELECT * FROM '.db('pleasefix').' WHERE chant_id = '.$id.' AND fixed = 0';
+		$req = $mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
+		$count = 0;
+		while ($fix = $req->fetch_assoc()) {
+			if($count > 0) echo "<hr />";
+			echo '<p><input type="checkbox" name="fix[]" value="'.$fix['id'].'"> '.nl2br(htmlspecialchars($fix['pleasefix']))."</p>\n";
+			$count++;
+		}
+		echo '<input type="submit" /></form>';
 		if($mod) {
 			echo '<img src="chant_img.php?id='.$id.'&force=1" width="1" height="1" alt="" />';
 		}
 	} else {
 		echo "<p>No changes made</p>";
 	}
-} elseif(count($mypost) > 0) {
-	$chgset = explode('|',$mypost['changeset']);
-	$sql = 'UPDATE '.db('changesets').' SET `comment` = "'.$mysqli->real_escape_string($mypost['comment']).'"  WHERE `user_id` = '.$chgset[2].' AND `chant_id` = '.$chgset[1].' AND `time` = '.$chgset[0];
-	$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
-	header('Location: chant.php?id='.$id);
 } else {
 	$gabc = json_decode($c['gabc']);
 	if(is_string($gabc)) {
