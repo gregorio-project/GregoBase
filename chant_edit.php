@@ -225,14 +225,17 @@ if(!$logged_in) {
 			$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
 		}
 		echo '<form action="'.$_SERVER['REQUEST_URI'].'" method="post"><input type="hidden" name="changeset" value="'.$chgset.'" />';
-		echo "<h4>Please describe your changes</h4>\n".'<input name="comment" style="width:640px" />'."<br />\n<h4>Does it fix one of these problems?</h4>\n";
+		echo "<h4>Please describe your changes</h4>\n".'<input name="comment" style="width:640px" />'."<br />\n";
 		$sql = 'SELECT * FROM '.db('pleasefix').' WHERE chant_id = '.$id.' AND fixed = 0';
 		$req = $mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
-		$count = 0;
-		while ($fix = $req->fetch_assoc()) {
-			if($count > 0) echo "<hr />";
-			echo '<p><input type="checkbox" name="fix[]" value="'.$fix['id'].'"> '.nl2br(htmlspecialchars($fix['pleasefix']))."</p>\n";
-			$count++;
+		if($req->num_rows > 0) {
+			echo "<h4>Does it fix one of these problems?</h4>\n";
+			$count = 0;
+			while ($fix = $req->fetch_assoc()) {
+				if($count > 0) echo "<hr />";
+				echo '<p><input type="checkbox" name="fix[]" value="'.$fix['id'].'"> '.nl2br(htmlspecialchars($fix['pleasefix']))."</p>\n";
+				$count++;
+			}
 		}
 		echo '<input type="submit" /></form>';
 		if($mod) {
