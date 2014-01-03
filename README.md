@@ -19,5 +19,9 @@ If you want to have a local copy of http://gregobase.selapa.net
 
 * Import `grego_online.sql` into your db (of course the user data aren't in that file so you won't see who made the changes)
 
+If you want to be able to personalize your scores
+
+* Install [gregoriophp](https://github.com/jperon/gregoriophp)
+
 ### Limitations
 * There's no interface for sources edition yet so you need to add them directly into the database
