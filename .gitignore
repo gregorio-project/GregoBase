@@ -1,6 +1,7 @@
 scores/
 temp/
 sources/
+include/db.php
 *~
 license.txt
 readme.html
