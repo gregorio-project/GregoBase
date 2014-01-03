@@ -199,7 +199,20 @@ if(!$c) {
 	die('Wrong id');
 }
 # makeimg($c);
-$content='name: '.$c['incipit'].';%0A%25%25%0A'.json_decode($c['gabc']);
+$content="name:".$c['incipit'].";";
+if($c['annotation1'] > ''){
+	$content=$content."%0A"."annotation:".$c['annotation1'].";";
+}
+if($c['annotation2'] > ''){
+	$content=$content."%0A"."annotation:".$c['annotation2'].";%0A";
+}
+if($c['mode'] > '' and $c['annotation2'] == ''){
+	$content=$content."%0A"."annotation:".$c['mode'].";";
+}
+if($c['commentary'] > ''){
+	$content=$content."%0A"."commentary:".$c['commentary'].";";
+}
+$content=$content."%0A"."%25%25"."%0A".json_decode($c['gabc']);
 header('HTTP/1.1 301 Moved Permanently');
 header('Location: /gregoriophp/?crop=0#'.$content);
 ?>
