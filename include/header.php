@@ -33,8 +33,8 @@ echo <<<HEADER2
 <div id="description">A database of gregorian scores</div>
 <div id="access">
 
-	<div class="menu"><ul class="sf-menu"><li class="page_item current_page_item"><a href="scores.php">Scores</a></li><li class="page_item"><a href="./?page_id=18">Participate</a></li><li class="page_item"><a href="./?page_id=5">Todo</a></li><li class="page_item"><a href="./?page_id=2">About</a></li>$login$pleasefix</ul></div>
-	
+	<div class="menu"><ul class="sf-menu"><li class="page_item current_page_item"><a href="scores.php">Scores</a></li><li class="page_item"><a href="./chant_edit.php">Add score</a></li><li class="page_item"><a href="./?page_id=18">Participate</a></li><li class="page_item"><a href="./?page_id=5">Todo</a></li><li class="page_item"><a href="./?page_id=2">About</a></li>$login$pleasefix</ul></div><
+
 </div><!-- #access -->
 </div>
 <div id="header_overlay"></div>
