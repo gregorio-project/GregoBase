@@ -207,7 +207,7 @@ if($c['annotation2'] > ''){
 	$content=$content."%0A"."annotation:".$c['annotation2'].";%0A";
 }
 if($c['mode'] > '' and $c['annotation2'] == ''){
-	$content=$content."%0A"."annotation:".$c['mode'].";";
+	$content=$content."%0A"."annotation:".$c['mode'].".;";
 }
 if($c['commentary'] > ''){
 	$content=$content."%0A"."commentary:".$c['commentary'].";";
