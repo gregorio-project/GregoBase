@@ -177,9 +177,11 @@ function makeimgfiles($id, $tex, $suffix = '') {
 	fclose($f[0]);
 	chdir(dirname($f[1]));
 	exec('lualatex --interaction=nonstopmode '.basename($f[1]));
-	exec('convert -density 300 '.substr($f[1],0,-4).'.pdf -flatten -trim '.$path.'png/'.$id.$suffix.'.png');
+#	exec('convert -density 300 '.substr($f[1],0,-4).'.pdf -flatten -trim '.$path.'png/'.$id.$suffix.'.png');
+	exec('gs -q -dBATCH -dMaxBitmap=50000000 -dNOPAUSE -sDEVICE=pnggray -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -r300x300 -sOutputFile='.$path.'png/'.$id.$suffix.'.png -- '.substr($f[1],0,-4).'.pdf -c quit');
 	chmod($path.'png/'.$id.$suffix.'.png', 0666);
-	exec('convert -resize 33.333333% '.$path.'png/'.$id.$suffix.'.png '.$path.$id.$suffix.'.png');
+#	exec('convert -resize 33.333333% '.$path.'png/'.$id.$suffix.'.png '.$path.$id.$suffix.'.png');
+	exec('gs -q -dBATCH -dMaxBitmap=50000000 -dNOPAUSE -sDEVICE=pnggray -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -r100x100 -sOutputFile='.$path.$id.$suffix.'.png -- '.substr($f[1],0,-4).'.pdf -c quit');
 	chmod($path.$id.$suffix.'.png', 0666);
 	exec('pdfcrop '.substr($f[1],0,-4).'.pdf '.$path.'pdf/'.$id.$suffix.'.pdf');
 	chmod($path.'pdf/'.$id.$suffix.'.pdf', 0666);
