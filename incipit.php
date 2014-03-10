@@ -25,7 +25,7 @@ if(count($chants)) {
 }
 echo "<ul class=\"incipit\">\n";
 foreach($chants as $c) {
-	$incipit = $c['incipit']?format_incipit($c['incipit']):"===";
+	$incipit = $c['incipit']?format_incipit($c['incipit']):"░░░░";
 	echo '<li class="usage-marker '.$c['office-part'].'">';
 	if($c['gabc'] > '') {
 		echo '<a href="chant.php?id='.$c['id'].'">'.$incipit."</a>";
