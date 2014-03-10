@@ -246,7 +246,7 @@ if($req1->num_rows > 0 || $c['transcriber'] > '') {
 }
 while ($m = $req1->fetch_assoc()) {
 	$user_info = get_userdata($m['user_id']);
-	echo "<li>".date("M d, Y",$m['time']).": ".$m['comment']." (".$user_info->display_name.') <a href="history.php?changeset='.$m['time'].'|'.$id.'|'.$m['user_id']."\">?</a></li>\n";
+	echo "<li>".date("M d, Y",$m['time']).": ".htmlspecialchars($m['comment'])." (".$user_info->display_name.') <a href="history.php?changeset='.$m['time'].'|'.$id.'|'.$m['user_id']."\">?</a></li>\n";
 }
 if($c['transcriber'] > '') {
 	echo "<li>Original transcriber: ".$c['transcriber']."</li>\n";

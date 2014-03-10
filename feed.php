@@ -28,7 +28,7 @@ $user_info = get_userdata($m['user_id']);
 echo '<entry>
 	<title type="html">'.chant_from_id($m['chant_id'])[1].'</title>
 	<link href="'.$dir.'chant.php?id='.$m['chant_id'].'" />
-	<summary>'.$m['comment'].'</summary>
+	<summary>'.htmlspecialchars($m['comment']).'</summary>
 	<updated>'.date(DATE_ATOM,$m['time']).'</updated>
 	<author>
 		<name>'.$user_info->display_name.'</name>
@@ -43,7 +43,7 @@ while($m = $req1->fetch_assoc()) {
 	echo '<entry>
 	<title type="html">'.chant_from_id($m['chant_id'])[1].'</title>
 	<link href="'.$dir.'chant.php?id='.$m['chant_id'].'" />
-	<summary>'.$m['comment'].'</summary>
+	<summary>'.htmlspecialchars($m['comment']).'</summary>
 	<updated>'.date(DATE_ATOM,$m['time']).'</updated>
 	<author>
 		<name>'.$user_info->display_name.'</name>
