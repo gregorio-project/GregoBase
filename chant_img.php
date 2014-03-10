@@ -85,6 +85,7 @@ function mgabc2tex($c, $firstverse = False) {
 	             'pr' => False,
 	             'ps' => False,
 	             're' => 'Resp',
+	             'rb' => 'R. br',
 	             'se' => 'Seq',
 	             'tr' => 'Tract',
 	             'va' => False);
