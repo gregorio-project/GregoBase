@@ -245,6 +245,10 @@ ul.incipit li {
     color: #736342;
 }
 
+.rb:before, .rb:after {
+    color: #736342;
+}
+
 .se:before, .se:after {
     color: #8c7b5a;
 }
