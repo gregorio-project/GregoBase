@@ -5,6 +5,7 @@ include/db.php
 *~
 license.txt
 readme.html
+index.php
 wp-activate.php
 wp-admin/
 wp-blog-header.php
