@@ -34,7 +34,7 @@ while ($t = $req->fetch_assoc()) {
 	$sql1 = 'SELECT * FROM '.db('tags').' WHERE id = '.$t['tag_id'];
 	$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 	$tt = $req1->fetch_assoc();
-	$tags[$tt['id']] = $tt['tag'];
+	$tags[] = $tt['tag'];
 }
 natcasesort($tags);
 
