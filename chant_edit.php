@@ -286,7 +286,7 @@ if(!$logged_in) {
 	echo "<h4>Mode</h4>\n";
 	echo '<select name="mode">'."\n";
 	echo '<option value=""></option>'."\n";
-	foreach(array(1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 'p' => 'T. pereg.') as $k => $v) {
+	foreach(array(1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 'c' => 'C', 'd' => 'D', 'e' => 'E', 'p' => 'T. pereg.') as $k => $v) {
 		echo '<option value="'.$k.'"'.($c['mode']==$k?' selected="selected"':'').'>'.$v.'</option>'."\n";
 	}
 	echo "</select>\n";
@@ -327,6 +327,9 @@ if(!$logged_in) {
 		$sources_box .= "</select>\n";
 		echo $sources_box;
 	}
+	echo "<h4>Remarks</h4>\n";
+	echo '<textarea name="remarks" class="gabc">'.$c['remarks']."</textarea>\n";
+
 	echo "<h4>Sources</h4>\n";
 	echo '<span style="margin-left:295px;">Page</span><span style="margin-left:40px;">Sequence</span><span style="margin-left:20px;">Extent</span>';
 	$i = 0;
@@ -350,9 +353,6 @@ if(!$logged_in) {
 	}
 	echo '<a href="#" class="add" rel=".clone2"><img src="list-add.png" alt="Add more" /></a>';
 	
-	echo "<h4>Remarks</h4>\n";
-	echo '<textarea name="remarks" class="gabc">'.$c['remarks']."</textarea>\n";
-
 	echo '<p><input type="hidden" name="id" value="'.$id.'" /><input type="submit" /></p>';
 
 	foreach ($c_s as $s) {
