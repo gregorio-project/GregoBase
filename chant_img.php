@@ -85,6 +85,7 @@ function mgabc2tex($c, $firstverse = False) {
 	             'pr' => False,
 	             'ps' => False,
 	             're' => 'Resp',
+	             'rb' => 'R. br',
 	             'se' => 'Seq',
 	             'tr' => 'Tract',
 	             'va' => False);
@@ -134,6 +135,8 @@ function mgabc2tex($c, $firstverse = False) {
 	if($c['mode'] || $c['mode_var']) {
 		if($c['mode'] == 'p') {
 			$mode = "T. pereg.";
+		} elseif(in_array($c['mode'], array('c','d','e'))) {
+			$mode = strtoupper($c['mode']).($c['mode_var']?' '.$c['mode_var']:'');
 		} else {
 			$mode = $c['mode'].($c['mode_var']?' '.$c['mode_var']:'');
 		}

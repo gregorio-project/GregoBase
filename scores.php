@@ -27,7 +27,7 @@ echo "</ul></div>\n";
 $sql1 = 'SELECT * FROM '.db('tags').' t WHERE EXISTS (SELECT * FROM '.db('chant_tags').' ts WHERE t.id = ts.tag_id) ORDER BY tag';
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 if($req1->num_rows > 0) {
-	echo "<h4>by tag</h4>\n<div><ul class=\"alphabet\">\n";
+	echo "<h4>by tag</h4>\n<div><ul>\n";
 	while($t = $req1->fetch_assoc()) {
 		echo "<li><a href=\"tag.php?id=".$t['id']."\">".$t['tag']."</a></li>\n";
 	}
@@ -45,7 +45,9 @@ while($s = $req1->fetch_assoc()) {
 }
 foreach($sources as $id => $s) {
 	if(in_array($id, $used_sources)) {
-		echo "<li><a href=\"source.php?id=".$id."\">".$s['year']." - ".$s['editor']." - ".$s['title']."</a></li>\n";
+		echo "<li><a href=\"source.php?id=".$id."\">".$s['year']." - ".$s['editor']." - ".$s['title']."</a>";
+		if($s['description'] > '') echo "<br />\n<i>".$s['description']."</i>";
+		echo "</li>\n";
 	}
 }
 $sql1 = 'SELECT * FROM '.db('chants').' c WHERE NOT EXISTS (SELECT * FROM '.db('chant_sources').' cs WHERE c.id = cs.chant_id)';
@@ -69,7 +71,7 @@ foreach($mod as $d => $ml) {
 	echo "<ul>\n";
 	foreach($ml as $m) {
 		echo '<li><a href="chant.php?id='.$m['chant_id'].'">'.format_incipit(chant_from_id($m['chant_id'])[1])."</a><br />\n";
-		echo "<i>".$m['comment']."</i></li>\n";
+		echo "<i>".htmlspecialchars($m['comment'])."</i></li>\n";
 	}
 	echo "</ul><br />\n";
 }

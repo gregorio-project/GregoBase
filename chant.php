@@ -201,15 +201,17 @@ foreach($proof as $r) {
 if(count($proof) > 0 || $logged_in) {
 	echo "</ul>\n";
 }
-echo '<p id="push1"><a href="#">Report a problem</a></p>';
-$report_form = 	'<form action="'.$_SERVER['PHP_SELF'].($_SERVER['QUERY_STRING']?'?'.$_SERVER['QUERY_STRING']:'').'" method="post"><textarea name="pleasefix" class="gabc"></textarea><br /><input type="submit" /></form>';
+if($logged_in) {
+	echo '<p id="push1"><a href="#">Report a problem</a></p>';
+	$report_form = 	'<form action="'.$_SERVER['PHP_SELF'].($_SERVER['QUERY_STRING']?'?'.$_SERVER['QUERY_STRING']:'').'" method="post"><textarea name="pleasefix" class="gabc"></textarea><br /><input type="submit" /></form>';
 
-echo <<<POPUP1
+	echo <<<POPUP1
 <div id="popup1">
 Please describe the problem:<br />
 $report_form
 </div>
 POPUP1;
+}
 echo "<h4>Download</h4>\n<ul>\n";
 $content = json_decode($c['gabc']);
 if(is_string($content)) {
@@ -247,7 +249,7 @@ if($req1->num_rows > 0 || $c['transcriber'] > '') {
 }
 while ($m = $req1->fetch_assoc()) {
 	$user_info = get_userdata($m['user_id']);
-	echo "<li>".date("M d, Y",$m['time']).": ".$m['comment']." (".$user_info->display_name.') <a href="history.php?changeset='.$m['time'].'|'.$id.'|'.$m['user_id']."\">?</a></li>\n";
+	echo "<li>".date("M d, Y",$m['time']).": ".htmlspecialchars($m['comment'])." (".$user_info->display_name.') <a href="history.php?changeset='.$m['time'].'|'.$id.'|'.$m['user_id']."\">?</a></li>\n";
 }
 if($c['transcriber'] > '') {
 	echo "<li>Original transcriber: ".$c['transcriber']."</li>\n";
