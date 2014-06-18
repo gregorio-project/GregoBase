@@ -4,7 +4,7 @@
 * A working installation of [WordPress](http://wordpress.org/) (used for user management only)
 * [gregorio](https://gna.org/projects/gregorio/)
 * [LuaLaTeX](http://www.tug.org/texlive/)
-* [ImageMagick](http://www.imagemagick.org/)
+* *([ImageMagick](http://www.imagemagick.org/) should not be necessary any more)*
 * [PDFCrop](http://pdfcrop.sourceforge.net/)
 * [GhostScript](http://www.ghostscript.com/)
 
