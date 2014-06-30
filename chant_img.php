@@ -180,12 +180,19 @@ function makeimgfiles($id, $tex, $suffix = '') {
 	fclose($f[0]);
 	chdir(dirname($f[1]));
 	exec('lualatex --interaction=nonstopmode '.basename($f[1]));
+<<<<<<< HEAD
 	exec('gs -q -dBATCH -dMaxBitmap=50000000 -dNOPAUSE -sDEVICE=pnggray -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -r300x300 -sOutputFile='.$path.'png/'.$id.$suffix.'.png -- '.substr($f[1],0,-4).'.pdf -c quit');
 	chmod($path.'png/'.$id.$suffix.'.png', 0666);
 	exec('gs -q -dBATCH -dMaxBitmap=50000000 -dNOPAUSE -sDEVICE=pnggray -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -r100x100 -sOutputFile='.$path.$id.$suffix.'.png -- '.substr($f[1],0,-4).'.pdf -c quit');
 	chmod($path.$id.$suffix.'.png', 0666);
+=======
+>>>>>>> upstream
 	exec('pdfcrop '.substr($f[1],0,-4).'.pdf '.$path.'pdf/'.$id.$suffix.'.pdf');
 	chmod($path.'pdf/'.$id.$suffix.'.pdf', 0666);
+	exec('gs -q -dBATCH -dMaxBitmap=50000000 -dNOPAUSE -sDEVICE=bbox -sDEVICE=pnggray -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -r300x300 -sOutputFile='.$path.'png/'.$id.$suffix.'.png -- '.$path.'pdf/'.$id.$suffix.'.pdf -c quit');
+	chmod($path.'png/'.$id.$suffix.'.png', 0666);
+	exec('gs -q -dBATCH -dMaxBitmap=50000000 -dNOPAUSE -sDEVICE=bbox -sDEVICE=pnggray -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -r100x100 -sOutputFile='.$path.$id.$suffix.'.png -- '.$path.'pdf/'.$id.$suffix.'.pdf -c quit');
+	chmod($path.$id.$suffix.'.png', 0666);
 	exec('gs -q -dNOPAUSE -dBATCH -dSAFER -sDEVICE=epswrite -dCompatibilityLevel=1.3 -dEmbedAllFonts=true -dSubsetFonts=true -sOutputFile='.$path.'eps/'.$id.$suffix.'.eps '.$path.'pdf/'.$id.$suffix.'.pdf');
 	chmod($path.'eps/'.$id.$suffix.'.eps', 0666);
 	unlink($f[1]);
