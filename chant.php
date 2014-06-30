@@ -20,11 +20,11 @@ $custom_header = <<<HEADER
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="jquery.bpopup.min.js"></script>
 <style>
-#popup1, #popup2 { 
+#popup1, #popup2 {
     background-color:#fff;
     border-radius:15px;
     color:#000;
-    display:none; 
+    display:none;
     padding:20px;
     min-width:400px;
     min-height: 80px;
@@ -230,6 +230,7 @@ if(is_string($content)) {
 foreach(array('pdf','eps','png') as $a) {
 	echo '<li><a href="download.php?id='.$c['id'].'&amp;format='.$a.'">'.strtoupper($a).'</a></li>'."\n";
 }
+echo '<li><a href="chant_submit.php?id='.$c['id'].'"target="_blank">Suit to your needs</a></li>'."\n";
 echo "</ul>\n";
 if($c['gabc_verses'] || $c['tex_verses']){
 	echo "<ul>\n";
@@ -276,7 +277,7 @@ echo <<<SCRIPT
             // From jQuery v.1.7.0 use .on() instead of .bind()
             $('#push1').bind('click', function(e) {
 
-                // Prevents the default action to be triggered. 
+                // Prevents the default action to be triggered.
                 e.preventDefault();
 
                 // Triggering bPopup when click event is fired
@@ -285,7 +286,7 @@ echo <<<SCRIPT
             });
             $('#push2').bind('click', function(e) {
 
-                // Prevents the default action to be triggered. 
+                // Prevents the default action to be triggered.
                 e.preventDefault();
 
                 // Triggering bPopup when click event is fired

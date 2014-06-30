@@ -274,6 +274,7 @@ if(!$logged_in) {
 	echo '<br />&nbsp;</div>'."\n";
 	echo '<div id="info">
 	';
+    echo '<h4>Special characters (to copy/paste)</h4>℟ ℣ † ✠ æ ǽ œ œ́ á é í ó ú ý'."\n";
 	echo '<h4>Incipit</h4><input name="incipit" value="'.$c['incipit'].'" />'."\n";
 	echo '<h4>Version</h4><input name="version" value="'.$c['version'].'" />'."\n";
 	echo '<h4>Usage</h4><select name="office-part">'."\n";
