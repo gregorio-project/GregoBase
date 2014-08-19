@@ -1,5 +1,6 @@
 <?php
 include('include/functions.php');
+header('Content-Type: text/html; charset=utf-8');
 echo <<<HEADER1
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -19,7 +20,7 @@ $login = $logged_in ? '<li class="page_item"><a href="'.wp_logout_url('http'.(em
 $sql = 'SELECT * FROM '.db('pleasefix').' WHERE fixed = 0';
 $req = $mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
 if($req->num_rows > 0) {
-	$pleasefix = '<li class="page_item"><a href="pleasefix.php" style="color:red;">Please fix</a></li>';
+	$pleasefix = '<li class="page_item'.(basename($_SERVER['REQUEST_URI']) == "pleasefix.php" ? ' current_page_item' : '').'"><a href="pleasefix.php" style="color:red;">Please fix</a></li>';
 } else {
 	$pleasefix = '';
 }
@@ -33,13 +34,24 @@ echo <<<HEADER2
 <div id="description">A database of gregorian scores</div>
 <div id="access">
 
-	<div class="menu"><ul class="sf-menu"><li class="page_item current_page_item"><a href="scores.php">Scores</a></li><li class="page_item"><a href="./?page_id=18">Participate</a></li><li class="page_item"><a href="./?page_id=5">Todo</a></li><li class="page_item"><a href="./?page_id=2">About</a></li>$login$pleasefix</ul></div>
-	
+HEADER2;
+//	<div class="menu"><ul class="sf-menu"><li class="page_item current_page_item"><a href="scores.php">Scores</a></li><li class="page_item"><a href="./?page_id=18">Participate</a></li><li class="page_item"><a href="./?page_id=5">Todo</a></li><li class="page_item"><a href="./?page_id=2">About</a></li><li class="page_item"><a href="./?page_id=53">Summary of GABC</a></li>$login$pleasefix</ul></div>
+function special_nav_class($classes, $item){
+	if($item->title == "Scores" && strpos($_SERVER['REQUEST_URI'],'?page_id=') === FALSE && strpos($_SERVER['REQUEST_URI'],'pleasefix.php') === FALSE){
+		$classes[] = "current_page_item";
+	}
+	return $classes;
+}
+add_filter('nav_menu_css_class' , 'special_nav_class' , 10 , 2);
+$menu_options = array('container_class' => 'menu',
+                      'menu_class' => 'sf-menu',
+                      'items_wrap' => '<ul class="sf-menu">%3$s'.$pleasefix.'</ul>');
+wp_nav_menu($menu_options);
+echo <<<HEADER3
 </div><!-- #access -->
 </div>
 <div id="header_overlay"></div>
 
 <div id="content">
-HEADER2;
-
+HEADER3;
 ?>
