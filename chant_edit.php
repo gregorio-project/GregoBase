@@ -317,9 +317,12 @@ if(!$logged_in) {
 	}
 	echo '<a href="#" class="add" rel=".clone3"><img src="list-add.png" alt="Add more" /></a>';
 	
+	echo "<h4>Remarks</h4>\n";
+	echo '<textarea name="remarks" class="gabc">'.$c['remarks']."</textarea>\n";
+
 	function sources_box($so) {
 		global $sources;
-		$sources_box = '<select name="source[]">'."\n";
+		$sources_box = '<select class="sources" name="source[]">'."\n";
 		$sources_box .= '<option value="0">Choose source</option>'."\n";
 		foreach ($sources as $k => $s) {
 			$sources_box .= '<option value="'.$k.'"'.($k==$so?' selected="selected"':'').">".$s['year'].' - '.$s['title'].' ('.$s['editor'].")</option>\n";
@@ -327,18 +330,15 @@ if(!$logged_in) {
 		$sources_box .= "</select>\n";
 		echo $sources_box;
 	}
-	echo "<h4>Remarks</h4>\n";
-	echo '<textarea name="remarks" class="gabc">'.$c['remarks']."</textarea>\n";
-
 	echo "<h4>Sources</h4>\n";
-	echo '<span style="margin-left:295px;">Page</span><span style="margin-left:40px;">Sequence</span><span style="margin-left:20px;">Extent</span>';
+	echo '<span style="margin-left:295px;">Page</span><span style="margin-left:30px;">Sequence</span><span style="margin-left:10px;">Extent</span>';
 	$i = 0;
 	foreach ($c_s as $s) {
 		echo '<p class="clone2'.($i>0?' copy'.$i:'').'">';
 		sources_box($s['source']);
-		echo '<input size="2" name="page[]" value="'.$s['page'].'" />';
-		echo '<input size="2" name="sequence[]" value="'.$s['sequence'].'" />';
-		echo '<input size="2" name="extent[]" value="'.$s['extent'].'" />';
+		echo '<input class="sourcesi" name="page[]" value="'.$s['page'].'" />';
+		echo '<input class="sourcesi" name="sequence[]" value="'.$s['sequence'].'" />';
+		echo '<input class="sourcesi" name="extent[]" value="'.$s['extent'].'" />';
 		echo ($i>0?' <a class="remove" href="#" onclick="$(this).parent().slideUp(function(){ $(this).remove() }); return false"><img src="list-remove.png" alt="Remove" /></a>':'');
 		echo '</p>';
 		$i++;
