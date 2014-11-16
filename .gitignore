@@ -1,7 +1,7 @@
 scores/
 temp/
 sources/
-include/db.php
+include/credentials.php
 *~
 license.txt
 readme.html

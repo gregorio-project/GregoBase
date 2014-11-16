@@ -6,14 +6,11 @@ function chant_from_id($c) {
 	$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 	$chants = array();
 	$ch = $req1->fetch_assoc();
-	return array($ch['office-part'], $ch['incipit'] > ''?$ch['incipit']:'░░░░', $ch['gabc'] > '', $ch['version']);
+	return array($ch['office-part'], $ch['incipit'], $ch['gabc'] > '', $ch['version']);
 }
 
-define("HOST", ""); // The host you want to connect to.
-define("USER", ""); // The database username.
-define("PASSWORD", ""); // The database password. 
-define("DATABASE", ""); // The database name.
- 
+include('credentials.php');
+
 $mysqli = new mysqli(HOST, USER, PASSWORD, DATABASE);
 
 $mysqli->query('SET NAMES utf8');
