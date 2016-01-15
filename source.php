@@ -41,6 +41,7 @@ if(array_key_exists('images', $_GET) && $_GET['images'] == '1') {
 			$n[$i] .= ($i == $start) ? '' : '</a>';
 		}
 		echo "<p><b>Pages</b> ".implode(' | ', $n)."</p>\n";
+		echo "<p><i>".$sources[$s]['caption']."</i></p>\n";
 		echo "<table>\n<tr><th>Page</th><th>Incipit</th></tr>";
 		for($i = $start; $i < min($start+$ipp, $np); $i++) {
 			$p = $sources[$s]['pages'][$i];
