@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.8
+-- version 4.6.0-rc2
 -- http://www.phpmyadmin.net
 --
--- Client: localhost
--- Généré le: Sam 16 Novembre 2013 à 17:06
--- Version du serveur: 5.5.31-0ubuntu0.12.04.2
--- Version de PHP: 5.4.17RC1
+-- Client :  localhost
+-- Généré le :  Ven 18 Mars 2016 à 09:58
+-- Version du serveur :  5.5.47-0ubuntu0.14.04.1
+-- Version de PHP :  5.5.33-1+deb.sury.org~trusty+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,28 +14,11 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données: `grego`
+-- Base de données :  `grego`
 --
-
--- --------------------------------------------------------
-
---
--- Structure de la table `gregobase_booklets`
---
-
-CREATE TABLE IF NOT EXISTS `gregobase_booklets` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `filename` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `code` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `title` text COLLATE utf8_unicode_ci,
-  `content` text COLLATE utf8_unicode_ci,
-  `options` text COLLATE utf8_unicode_ci,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -43,11 +26,10 @@ CREATE TABLE IF NOT EXISTS `gregobase_booklets` (
 -- Structure de la table `gregobase_changes`
 --
 
-CREATE TABLE IF NOT EXISTS `gregobase_changes` (
+CREATE TABLE `gregobase_changes` (
   `changeset` varchar(32) NOT NULL,
   `field` varchar(32) NOT NULL,
-  `changed` text NOT NULL,
-  PRIMARY KEY (`changeset`,`field`)
+  `changed` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -56,12 +38,11 @@ CREATE TABLE IF NOT EXISTS `gregobase_changes` (
 -- Structure de la table `gregobase_changesets`
 --
 
-CREATE TABLE IF NOT EXISTS `gregobase_changesets` (
+CREATE TABLE `gregobase_changesets` (
   `user_id` int(11) NOT NULL,
   `chant_id` int(11) NOT NULL,
   `time` int(11) NOT NULL,
-  `comment` text,
-  PRIMARY KEY (`user_id`,`chant_id`,`time`)
+  `comment` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -70,22 +51,21 @@ CREATE TABLE IF NOT EXISTS `gregobase_changesets` (
 -- Structure de la table `gregobase_chants`
 --
 
-CREATE TABLE IF NOT EXISTS `gregobase_chants` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `gregobase_chants` (
+  `id` int(11) NOT NULL,
   `version` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `incipit` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   `initial` tinyint(4) NOT NULL DEFAULT '1',
   `office-part` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
   `mode` varchar(8) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `mode_var` varchar(3) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `mode_var` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
   `transcriber` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `commentary` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
   `gabc` text COLLATE utf8_unicode_ci,
   `gabc_verses` text COLLATE utf8_unicode_ci,
   `tex_verses` text COLLATE utf8_unicode_ci,
-  `remarks` text COLLATE utf8_unicode_ci,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `remarks` text COLLATE utf8_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -93,13 +73,12 @@ CREATE TABLE IF NOT EXISTS `gregobase_chants` (
 -- Structure de la table `gregobase_chant_sources`
 --
 
-CREATE TABLE IF NOT EXISTS `gregobase_chant_sources` (
+CREATE TABLE `gregobase_chant_sources` (
   `chant_id` int(11) NOT NULL,
   `source` int(11) NOT NULL,
   `page` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
   `sequence` tinyint(4) NOT NULL DEFAULT '1',
-  `extent` tinyint(4) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`chant_id`,`source`,`page`)
+  `extent` tinyint(4) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -108,10 +87,9 @@ CREATE TABLE IF NOT EXISTS `gregobase_chant_sources` (
 -- Structure de la table `gregobase_chant_tags`
 --
 
-CREATE TABLE IF NOT EXISTS `gregobase_chant_tags` (
+CREATE TABLE `gregobase_chant_tags` (
   `chant_id` int(11) NOT NULL,
-  `tag_id` int(11) NOT NULL,
-  PRIMARY KEY (`chant_id`,`tag_id`)
+  `tag_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -120,8 +98,8 @@ CREATE TABLE IF NOT EXISTS `gregobase_chant_tags` (
 -- Structure de la table `gregobase_pleasefix`
 --
 
-CREATE TABLE IF NOT EXISTS `gregobase_pleasefix` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `gregobase_pleasefix` (
+  `id` int(11) NOT NULL,
   `chant_id` int(11) NOT NULL,
   `pleasefix` text COLLATE utf8_unicode_ci NOT NULL,
   `time` int(11) NOT NULL,
@@ -129,8 +107,7 @@ CREATE TABLE IF NOT EXISTS `gregobase_pleasefix` (
   `ip` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
   `fixed` tinyint(1) NOT NULL DEFAULT '0',
   `fixed_by` int(11) NOT NULL DEFAULT '0',
-  `fixed_time` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  `fixed_time` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -139,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `gregobase_pleasefix` (
 -- Structure de la table `gregobase_proofreading`
 --
 
-CREATE TABLE IF NOT EXISTS `gregobase_proofreading` (
+CREATE TABLE `gregobase_proofreading` (
   `chant_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `time` int(11) NOT NULL
@@ -151,16 +128,15 @@ CREATE TABLE IF NOT EXISTS `gregobase_proofreading` (
 -- Structure de la table `gregobase_sources`
 --
 
-CREATE TABLE IF NOT EXISTS `gregobase_sources` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `gregobase_sources` (
+  `id` int(11) NOT NULL,
   `year` smallint(6) NOT NULL,
   `editor` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `title` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
   `caption` text COLLATE utf8_unicode_ci NOT NULL,
-  `pages` mediumtext COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `pages` mediumtext COLLATE utf8_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -168,13 +144,94 @@ CREATE TABLE IF NOT EXISTS `gregobase_sources` (
 -- Structure de la table `gregobase_tags`
 --
 
-CREATE TABLE IF NOT EXISTS `gregobase_tags` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tag` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `tag` (`tag`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `gregobase_tags` (
+  `id` int(11) NOT NULL,
+  `tag` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Index pour les tables exportées
+--
+
+--
+-- Index pour la table `gregobase_changes`
+--
+ALTER TABLE `gregobase_changes`
+  ADD PRIMARY KEY (`changeset`,`field`);
+
+--
+-- Index pour la table `gregobase_changesets`
+--
+ALTER TABLE `gregobase_changesets`
+  ADD PRIMARY KEY (`user_id`,`chant_id`,`time`);
+
+--
+-- Index pour la table `gregobase_chants`
+--
+ALTER TABLE `gregobase_chants`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `gregobase_chant_sources`
+--
+ALTER TABLE `gregobase_chant_sources`
+  ADD PRIMARY KEY (`chant_id`,`source`,`page`);
+
+--
+-- Index pour la table `gregobase_chant_tags`
+--
+ALTER TABLE `gregobase_chant_tags`
+  ADD PRIMARY KEY (`chant_id`,`tag_id`);
+
+--
+-- Index pour la table `gregobase_pleasefix`
+--
+ALTER TABLE `gregobase_pleasefix`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `gregobase_proofreading`
+--
+ALTER TABLE `gregobase_proofreading`
+  ADD PRIMARY KEY (`time`,`user_id`,`chant_id`);
+
+--
+-- Index pour la table `gregobase_sources`
+--
+ALTER TABLE `gregobase_sources`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `gregobase_tags`
+--
+ALTER TABLE `gregobase_tags`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `tag` (`tag`);
+
+--
+-- AUTO_INCREMENT pour les tables exportées
+--
+
+--
+-- AUTO_INCREMENT pour la table `gregobase_chants`
+--
+ALTER TABLE `gregobase_chants`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7503;
+--
+-- AUTO_INCREMENT pour la table `gregobase_pleasefix`
+--
+ALTER TABLE `gregobase_pleasefix`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2831;
+--
+-- AUTO_INCREMENT pour la table `gregobase_sources`
+--
+ALTER TABLE `gregobase_sources`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+--
+-- AUTO_INCREMENT pour la table `gregobase_tags`
+--
+ALTER TABLE `gregobase_tags`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
