@@ -101,7 +101,7 @@ if(!$logged_in) {
 	}
 	foreach($mypost['tags'] as $t) {
 		if($t > '') {
-			$sql1 = 'SELECT * FROM '.db('tags').' WHERE tag LIKE '.$mysqli->real_escape_string($t);
+			$sql1 = 'SELECT * FROM '.db('tags').' WHERE tag LIKE "'.$mysqli->real_escape_string($t).'"';
 			$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 			$tt = $req1->fetch_assoc();
 			if($tt) {
