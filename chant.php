@@ -15,7 +15,7 @@ if(!$c) {
 	die('Wrong id');
 }
 
-$title = $c['incipit'];
+$title = $c['incipit']?$c['incipit']:'░░'.$c['id'].'░░';
 $custom_header = <<<HEADER
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="jquery.bpopup.min.js"></script>
@@ -77,7 +77,7 @@ echo '<div id="info">
 ';
 $sql = 'SELECT * FROM '.db('pleasefix').' WHERE chant_id = '.$id.' AND fixed = 0';
 $req = $mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
-echo '<h3>'.format_incipit($c['incipit']);
+echo '<h3>'.format_incipit($title);
 if($req->num_rows > 0) {
 	echo '<span id="push2"> <a href="#"><img src="warning.png" alt="Warning!" /></a></span>';
 }
