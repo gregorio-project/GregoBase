@@ -97,7 +97,7 @@ function mgabc2tex($c, $firstverse = False) {
 
 \documentclass[12pt]{article}
 \usepackage{geometry}
-\geometry{paperwidth=16cm,paperheight=150cm}
+\geometry{paperwidth=16cm,paperheight=200cm}
 \usepackage{gregoriotex}
 \usepackage{fullpage}
 \usepackage{Tabbing}
