@@ -17,7 +17,7 @@ if(!$c) {
 
 $title = $c['incipit']?$c['incipit']:'░░'.$c['id'].'░░';
 $custom_header = <<<HEADER
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="jquery.bpopup.min.js"></script>
 <style>
 #popup1, #popup2 { 

@@ -9,7 +9,7 @@ echo <<<HEADER1
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
 <title>GregoBase - $title</title>
-<link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' />
+<link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' />
 <link rel="stylesheet" type="text/css" href="style.css" />
 
 HEADER1;

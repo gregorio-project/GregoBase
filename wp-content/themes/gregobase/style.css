@@ -36,7 +36,7 @@ This work, like WordPress, is released under GNU General Public License, version
 /* Prepare theme for plugins */
 @import url('../thematic/library/styles/plugins.css');
 
-@import url("http://fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700");
+@import url("//fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700");
 
 body {
 	background: #fff;
