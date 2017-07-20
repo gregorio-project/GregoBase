@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.0-rc2
--- http://www.phpmyadmin.net
+-- version 4.7.1
+-- https://www.phpmyadmin.net/
 --
--- Client :  localhost
--- Généré le :  Ven 18 Mars 2016 à 09:58
--- Version du serveur :  5.5.47-0ubuntu0.14.04.1
--- Version de PHP :  5.5.33-1+deb.sury.org~trusty+1
+-- Hôte : localhost
+-- Généré le :  jeu. 20 juil. 2017 à 22:05
+-- Version du serveur :  10.0.29-MariaDB-0ubuntu0.16.04.1
+-- Version de PHP :  7.0.18-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -53,6 +55,7 @@ CREATE TABLE `gregobase_changesets` (
 
 CREATE TABLE `gregobase_chants` (
   `id` int(11) NOT NULL,
+  `cantusid` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
   `version` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `incipit` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   `initial` tinyint(4) NOT NULL DEFAULT '1',
@@ -150,7 +153,7 @@ CREATE TABLE `gregobase_tags` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Index pour les tables exportées
+-- Index pour les tables déchargées
 --
 
 --
@@ -209,29 +212,30 @@ ALTER TABLE `gregobase_tags`
   ADD UNIQUE KEY `tag` (`tag`);
 
 --
--- AUTO_INCREMENT pour les tables exportées
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
 -- AUTO_INCREMENT pour la table `gregobase_chants`
 --
 ALTER TABLE `gregobase_chants`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7503;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7907;
 --
 -- AUTO_INCREMENT pour la table `gregobase_pleasefix`
 --
 ALTER TABLE `gregobase_pleasefix`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2831;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2849;
 --
 -- AUTO_INCREMENT pour la table `gregobase_sources`
 --
 ALTER TABLE `gregobase_sources`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT pour la table `gregobase_tags`
 --
 ALTER TABLE `gregobase_tags`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

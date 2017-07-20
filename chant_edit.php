@@ -93,7 +93,7 @@ if(!$logged_in) {
 	$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
 	$id = $mysqli->insert_id;
 	$mypost['id'] = $id;
-	foreach(array('version','office-part','mode','mode_var','commentary','initial','transcriber','gabc','gabc_verses','tex_verses','remarks') as $k) {
+	foreach(array('cantusid','version','office-part','mode','mode_var','commentary','initial','transcriber','gabc','gabc_verses','tex_verses','remarks') as $k) {
 		if($mypost[$k] > '' && $mypost[$k] != "(c4)") {
 			$sql = 'UPDATE '.db('chants').' SET `'.$k.'` = "'.$mysqli->real_escape_string($mypost[$k]).'" WHERE `id` = '.$id;
 			$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
@@ -168,7 +168,7 @@ if(!$logged_in) {
 	natcasesort($new_tags);
 	unset($mypost['tags']);
 
-	$fields = array('id','incipit','version','office-part','mode','mode_var','commentary','initial','transcriber','gabc','gabc_verses','tex_verses','remarks');
+	$fields = array('id','incipit','cantusid','version','office-part','mode','mode_var','commentary','initial','transcriber','gabc','gabc_verses','tex_verses','remarks');
 	$old = array();
 	$new = array();
 	foreach($fields as $f) {
@@ -275,6 +275,7 @@ if(!$logged_in) {
 	echo '<div id="info">
 	';
 	echo '<h4>Incipit</h4><input name="incipit" value="'.$c['incipit'].'" />'."\n";
+	echo '<h4>Cantus ID</h4><input name="cantusid" value="'.$c['cantusid'].'" />'."\n";
 	echo '<h4>Version</h4><input name="version" value="'.$c['version'].'" />'."\n";
 	echo '<h4>Usage</h4><select name="office-part">'."\n";
 	echo '<option value="">Choose usage</option>'."\n";

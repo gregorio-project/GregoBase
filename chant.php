@@ -100,6 +100,8 @@ if($c['version'] > '') echo '<h4>Version</h4><ul><li>'.$c['version']."</li></ul>
 
 if($c['office-part'] > '') echo '<h4>Usage</h4><ul><li><span class="usage '.$c['office-part'].'">'.$txt['usage'][$c['office-part']]."</span></li></ul>\n";
 
+if($c['cantusid'] > '') echo '<h4>Cantus ID</h4><ul><li><a target="_blank" href="http://cantusindex.org/id/'.$c['cantusid'].'">'.$c['cantusid']."</a></li></ul>\n";
+
 $tags = array();
 $sql = 'SELECT * FROM '.db('chant_tags').' WHERE chant_id = '.$id;
 $req = $mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
