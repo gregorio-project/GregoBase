@@ -96,11 +96,11 @@ if($req->num_rows > 0) {
 	}
 	echo '</div>';
 }
+if($c['cantusid'] > '') echo '<h4>Cantus ID</h4><ul><li><a target="_blank" href="http://cantusindex.org/id/'.$c['cantusid'].'">'.$c['cantusid']."</a></li></ul>\n";
+
 if($c['version'] > '') echo '<h4>Version</h4><ul><li>'.$c['version']."</li></ul>\n";
 
 if($c['office-part'] > '') echo '<h4>Usage</h4><ul><li><span class="usage '.$c['office-part'].'">'.$txt['usage'][$c['office-part']]."</span></li></ul>\n";
-
-if($c['cantusid'] > '') echo '<h4>Cantus ID</h4><ul><li><a target="_blank" href="http://cantusindex.org/id/'.$c['cantusid'].'">'.$c['cantusid']."</a></li></ul>\n";
 
 $tags = array();
 $sql = 'SELECT * FROM '.db('chant_tags').' WHERE chant_id = '.$id;
