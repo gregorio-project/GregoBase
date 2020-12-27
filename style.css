@@ -233,6 +233,10 @@ ul.incipit li {
     color: #f0e68c;
 }
 
+.pa:before, .pa:after {
+    color: #9f34eb;
+}
+
 .pr:before, .pr:after {
     color: #db7093;
 }
@@ -249,12 +253,24 @@ ul.incipit li {
     color: #736342;
 }
 
+.rh:before, .rh:after {
+    color: #eb7a34;
+}
+
 .se:before, .se:after {
     color: #8c7b5a;
 }
 
+.su:before, .su:after {
+    color: #f03e50;
+}
+
 .tr:before, .tr:after {
     color: #d68c10;
+}
+
+.tp:before, .tp:after {
+    color: #34ebd6;
 }
 
 .va:before, .va:after {
