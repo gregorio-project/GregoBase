@@ -240,6 +240,33 @@ if($c['gabc_verses'] || $c['tex_verses']){
 	}
 	echo "</ul>\n";
 }
+
+echo "<h4>Open with external tool</h4>\n<ul>\n";
+$gabc = (($c['office-part'] && $txt['usage_s'][$c['office-part']] > '')?'annotation: '.$txt['usage_s'][$c['office-part']]."\n":'');
+$mode_r = False;
+if($c['mode'] > '') {
+    if($c['mode'] == 'p') {
+	$mode = "T. pereg.";
+    } elseif(in_array($c['mode'], array('c','d','e'))) {
+	$mode = strtoupper($c['mode']).($c['mode_var']?' '.$c['mode_var']:'');
+    } else {
+	$mode = $c['mode'].($c['mode_var']?' '.$c['mode_var']:'');
+    }
+}
+if($mode) $gabc .= "annotation: $mode\n";
+$gabc .= "%%\n";
+if(is_string($content)) {
+    $gabc .= $content."\n";
+} elseif(is_array($content)) {
+    foreach($content as $e) {
+	if($e[0] == 'gabc') $gabc .= $e[1]."\n";
+    }
+}
+echo '<li><a href="https://editor.sourceandsummit.com/legacy/#'.rawurlencode(($c['commentary']?'commentary: '.$c['commentary']."\n":'').$gabc."\n".$c['gabc_verses']).'" target="_blank">Illuminare Score editor</a></li>
+<li><a href="https://editor.sourceandsummit.com/alpha/#'.rawurlencode(($c['commentary']?'text-right: '.$c['commentary']."\n":'').$gabc."\n".$c['gabc_verses']).'" target="_blank">Source &amp; Summit Editor</a></li>
+';
+echo "</ul>\n";
+
 if($c['remarks'] > '') {
 	echo "<h4>Remarks</h4>\n<p class=\"remarks\">".nl2br($c['remarks'])."</p>\n";
 }
