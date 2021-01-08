@@ -50,20 +50,21 @@ function gregorio($s,$i=1) {
 	chdir(dirname($f[1]));
 	exec('gregorio '.basename($f[1]));
 	unlink($f[1]);
-	$gf = substr($f[1],0,-5).'.tex';
+	$gf = substr($f[1],0,-5).'.gtex';
 	$g = fopen($gf,'r');
 	$tex = fread($g,filesize($gf));
 	fclose($g);
 	unlink($gf);
 	$tex = substr($tex,0,-12)."\n\\relax\n";
 
+	$tex .= "\\gresetinitiallines{$i}\n";
 	if($i > 0) {
-		$tex = '\setspaceafterinitial{2.2mm plus 0em minus 0em}
-\setspacebeforeinitial{2.2mm plus 0em minus 0em}
+		$tex = '\grechangedim{beforeinitialshift}{2.2mm}{scalable}
+\grechangedim{afterinitialshift}{2.2mm}{scalable}
 '.$tex;
 	} else {
-		$tex = '\setspaceafterinitial{0pt plus 0em minus 0em}%
-\setspacebeforeinitial{0pt plus 0em minus 0em}%
+		$tex = '\grechangedim{beforeinitialshift}{0mm}{scalable}
+\grechangedim{afterinitialshift}{0mm}{scalable}
 '.$tex;
 	}
 
@@ -101,6 +102,10 @@ function mgabc2tex($c, $firstverse = False) {
 \usepackage{gregoriotex}
 \usepackage{fullpage}
 \usepackage{Tabbing}
+\usepackage{longtable}
+
+\let\grelocalleftbox\localleftbox
+\let\grelocalrightbox\localrightbox
 
 \usepackage[latin]{babel}
 
@@ -114,23 +119,12 @@ function mgabc2tex($c, $firstverse = False) {
 \newcommand{\black}[1]{\textcolor{black}{#1}}
 \setlength{\parindent}{0pt}
 
-\def\greinitialformat#1{
-{\fontsize{38}{38}\selectfont #1}
-}
-
-\def\grebiginitialformat#1{
-{\fontsize{144}{144}\selectfont #1}
-}
-
+\grechangestyle{initial}{\fontsize{38}{38}\selectfont}{}
 \tolerance=9999
 \pretolerance=500
 ';
-	if($c['commentary']) {
-		$tex .= '\commentary{{\small \emph{'.$c['commentary']."}}}\n";
-		$tex .= '\nolinebreak[4]'."\n";
-	}
 	if($ann[$c['office-part']]) {
-		$tex .= '\gresetfirstannotation{\small \textbf{'.$ann[$c['office-part']].".}}\n";
+		$tex .= '\greannotation{\small \textbf{'.$ann[$c['office-part']].".}}\n";
 	}
 	if($c['mode'] || $c['mode_var']) {
 		if($c['mode'] == 'p') {
@@ -140,7 +134,11 @@ function mgabc2tex($c, $firstverse = False) {
 		} else {
 			$mode = $c['mode'].($c['mode_var']?' '.$c['mode_var']:'');
 		}
-		$tex .= '\gresetsecondannotation{\small \textbf{'.$mode.".}}\n";
+		$tex .= '\greannotation{\small \textbf{'.$mode.".}}\n";
+	}
+	if($c['commentary']) {
+		$tex .= '\commentary{{\small \emph{'.$c['commentary']."}}}\n";
+		$tex .= '\nolinebreak[4]'."\n";
 	}
 	#
 	# Parsing gabc
@@ -150,19 +148,19 @@ function mgabc2tex($c, $firstverse = False) {
 	if(is_array($g)) {
 		foreach($g as $l) {
 			if($l[0] == 'gabc') {
-				$tex .= gregorio($l[1],$i);
+				$tex .= gregorio($l[1], $i);
 				$i = 0;
 			} else {
 				$tex .= "\\vspace{10pt}\n".$l[1]."\\par\n";
 			}
 		}
 	} elseif($c['gabc_verses'] && !$firstverse) {
-		$tex .= gregorio($g."\n".$c['gabc_verses'],$i);
+		$tex .= gregorio($g."\n".$c['gabc_verses'], $i);
 	} elseif($c['tex_verses'] && !$firstverse) {
-		$tex .= gregorio($g,$i);
+		$tex .= gregorio($g, $i);
 		$tex .= "\\vspace{10pt}\n".$c['tex_verses']."\\par\n";
 	} else {
-		$tex .= gregorio($g,$i);
+		$tex .= gregorio($g, $i);
 	}
 	#
 	#  Document footer
@@ -180,13 +178,16 @@ function makeimgfiles($id, $tex, $suffix = '') {
 	fclose($f[0]);
 	chdir(dirname($f[1]));
 	exec('lualatex --interaction=nonstopmode '.basename($f[1]));
+	exec('lualatex --interaction=nonstopmode '.basename($f[1])); # for variable line height
 	exec('convert -density 300 '.substr($f[1],0,-4).'.pdf -flatten -trim '.$path.'png/'.$id.$suffix.'.png');
 	chmod($path.'png/'.$id.$suffix.'.png', 0666);
 	exec('convert -resize 33.333333% '.$path.'png/'.$id.$suffix.'.png '.$path.$id.$suffix.'.png');
 	chmod($path.$id.$suffix.'.png', 0666);
 	exec('pdfcrop '.substr($f[1],0,-4).'.pdf '.$path.'pdf/'.$id.$suffix.'.pdf');
 	chmod($path.'pdf/'.$id.$suffix.'.pdf', 0666);
-	exec('gs -q -dNOPAUSE -dBATCH -dSAFER -sDEVICE=epswrite -dCompatibilityLevel=1.3 -dEmbedAllFonts=true -dSubsetFonts=true -sOutputFile='.$path.'eps/'.$id.$suffix.'.eps '.$path.'pdf/'.$id.$suffix.'.pdf');
+	exec('mutool draw -F svg -o '.$path.'svg/'.$id.$suffix.'.svg '.$path.'pdf/'.$id.$suffix.'.pdf');
+	chmod($path.'svg/'.$id.$suffix.'.svg', 0666);
+	exec('gs -q -dNOPAUSE -dBATCH -dSAFER -sDEVICE=eps2write -dCompatibilityLevel=1.3 -dEmbedAllFonts=true -dSubsetFonts=true -sOutputFile='.$path.'eps/'.$id.$suffix.'.eps '.$path.'pdf/'.$id.$suffix.'.pdf');
 	chmod($path.'eps/'.$id.$suffix.'.eps', 0666);
 	unlink($f[1]);
 	unlink(substr($f[1],0,-4).'.log');

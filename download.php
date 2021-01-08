@@ -32,7 +32,7 @@ function cleanString($string) {
 	return $string;
 }
 
-$formats = array('png' => 'image/png', 'pdf' => 'application/pdf', 'eps' => 'image/x-eps');
+$formats = array('png' => 'image/png', 'pdf' => 'application/pdf', 'svg' => 'image/svg+xml', 'eps' => 'image/x-eps');
 
 if(array_key_exists('format', $_GET)) {
 	$f = $_GET['format'];
