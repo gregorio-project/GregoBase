@@ -137,7 +137,7 @@ function mgabc2tex($c, $firstverse = False) {
 		$tex .= '\greannotation{\small \textbf{'.$mode.".}}\n";
 	}
 	if($c['commentary']) {
-		$tex .= '\commentary{{\small \emph{'.$c['commentary']."}}}\n";
+		$tex .= '\grecommentary{{\small \emph{'.$c['commentary']."}}}\n";
 		$tex .= '\nolinebreak[4]'."\n";
 	}
 	#
@@ -196,7 +196,7 @@ function makeimgfiles($id, $tex, $suffix = '') {
 	unlink(substr($f[1],0,-4).'.pdf');
 }
 
-$uri = __DIR__.'/scores/'.$id.'.png';
+$uri = __DIR__.'/scores/svg/'.$id.'.svg';
 if(!is_file($uri) || (array_key_exists("force", $_GET) && $_GET["force"] == "1")) {
 	$sql1 = 'SELECT * FROM '.db('chants').' WHERE id = '.$id;
 	$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
@@ -206,7 +206,7 @@ if(!is_file($uri) || (array_key_exists("force", $_GET) && $_GET["force"] == "1")
 	}
 	makeimg($c);
 }
-header('Content-Disposition: inline; filename='.$id.'.png');
-header("Content-type: image/png");
+header('Content-Disposition: inline; filename='.$id.'.svg');
+header("Content-type: image/svg+xml");
 readfile($uri);
 ?>

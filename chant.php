@@ -229,13 +229,13 @@ if(is_string($content)) {
 	}
 	echo "</ul></li>\n";
 }
-foreach(array('pdf','eps','png') as $a) {
+foreach(array('pdf','svg','eps','png') as $a) {
 	echo '<li><a href="download.php?id='.$c['id'].'&amp;format='.$a.'">'.strtoupper($a).'</a></li>'."\n";
 }
 echo "</ul>\n";
 if($c['gabc_verses'] || $c['tex_verses']){
 	echo "<ul>\n";
-	foreach(array('gabc','pdf','eps','png') as $a) {
+	foreach(array('gabc','pdf','svg','eps','png') as $a) {
 		echo '<li><a href="download.php?id='.$c['id'].'&amp;format='.$a.'&amp;1verse=1">'.strtoupper($a).' (1st verse only)</a></li>'."\n";
 	}
 	echo "</ul>\n";
