@@ -7,11 +7,12 @@ include('include/header.php');
 
 echo "<h2>Chants</h2>\n";
 echo "<h4>by incipit</h4>\n";
-$sql1 = 'SELECT DISTINCT UPPER(SUBSTRING(incipit,1,1)) AS letters FROM '.db('chants').' ORDER BY letters ASC';
+$sql1 = 'SELECT DISTINCT UPPER(SUBSTRING(incipit,1,1)) AS letters FROM '.db('chants')." WHERE UPPER(incipit) REGEXP '^[A-ZÆŒ]' ORDER BY letters ASC";
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 echo "<div><ul class=\"alphabet\">\n";
+echo "<li><a href=\"incipit.php?letter=\">no incipit</a></li>\n";
 while($s = $req1->fetch_assoc()) {
-	echo "<li><a href=\"incipit.php?letter=".$s['letters']."\">".($s['letters']?$s['letters']:"no incipit")."</a></li>\n";
+	echo "<li><a href=\"incipit.php?letter=".$s['letters']."\">".$s['letters']."</a></li>\n";
 }
 echo "</ul></div>\n<div style=\"clear:both;\"></div>\n";
 
@@ -20,7 +21,7 @@ $sql1 = 'SELECT * FROM '.db('chants').' WHERE `office-part` != "" GROUP BY `offi
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 echo "<div><ul>\n";
 while($s = $req1->fetch_assoc()) {
-	echo '<li class="usage '.$s['office-part'].'"><a href="usage.php?id='.$s['office-part'].'">'.$txt['usage'][$s['office-part']]."</a></li>\n";
+	echo '<li class="usage '.$s['office-part'].'"><a href="usage.php?id='.$s['office-part'].'">'.($txt['usage'][$s['office-part']]?$txt['usage'][$s['office-part']]:$s['office-part'])."</a></li>\n";
 }
 echo "</ul></div>\n";
 

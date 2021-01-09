@@ -13,7 +13,7 @@ echo "<h2>$title</h2>\n";
 if($l) {
 	$sql1 = 'SELECT * FROM '.db('chants').' WHERE `incipit` LIKE "'.$l.'%" ORDER BY incipit ASC';
 } else {
-	$sql1 = 'SELECT * FROM '.db('chants').' WHERE `incipit` LIKE "" ORDER BY incipit ASC';
+	$sql1 = 'SELECT * FROM '.db('chants')." WHERE `incipit` LIKE '' OR UPPER(incipit) REGEXP '^[^A-ZÆŒ].*' ORDER BY incipit ASC";
 }
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 $chants = array();
