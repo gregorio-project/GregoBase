@@ -45,7 +45,7 @@ function mkstemp($suffix) {
 
 function gregorio($s,$i=1) {
 	$f = mkstemp('.gabc');
-	fwrite($f[0],"initial-style:".$i.";\n%%\n".$s);
+	fwrite($f[0],"nabc-lines: 1;\n%%\n".$s);
 	fclose($f[0]);
 	chdir(dirname($f[1]));
 	exec('gregorio '.basename($f[1]));
