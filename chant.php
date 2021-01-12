@@ -223,11 +223,15 @@ if(is_string($content)) {
 	foreach($content as $e) {
 		if($e[0] == 'gabc') $gabcs[] = $e[1];
 	}
-	echo "<li>GABC<ul>";
-	for($i = 0; $i < count($gabcs); $i++) {
-		echo '<li><a href="download.php?id='.$c['id'].'&amp;format=gabc&amp;elem='.($i+1).'">Element '.($i+1)."</a></li>\n";
+	if(count($gabcs) > 1) {
+		echo "<li>GABC<ul>";
+		for($i = 0; $i < count($gabcs); $i++) {
+			echo '<li><a href="download.php?id='.$c['id'].'&amp;format=gabc&amp;elem='.($i+1).'">Element '.($i+1)."</a></li>\n";
+		}
+		echo "</ul></li>\n";
+	} else {
+		echo '<li><a href="download.php?id='.$c['id'].'&amp;format=gabc&amp;elem=1">GABC</a></li>'."\n";
 	}
-	echo "</ul></li>\n";
 }
 foreach(array('pdf','svg','eps','png') as $a) {
 	echo '<li><a href="download.php?id='.$c['id'].'&amp;format='.$a.'">'.strtoupper($a).'</a></li>'."\n";
