@@ -118,6 +118,7 @@ function mgabc2tex($c, $firstverse = False) {
 \newcommand{\red}[1]{\textcolor{red}{#1}}
 \newcommand{\black}[1]{\textcolor{black}{#1}}
 \setlength{\parindent}{0pt}
+\gresetbracerendering{font}
 
 \grechangestyle{initial}{\fontsize{38}{38}\selectfont}{}
 \tolerance=9999
