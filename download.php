@@ -26,8 +26,10 @@ function cleanString($string) {
 	$string = str_replace('Æ','ae', $string);
 	$string = str_replace('æ','ae', $string);
 	$string = str_replace('œ','oe', $string);
-	$string = preg_replace("/[^a-z\d-_ ]/i","", $string);
+	setlocale(LC_ALL, "en_US.utf8");
+	$string = iconv("utf-8", "ascii//TRANSLIT", $string);
 	$string = str_replace(" ","_", trim($string));         
+	$string = str_replace(",","", trim($string));         
 	$string = strtolower($string);
 	return $string;
 }
