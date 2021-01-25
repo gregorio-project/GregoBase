@@ -38,7 +38,7 @@ $formats = array('png' => 'image/png', 'pdf' => 'application/pdf', 'svg' => 'ima
 
 if(array_key_exists('format', $_GET)) {
 	$f = $_GET['format'];
-	$filename = cleanString($c['office-part'].'--'.$c['incipit'].'--	'.$c['version']);
+	$filename = cleanString($c['office-part'].'--'.$c['incipit'].'--'.$c['version']);
 	if($f == 'gabc') {
 		$content = json_decode($c['gabc']);
 		if(is_string($content)) {
