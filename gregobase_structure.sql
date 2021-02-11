@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.1
+-- version 5.1.0-rc1
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le :  jeu. 20 juil. 2017 à 22:05
--- Version du serveur :  10.0.29-MariaDB-0ubuntu0.16.04.1
--- Version de PHP :  7.0.18-0ubuntu0.16.04.1
+-- Généré le : jeu. 11 fév. 2021 à 22:29
+-- Version du serveur :  10.4.17-MariaDB-1:10.4.17+maria~xenial
+-- Version de PHP : 7.4.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `grego`
+-- Base de données : `grego`
 --
 
 -- --------------------------------------------------------
@@ -44,7 +43,7 @@ CREATE TABLE `gregobase_changesets` (
   `user_id` int(11) NOT NULL,
   `chant_id` int(11) NOT NULL,
   `time` int(11) NOT NULL,
-  `comment` text
+  `comment` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -58,16 +57,16 @@ CREATE TABLE `gregobase_chants` (
   `cantusid` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
   `version` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `incipit` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
-  `initial` tinyint(4) NOT NULL DEFAULT '1',
+  `initial` tinyint(4) NOT NULL DEFAULT 1,
   `office-part` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
   `mode` varchar(8) COLLATE utf8_unicode_ci DEFAULT NULL,
   `mode_var` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
   `transcriber` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `commentary` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `gabc` text COLLATE utf8_unicode_ci,
-  `gabc_verses` text COLLATE utf8_unicode_ci,
-  `tex_verses` text COLLATE utf8_unicode_ci,
-  `remarks` text COLLATE utf8_unicode_ci
+  `gabc` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `gabc_verses` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `tex_verses` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `remarks` text COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -80,8 +79,8 @@ CREATE TABLE `gregobase_chant_sources` (
   `chant_id` int(11) NOT NULL,
   `source` int(11) NOT NULL,
   `page` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
-  `sequence` tinyint(4) NOT NULL DEFAULT '1',
-  `extent` tinyint(4) NOT NULL DEFAULT '1'
+  `sequence` tinyint(4) NOT NULL DEFAULT 1,
+  `extent` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -108,9 +107,9 @@ CREATE TABLE `gregobase_pleasefix` (
   `time` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `ip` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `fixed` tinyint(1) NOT NULL DEFAULT '0',
-  `fixed_by` int(11) NOT NULL DEFAULT '0',
-  `fixed_time` int(11) NOT NULL DEFAULT '0'
+  `fixed` tinyint(1) NOT NULL DEFAULT 0,
+  `fixed_by` int(11) NOT NULL DEFAULT 0,
+  `fixed_time` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -133,12 +132,13 @@ CREATE TABLE `gregobase_proofreading` (
 
 CREATE TABLE `gregobase_sources` (
   `id` int(11) NOT NULL,
-  `year` smallint(6) NOT NULL,
+  `year` smallint(6) DEFAULT NULL,
+  `period` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
   `editor` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `title` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
   `caption` text COLLATE utf8_unicode_ci NOT NULL,
-  `pages` mediumtext COLLATE utf8_unicode_ci
+  `pages` mediumtext COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -219,22 +219,26 @@ ALTER TABLE `gregobase_tags`
 -- AUTO_INCREMENT pour la table `gregobase_chants`
 --
 ALTER TABLE `gregobase_chants`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7907;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT pour la table `gregobase_pleasefix`
 --
 ALTER TABLE `gregobase_pleasefix`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2849;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT pour la table `gregobase_sources`
 --
 ALTER TABLE `gregobase_sources`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT pour la table `gregobase_tags`
 --
 ALTER TABLE `gregobase_tags`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;COMMIT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

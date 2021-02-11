@@ -46,7 +46,7 @@ while($s = $req1->fetch_assoc()) {
 }
 foreach($sources as $id => $s) {
 	if(in_array($id, $used_sources) || $s['pages']) {
-		echo "<li><a href=\"source.php?id=".$id."\">".$s['year']." - ".$s['editor']." - ".$s['title']."</a>";
+		echo "<li><a href=\"source.php?id=".$id."\">".($s['period']?$s['period']:$s['year'])." - ".$s['editor']." - ".$s['title']."</a>";
 		if($s['description'] > '') echo "<br />\n<i>".$s['description']."</i>";
 		echo "</li>\n";
 	}
