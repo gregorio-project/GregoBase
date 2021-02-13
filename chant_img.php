@@ -138,7 +138,11 @@ function mgabc2tex($c, $firstverse = False) {
 		$tex .= '\greannotation{\small \textbf{'.$mode.".}}\n";
 	}
 	if($c['commentary']) {
-		$tex .= '\grecommentary{{\small \emph{'.$c['commentary']."}}}\n";
+		if(strpos($c['gabc'], '|') === false) {
+			$tex .= '\grecommentary{{\small \emph{'.$c['commentary']."}}}\n";
+		} else {
+			$tex .= '\grecommentary[1em]{{\small \emph{'.$c['commentary']."}}}\n";
+		}
 		$tex .= '\nolinebreak[4]'."\n";
 	}
 	#
