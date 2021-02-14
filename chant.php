@@ -125,7 +125,7 @@ if(count($c_p) > 0) {
 	echo "<h4>Sources</h4>\n<ul>\n";
 	$cnt = 1;
 	foreach($c_p as $s) {
-		$source_label = "<i>".$sources[$s[0]]['title'].", ".$sources[$s[0]]['editor'].", ".$sources[$s[0]]['year']."</i>".($s[1]>''?", p. ".$s[1]:'');
+		$source_label = "<i>".$sources[$s[0]]['title'].", ".$sources[$s[0]]['editor'].", ".($sources[$s[0]]['period']?$sources[$s[0]]['period']:$sources[$s[0]]['year'])."</i>".($s[1]>''?", p. ".$s[1]:'');
 		if (count($s) > 2) {
 			echo '<li><a href="#source_'.$cnt.'">'.$source_label."</a></li>\n";
 			$sources_img .= '<p><a name="source_'.$cnt.'">'.$source_label."</a> &nbsp;";

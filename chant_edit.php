@@ -326,7 +326,7 @@ if(!$logged_in) {
 		$sources_box = '<select class="sources" name="source[]">'."\n";
 		$sources_box .= '<option value="0">Choose source</option>'."\n";
 		foreach ($sources as $k => $s) {
-			$sources_box .= '<option value="'.$k.'"'.($k==$so?' selected="selected"':'').">".$s['year'].' - '.$s['title'].' ('.$s['editor'].")</option>\n";
+			$sources_box .= '<option value="'.$k.'"'.($k==$so?' selected="selected"':'').">".($s['period']?$s['period']:$s['year']).' - '.$s['title'].' ('.$s['editor'].")</option>\n";
 		}
 		$sources_box .= "</select>\n";
 		echo $sources_box;
