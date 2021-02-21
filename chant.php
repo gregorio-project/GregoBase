@@ -128,6 +128,7 @@ if(count($c_p) > 0) {
 	$cnt = 1;
 	foreach($c_p as $s) {
 		$source_label = "<i>".$sources[$s[0]]['title'].", ".$sources[$s[0]]['editor'].", ".($sources[$s[0]]['period']?$sources[$s[0]]['period']:$sources[$s[0]]['year'])."</i>".($s[1]>''?", p. ".$s[1]:'');
+		$urls = $sources[$s[0]]['urls'];
 		if (count($s) > 2) {
 			echo '<li><a href="#source_'.$cnt.'">'.$source_label."</a></li>\n";
 			$sources_img .= '<p><a name="source_'.$cnt.'">'.$source_label."</a> &nbsp;";
@@ -173,7 +174,10 @@ if(count($c_p) > 0) {
 			if($next) $sources_img .= ' <a class="prevnext" href="chant.php?id='.$next[0].'" title="Next chant in this source" >▶</a>';
 			$sources_img .= "<br />\n";
 			for($i = 0; $i < max(1, $s[3]); $i++) {
-				$sources_img .= '<img src="sources/'.$s[0].'/'.($s[2]+$i).'.png" alt="" /><br />'."\n";
+				if(is_array($urls)) $sources_img .= '<a target="_new" href="'.$urls[0].$urls[1][$i].$urls[2].'">';
+				$sources_img .= '<img src="sources/'.$s[0].'/'.($s[2]+$i).'.png" alt="" />';
+				if(is_array($urls)) $sources_img .= '</a>';
+				$sources_img .= '<br />'."\n";
 			}
 			$sources_img .= "</p>\n<hr />\n";
 		} else {

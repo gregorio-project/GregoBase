@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0-rc1
+-- version 5.1.0-rc2
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : jeu. 11 fév. 2021 à 22:29
+-- Généré le : dim. 21 fév. 2021 à 19:10
 -- Version du serveur :  10.4.17-MariaDB-1:10.4.17+maria~xenial
--- Version de PHP : 7.4.14
+-- Version de PHP : 7.4.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -66,7 +66,8 @@ CREATE TABLE `gregobase_chants` (
   `gabc` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `gabc_verses` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `tex_verses` text COLLATE utf8_unicode_ci DEFAULT NULL,
-  `remarks` text COLLATE utf8_unicode_ci DEFAULT NULL
+  `remarks` text COLLATE utf8_unicode_ci DEFAULT NULL,
+  `copyrighted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -138,7 +139,8 @@ CREATE TABLE `gregobase_sources` (
   `title` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
   `caption` text COLLATE utf8_unicode_ci NOT NULL,
-  `pages` mediumtext COLLATE utf8_unicode_ci DEFAULT NULL
+  `pages` mediumtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `urls` text COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------

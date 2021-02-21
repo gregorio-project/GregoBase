@@ -31,6 +31,7 @@ echo "<h2>$title</h2>\n";
 if(array_key_exists('images', $_GET) && $_GET['images'] == '1') {
 	$ipp = 25;
 	if(is_array($sources[$s]['pages'])) {
+		$urls = $sources[$s]['urls'];
 		$np = count($sources[$s]['pages']);
 		$start = array_key_exists('index', $_GET) ? intval($_GET['index']*$ipp) : 0;
 		if($start > $np) $start = 0;
@@ -64,7 +65,11 @@ if(array_key_exists('images', $_GET) && $_GET['images'] == '1') {
 			echo "</ul>\n";
 			echo "</td>\n";
 			if(is_dir('./sources/'.$s)) {
-				echo '<td><img src="sources/'.$s.'/'.$i.'.png" /></td>';
+				echo '<td>';
+				if(is_array($urls)) echo '<a target="_new" href="'.$urls[0].$urls[1][$i].$urls[2].'">';
+				echo '<img src="sources/'.$s.'/'.$i.'.png" />';
+				if(is_array($urls)) echo '</a>';
+				echo '</td>';
 			}
 		}
 		echo "</table>\n";
