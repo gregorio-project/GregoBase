@@ -51,7 +51,7 @@ while ($s = $req1->fetch_assoc()) {
 		} else {
 			$p = $s['page'];
 		}
-		if($p) {
+		if($p !== false) {
 			$c_p[] = array($s['source'], $s['page'], $p, intval($s['extent']), intval($s['sequence']));
 		} else {
 			$c_p[] = $c_s;
