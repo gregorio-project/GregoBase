@@ -62,7 +62,9 @@ while ($s = $req1->fetch_assoc()) {
 }
 
 echo '<div id="score"><br />';
-if($c['gabc'] > '') {
+if($c['copyrighted']) {
+	echo 'This tune is still under copyright.';
+} elseif($c['gabc'] > '') {
 	echo '<img src="chant_img.php?id='.$id.'" alt="" />';
 } else {
 	echo 'Yet to be transcribed. ';
@@ -214,63 +216,64 @@ $report_form
 </div>
 POPUP1;
 }
-echo "<h4>Download</h4>\n<ul>\n";
-$content = json_decode($c['gabc']);
-if(is_string($content)) {
-	echo '<li><a href="download.php?id='.$c['id'].'&amp;format=gabc">GABC</a></li>'."\n";
-} elseif(is_array($content)) {
-	$gabcs = array();
-	foreach($content as $e) {
-		if($e[0] == 'gabc') $gabcs[] = $e[1];
-	}
-	if(count($gabcs) > 1) {
-		echo "<li>GABC<ul>";
-		for($i = 0; $i < count($gabcs); $i++) {
-			echo '<li><a href="download.php?id='.$c['id'].'&amp;format=gabc&amp;elem='.($i+1).'">Element '.($i+1)."</a></li>\n";
+if(!$c['copyrighted']) {
+	echo "<h4>Download</h4>\n<ul>\n";
+	$content = json_decode($c['gabc']);
+	if(is_string($content)) {
+		echo '<li><a href="download.php?id='.$c['id'].'&amp;format=gabc">GABC</a></li>'."\n";
+	} elseif(is_array($content)) {
+		$gabcs = array();
+		foreach($content as $e) {
+			if($e[0] == 'gabc') $gabcs[] = $e[1];
 		}
-		echo "</ul></li>\n";
-	} else {
-		echo '<li><a href="download.php?id='.$c['id'].'&amp;format=gabc&amp;elem=1">GABC</a></li>'."\n";
+		if(count($gabcs) > 1) {
+			echo "<li>GABC<ul>";
+			for($i = 0; $i < count($gabcs); $i++) {
+				echo '<li><a href="download.php?id='.$c['id'].'&amp;format=gabc&amp;elem='.($i+1).'">Element '.($i+1)."</a></li>\n";
+			}
+			echo "</ul></li>\n";
+		} else {
+			echo '<li><a href="download.php?id='.$c['id'].'&amp;format=gabc&amp;elem=1">GABC</a></li>'."\n";
+		}
 	}
-}
-foreach(array('pdf','svg','eps','png') as $a) {
-	echo '<li><a href="download.php?id='.$c['id'].'&amp;format='.$a.'">'.strtoupper($a).'</a></li>'."\n";
-}
-echo "</ul>\n";
-if($c['gabc_verses'] || $c['tex_verses']){
-	echo "<ul>\n";
-	foreach(array('gabc','pdf','svg','eps','png') as $a) {
-		echo '<li><a href="download.php?id='.$c['id'].'&amp;format='.$a.'&amp;1verse=1">'.strtoupper($a).' (1st verse only)</a></li>'."\n";
+	foreach(array('pdf','svg','eps','png') as $a) {
+		echo '<li><a href="download.php?id='.$c['id'].'&amp;format='.$a.'">'.strtoupper($a).'</a></li>'."\n";
 	}
 	echo "</ul>\n";
-}
+	if($c['gabc_verses'] || $c['tex_verses']){
+		echo "<ul>\n";
+		foreach(array('gabc','pdf','svg','eps','png') as $a) {
+			echo '<li><a href="download.php?id='.$c['id'].'&amp;format='.$a.'&amp;1verse=1">'.strtoupper($a).' (1st verse only)</a></li>'."\n";
+		}
+		echo "</ul>\n";
+	}
 
-echo "<h4>Open with external tool</h4>\n<ul>\n";
-$gabc = (($c['office-part'] && $txt['usage_s'][$c['office-part']] > '')?'annotation: '.$txt['usage_s'][$c['office-part']]."\n":'');
-$mode_r = False;
-if($c['mode'] > '') {
-    if($c['mode'] == 'p') {
-	$mode = "T. pereg.";
-    } elseif(in_array($c['mode'], array('c','d','e'))) {
-	$mode = strtoupper($c['mode']).($c['mode_var']?' '.$c['mode_var']:'');
-    } else {
-	$mode = $c['mode'].($c['mode_var']?' '.$c['mode_var']:'');
-    }
-}
-if($mode) $gabc .= "annotation: $mode\n";
-$gabc .= "%%\n";
-if(is_string($content)) {
-    $gabc .= $content."\n";
-} elseif(is_array($content)) {
-    foreach($content as $e) {
-	if($e[0] == 'gabc') $gabc .= $e[1]."\n";
-    }
-}
-echo '<li><a href="https://editor.sourceandsummit.com/legacy/#'.rawurlencode(($c['commentary']?'commentary: '.$c['commentary']."\n":'').$gabc."\n".$c['gabc_verses']).'" target="_blank">Illuminare Score editor</a></li>
+	echo "<h4>Open with external tool</h4>\n<ul>\n";
+	$gabc = (($c['office-part'] && $txt['usage_s'][$c['office-part']] > '')?'annotation: '.$txt['usage_s'][$c['office-part']]."\n":'');
+	$mode_r = False;
+	if($c['mode'] > '') {
+		if($c['mode'] == 'p') {
+		$mode = "T. pereg.";
+		} elseif(in_array($c['mode'], array('c','d','e'))) {
+		$mode = strtoupper($c['mode']).($c['mode_var']?' '.$c['mode_var']:'');
+		} else {
+		$mode = $c['mode'].($c['mode_var']?' '.$c['mode_var']:'');
+		}
+	}
+	if($mode) $gabc .= "annotation: $mode\n";
+	$gabc .= "%%\n";
+	if(is_string($content)) {
+		$gabc .= $content."\n";
+	} elseif(is_array($content)) {
+		foreach($content as $e) {
+			if($e[0] == 'gabc') $gabc .= $e[1]."\n";
+		}
+	}
+	echo '<li><a href="https://editor.sourceandsummit.com/legacy/#'.rawurlencode(($c['commentary']?'commentary: '.$c['commentary']."\n":'').$gabc."\n".$c['gabc_verses']).'" target="_blank">Illuminare Score editor</a></li>
 <li><a href="https://editor.sourceandsummit.com/alpha/#'.rawurlencode(($c['commentary']?'text-right: '.$c['commentary']."\n":'').$gabc."\n".$c['gabc_verses']).'" target="_blank">Source &amp; Summit Editor</a></li>
 ';
-echo "</ul>\n";
-
+	echo "</ul>\n";
+}
 if($c['remarks'] > '') {
 	echo "<h4>Remarks</h4>\n<p class=\"remarks\">".nl2br($c['remarks'])."</p>\n";
 }
