@@ -7,6 +7,8 @@ while ($s = $req1->fetch_assoc()) {
 	$pages = json_decode($s['pages']);
 	if($pages) $pages = array_map('strval', $pages);
 	$s['pages'] = $pages;
+	$urls = json_decode($s['urls']);
+	$s['urls'] = $urls;
 	$sources[$s['id']] = $s;
 }
 
