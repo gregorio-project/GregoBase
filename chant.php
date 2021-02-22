@@ -61,6 +61,27 @@ while ($s = $req1->fetch_assoc()) {
 	}
 }
 
+usort($c_p, function($a, $b) {
+	global $sources;
+	if($sources[$a[0]]['year'] == $sources[$b[0]]['year']) { // Date
+		if($a[0] == $b[0]) { // Source
+			if(count($a) > 2) {
+				if($a[2] == $b[2]) { // Page
+					return $a[4] <=> $b[4]; // Sequence
+				} else {
+					return $a[2] <=> $b[2];
+				}
+			} else {
+				return strnatcasecmp($a[1], $b[1]);
+			}
+		} else {
+			return $a[0] <=> $b[0];
+		}
+	} else {
+		return $sources[$b[0]]['year'] <=> $sources[$a[0]]['year'];
+	}
+});
+
 echo '<div id="score"><br />';
 if($c['copyrighted']) {
 	echo 'This tune is still under copyright.';
