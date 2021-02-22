@@ -22,7 +22,7 @@ if($s == "none") {
 	}
 }
 if(array_key_exists($s, $sources)) {
-	$title = 'Sources - '.$sources[$s]['year']." - ".$sources[$s]['editor']." - ".$sources[$s]['title'];
+	$title = 'Sources - '.($sources[$s]['period']?$sources[$s]['period']:$sources[$s]['year'])." - ".$sources[$s]['editor']." - ".$sources[$s]['title'];
 } else {
 	$title = 'Sources - no source';
 }
