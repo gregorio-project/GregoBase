@@ -195,7 +195,7 @@ if(count($c_p) > 0) {
 			if($next) $sources_img .= ' <a class="prevnext" href="chant.php?id='.$next[0].'" title="Next chant in this source" >▶</a>';
 			$sources_img .= "<br />\n";
 			for($i = 0; $i < max(1, $s[3]); $i++) {
-				if(is_array($urls)) $sources_img .= '<a target="_new" href="'.$urls[0].$urls[1][$i].$urls[2].'">';
+				if(is_array($urls)) $sources_img .= '<a target="_new" href="'.$urls[0].$urls[1][$s[2]+$i].$urls[2].'">';
 				$sources_img .= '<img src="sources/'.$s[0].'/'.($s[2]+$i).'.png" alt="" />';
 				if(is_array($urls)) $sources_img .= '</a>';
 				$sources_img .= '<br />'."\n";
