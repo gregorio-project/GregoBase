@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0-rc2
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : dim. 21 fév. 2021 à 19:10
+-- Généré le : mer. 03 mars 2021 à 21:48
 -- Version du serveur :  10.4.17-MariaDB-1:10.4.17+maria~xenial
 -- Version de PHP : 7.4.15
 
@@ -67,7 +67,8 @@ CREATE TABLE `gregobase_chants` (
   `gabc_verses` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `tex_verses` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `remarks` text COLLATE utf8_unicode_ci DEFAULT NULL,
-  `copyrighted` tinyint(1) NOT NULL DEFAULT 0
+  `copyrighted` tinyint(1) NOT NULL DEFAULT 0,
+  `duplicateof` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------

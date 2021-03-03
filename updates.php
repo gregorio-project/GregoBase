@@ -22,9 +22,12 @@ foreach($mod as $d => $ml) {
 	echo "<h4>".$d."</h4>\n";
 	echo "<ul>\n";
 	foreach($ml as $m) {
-		$user_info = get_userdata($m['user_id']);
-		echo "<li>".' <a href="chant.php?id='.$m['chant_id'].'">'.format_incipit(chant_from_id($m['chant_id'])[1])."</a><br />\n";
-		echo "<i>".htmlspecialchars($m['comment']).'</i> <span class="version">('.$user_info->display_name.")</span></li>\n";
+		$t = chant_from_id($m['chant_id']);
+		if($t) {
+			$user_info = get_userdata($m['user_id']);
+			echo "<li>".' <a href="chant.php?id='.$m['chant_id'].'">'.format_incipit($t[1])."</a><br />\n";
+			echo "<i>".htmlspecialchars($m['comment']).'</i>'.($u > ''?"":' <span class="version">(<a href="'.$_SERVER['PHP_SELF'].'?user='.$m['user_id'].'">'.$user_info->display_name."</a>)</span>")."</li>\n";
+		}
 	}
 	echo "</ul>\n";
 }

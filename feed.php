@@ -39,9 +39,11 @@ echo '<entry>
 ';
 
 while($m = $req1->fetch_assoc()) {
-	$user_info = get_userdata($m['user_id']);
-	echo '<entry>
-	<title type="html">'.chant_from_id($m['chant_id'])[1].'</title>
+	$t = chant_from_id($m['chant_id']);
+	if($t) {
+		$user_info = get_userdata($m['user_id']);
+		echo '<entry>
+	<title type="html">'.$t[1].'</title>
 	<link href="'.$dir.'chant.php?id='.$m['chant_id'].'" />
 	<summary>'.htmlspecialchars($m['comment']).'</summary>
 	<updated>'.date(DATE_ATOM,$m['time']).'</updated>
@@ -51,6 +53,7 @@ while($m = $req1->fetch_assoc()) {
 	<id>'.$dir.'history.php?changeset='.$m['time'].'%7C'.$m['chant_id'].'%7C'.$m['user_id'].'</id>
 </entry>
 ';
+	}
 }
 echo '</feed>';
 ?>

@@ -2,10 +2,11 @@
 
 function chant_from_id($c) {
 	global $mysqli;
-	$sql1 = 'SELECT `office-part`,incipit,gabc,version FROM '.db('chants').' WHERE id = '.$c;
+	$sql1 = 'SELECT `office-part`,incipit,gabc,version,duplicateof FROM '.db('chants').' WHERE id = '.$c;
 	$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 	$chants = array();
 	$ch = $req1->fetch_assoc();
+	if($ch['duplicateof']) return false;
 	return array($ch['office-part'], $ch['incipit'] > ''?$ch['incipit']:'░░'.$c.'░░', $ch['gabc'] > '', $ch['version']);
 }
 

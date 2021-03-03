@@ -52,13 +52,15 @@ if(array_key_exists('images', $_GET) && $_GET['images'] == '1') {
 				$ch = $chants[$p];
 				foreach($ch as $c) {
 					$t = chant_from_id($c[0]);
-					echo '<li class="usage-marker '.$t[0].'">';
-					if($t[2]) {
-						echo '<a href="chant.php?id='.$c[0].'">'.format_incipit($t[1])."</a>";
-					} else {
-						echo '<span class="todo">'.format_incipit($t[1]).'</span> (<a href="chant_edit.php?id='.$c[0].'">TODO</a>)';
+					if($t) {
+						echo '<li class="usage-marker '.$t[0].'">';
+						if($t[2]) {
+							echo '<a href="chant.php?id='.$c[0].'">'.format_incipit($t[1])."</a>";
+						} else {
+							echo '<span class="todo">'.format_incipit($t[1]).'</span> (<a href="chant_edit.php?id='.$c[0].'">TODO</a>)';
+						}
+						echo "</li>\n";
 					}
-					echo "</li>\n";
 				}
 			}
 			echo '<li class="add-chant"><a href="chant_edit.php?source='.$s.'&amp;page='.$p.'">Add chant</a></li>'."\n";
@@ -89,13 +91,15 @@ if(array_key_exists('images', $_GET) && $_GET['images'] == '1') {
 				unset($chants[$p]);
 				foreach($ch as $c) {
 					$t = chant_from_id($c[0]);
-					echo '<li class="usage-marker '.$t[0].'">';
-					if($t[2]) {
-						echo '<a href="chant.php?id='.$c[0].'">'.format_incipit($t[1])."</a>";
-					} else {
-						echo '<span class="todo">'.format_incipit($t[1]).'</span>';
+					if($t) {
+						echo '<li class="usage-marker '.$t[0].'">';
+						if($t[2]) {
+							echo '<a href="chant.php?id='.$c[0].'">'.format_incipit($t[1])."</a>";
+						} else {
+							echo '<span class="todo">'.format_incipit($t[1]).'</span>';
+						}
+						echo "</li>\n";
 					}
-					echo "</li>\n";
 				}
 				echo "</ul>\n";
 				echo "</td></tr>\n";

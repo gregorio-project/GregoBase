@@ -15,6 +15,16 @@ if(!$c) {
 	die('Wrong id');
 }
 
+if($c['duplicateof'] > 0) {
+	header('HTTP/1.1 301 Moved Permanently');
+	header('Location: '.$_SERVER['PHP_SELF'].'?id='.$c['duplicateof']);
+	header('Connection: close');
+} elseif($c['duplicateof']) {
+	header('HTTP/1.1 301 Moved Permanently');
+	header('Location: ./scores.php');
+	header('Connection: close');
+}
+
 $title = $c['incipit']?$c['incipit']:'░░'.$c['id'].'░░';
 $custom_header = <<<HEADER
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

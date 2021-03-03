@@ -71,8 +71,11 @@ foreach($mod as $d => $ml) {
 	echo $d;
 	echo "<ul>\n";
 	foreach($ml as $m) {
-		echo '<li><a href="chant.php?id='.$m['chant_id'].'">'.format_incipit(chant_from_id($m['chant_id'])[1])."</a><br />\n";
-		echo "<i>".htmlspecialchars($m['comment'])."</i></li>\n";
+		$t = chant_from_id($m['chant_id']);
+		if($t) {
+			echo '<li><a href="chant.php?id='.$m['chant_id'].'">'.format_incipit($t[1])."</a><br />\n";
+			echo "<i>".htmlspecialchars($m['comment'])."</i></li>\n";
+		}
 	}
 	echo "</ul><br />\n";
 }
