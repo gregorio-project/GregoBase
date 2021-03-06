@@ -43,7 +43,7 @@ function mkstemp($suffix) {
 	return False;
 }
 
-function gregorio($s,$i=1) {
+function gregorio($s) {
 	$f = mkstemp('.gabc');
 	fwrite($f[0],"nabc-lines: 1;\n%%\n".$s);
 	fclose($f[0]);
@@ -56,8 +56,6 @@ function gregorio($s,$i=1) {
 	fclose($g);
 	unlink($gf);
 	$tex = substr($tex,0,-12)."\n\\relax\n";
-
-	$tex .= "\\gresetinitiallines{$i}\n";
 
 	return $tex;
 }
@@ -140,23 +138,23 @@ function mgabc2tex($c, $firstverse = False) {
 	# Parsing gabc
 	#
 	$g = json_decode($c['gabc']);
-	$i = $c['initial'];
+	if($c['initial'] != 1) $tex .= "\\gresetinitiallines{".$c['initial']."}\n";
 	if(is_array($g)) {
 		foreach($g as $l) {
 			if($l[0] == 'gabc') {
-				$tex .= gregorio($l[1], $i);
-				$i = 0;
+				$tex .= gregorio($l[1]);
+				$tex .= "\\gresetinitiallines{0}\n";
 			} else {
 				$tex .= "\\vspace{10pt}\n".$l[1]."\\par\n";
 			}
 		}
 	} elseif($c['gabc_verses'] && !$firstverse) {
-		$tex .= gregorio($g."\n".$c['gabc_verses'], $i);
+		$tex .= gregorio($g."\n".$c['gabc_verses']);
 	} elseif($c['tex_verses'] && !$firstverse) {
-		$tex .= gregorio($g, $i);
+		$tex .= gregorio($g);
 		$tex .= "\\vspace{10pt}\n".$c['tex_verses']."\\par\n";
 	} else {
-		$tex .= gregorio($g, $i);
+		$tex .= gregorio($g);
 	}
 	#
 	#  Document footer
