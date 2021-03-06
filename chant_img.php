@@ -58,15 +58,6 @@ function gregorio($s,$i=1) {
 	$tex = substr($tex,0,-12)."\n\\relax\n";
 
 	$tex .= "\\gresetinitiallines{$i}\n";
-	if($i > 0) {
-		$tex = '\grechangedim{beforeinitialshift}{2.2mm}{scalable}
-\grechangedim{afterinitialshift}{2.2mm}{scalable}
-'.$tex;
-	} else {
-		$tex = '\grechangedim{beforeinitialshift}{0mm}{scalable}
-\grechangedim{afterinitialshift}{0mm}{scalable}
-'.$tex;
-	}
 
 	return $tex;
 }
