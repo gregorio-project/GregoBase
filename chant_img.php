@@ -108,10 +108,10 @@ function mgabc2tex($c, $firstverse = False) {
 \newcommand{\black}[1]{\textcolor{black}{#1}}
 \setlength{\parindent}{0pt}
 \gresetbracerendering{font}
+';
 
-\grechangestyle{initial}{\fontsize{38}{38}\selectfont}{}
-\tolerance=9999
-\pretolerance=500
+	if($c['initial'] == 2) $tex .= '\grechangestyle{initial}{\fontsize{120}{120}\selectfont}{}
+\grechangedim{initialraise}{1.2mm}{scalable}
 ';
 	if($ann[$c['office-part']]) {
 		$tex .= '\greannotation{\small \textbf{'.$ann[$c['office-part']].".}}\n";
