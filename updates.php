@@ -7,10 +7,17 @@ if(array_key_exists("days", $_GET)) {
 	$l = 15;
 }
 
-$title = 'Updates in the last '.$l.' days';
+if(array_key_exists("user", $_GET)) {
+	$u = intval($_GET['user']);
+	$user_info = get_userdata($u);
+} else {
+	$u = False;
+}
+
+$title = 'Updates in the last '.$l.' days'.($u?' by '.$user_info->display_name:'');
 include('include/header.php');
 echo "<h2>$title</h2>\n";
-$sql1 = 'SELECT * FROM '.db('changesets').' WHERE `time` > '.(time() - ($l*24*60*60)).' ORDER BY `time` DESC';
+$sql1 = 'SELECT * FROM '.db('changesets').' WHERE `time` > '.(time() - ($l*24*60*60)).($u?' AND user_id = '.$u:'').' ORDER BY `time` DESC';
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 $mod = array();
 while($m = $req1->fetch_assoc()) {
