@@ -145,8 +145,7 @@ function mgabc2tex($c, $firstverse = False) {
 		foreach($g as $l) {
 			if($l[0] == 'gabc') {
 				$tex .= gregorio($l[1]);
-				$tex .= "\\gresetinitiallines{0}\n";
-			} else {
+			} elseif($l[0] == 'tex') {
 				$tex .= "\\vspace{10pt}\n".$l[1]."\\par\n";
 			}
 		}
