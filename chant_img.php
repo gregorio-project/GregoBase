@@ -110,6 +110,8 @@ function mgabc2tex($c, $firstverse = False) {
 \gresetbracerendering{font}
 ';
 
+	if($c['initial'] == 1) $tex .= '\grechangestyle{initial}{\fontsize{38}{38}\selectfont}{}
+';
 	if($c['initial'] == 2) $tex .= '\grechangestyle{initial}{\fontsize{120}{120}\selectfont}{}
 \grechangedim{initialraise}{1.2mm}{scalable}
 ';
