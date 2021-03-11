@@ -90,8 +90,11 @@ function mgabc2tex($c, $firstverse = False) {
 \geometry{paperwidth=16cm,paperheight=200cm}
 \usepackage{gregoriotex}
 \usepackage{fullpage}
+\usepackage{multicol}
+\usepackage{paracol}
 \usepackage{Tabbing}
 \usepackage{longtable}
+\usepackage[savepos]{zref}
 
 \let\grelocalleftbox\localleftbox
 \let\grelocalrightbox\localrightbox
