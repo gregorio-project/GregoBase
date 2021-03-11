@@ -103,7 +103,7 @@ function mgabc2tex($c, $firstverse = False) {
 
 \usepackage{fontspec}
 \defaultfontfeatures{Ligatures=TeX}
-\setmainfont{Linux Libertine O}
+\setmainfont{Libertinus Serif}
 
 \pagestyle{empty}
 \begin{document}
