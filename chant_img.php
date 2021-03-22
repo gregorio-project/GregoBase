@@ -87,7 +87,7 @@ function mgabc2tex($c, $firstverse = False) {
 
 \documentclass[12pt]{article}
 \usepackage{geometry}
-\geometry{paperwidth=16cm,paperheight=200cm}
+\geometry{paperwidth=16cm,paperheight=600cm}
 \usepackage{gregoriotex}
 \usepackage{fullpage}
 \usepackage{multicol}
@@ -177,12 +177,12 @@ function makeimgfiles($id, $tex, $suffix = '') {
 	chdir(dirname($f[1]));
 	exec('lualatex --interaction=nonstopmode '.basename($f[1]));
 	exec('lualatex --interaction=nonstopmode '.basename($f[1])); # for variable line height
-	exec('convert -density 300 '.substr($f[1],0,-4).'.pdf -flatten -trim '.$path.'png/'.$id.$suffix.'.png');
-	chmod($path.'png/'.$id.$suffix.'.png', 0666);
-	exec('convert -resize 33.333333% '.$path.'png/'.$id.$suffix.'.png '.$path.$id.$suffix.'.png');
-	chmod($path.$id.$suffix.'.png', 0666);
 	exec('pdfcrop '.substr($f[1],0,-4).'.pdf '.$path.'pdf/'.$id.$suffix.'.pdf');
 	chmod($path.'pdf/'.$id.$suffix.'.pdf', 0666);
+	exec('mutool draw -F png -r 300 -o '.$path.'png/'.$id.$suffix.'.png '.$path.'pdf/'.$id.$suffix.'.pdf');
+	chmod($path.'png/'.$id.$suffix.'.png', 0666);
+	exec('mutool draw -F png -r 100 -o '.$path.$id.$suffix.'.png '.$path.'pdf/'.$id.$suffix.'.pdf');
+	chmod($path.$id.$suffix.'.png', 0666);
 	exec('mutool draw -F svg -o '.$path.'svg/'.$id.$suffix.'.svg '.$path.'pdf/'.$id.$suffix.'.pdf');
 	chmod($path.'svg/'.$id.$suffix.'.svg', 0666);
 	exec('gs -q -dNOPAUSE -dBATCH -dSAFER -sDEVICE=eps2write -dCompatibilityLevel=1.3 -dEmbedAllFonts=true -dSubsetFonts=true -sOutputFile='.$path.'eps/'.$id.$suffix.'.eps '.$path.'pdf/'.$id.$suffix.'.pdf');
