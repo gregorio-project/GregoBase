@@ -297,16 +297,20 @@ if(!$c['copyrighted']) {
 	}
 	if($mode) $gabc .= "annotation: $mode\n";
 	$gabc .= "%%\n";
+	$pure_gabc = '';
 	if(is_string($content)) {
-		$gabc .= $content."\n";
+		$pure_gabc .= $content."\n";
 	} elseif(is_array($content)) {
 		foreach($content as $e) {
-			if($e[0] == 'gabc') $gabc .= $e[1]."\n";
+			if($e[0] == 'gabc') $pure_gabc .= $e[1]."\n";
 		}
 	}
-	echo '<li><a href="https://editor.sourceandsummit.com/legacy/#'.rawurlencode(($c['commentary']?'commentary: '.$c['commentary']."\n":'').$gabc."\n".$c['gabc_verses']).'" target="_blank">Illuminare Score editor</a></li>
-<li><a href="https://editor.sourceandsummit.com/alpha/#'.rawurlencode(($c['commentary']?'text-right: '.$c['commentary']."\n":'').$gabc."\n".$c['gabc_verses']).'" target="_blank">Source &amp; Summit Editor</a></li>
+	$gabc .= $pure_gabc;
+	echo '<li><a href="https://editor.sourceandsummit.com/alpha/#'.rawurlencode(($c['commentary']?'text-right: '.$c['commentary']."\n":'').$gabc."\n".$c['gabc_verses']).'" target="_blank">Source &amp; Summit Editor</a></li>
+<li><a href="https://editor.sourceandsummit.com/legacy/#'.rawurlencode(($c['commentary']?'commentary: '.$c['commentary']."\n":'').$gabc."\n".$c['gabc_verses']).'" target="_blank">Illuminare Score editor</a></li>
+<li><a href="https://scrib.io/#q='.rawurlencode($pure_gabc."\n".$c['gabc_verses']).'" target="_blank">Neumz NABC Renderer</a></li>
 ';
+
 	echo "</ul>\n";
 }
 if($c['remarks'] > '') {
