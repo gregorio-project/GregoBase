@@ -93,6 +93,7 @@ abstract class FineDiffOp {
 	}
 
 class FineDiffDeleteOp extends FineDiffOp {
+	public $fromLen;
 	public function __construct($len) {
 		$this->fromLen = $len;
 		}
@@ -111,6 +112,7 @@ class FineDiffDeleteOp extends FineDiffOp {
 	}
 
 class FineDiffInsertOp extends FineDiffOp {
+	public $text;
 	public function __construct($text) {
 		$this->text = $text;
 		}
@@ -133,6 +135,8 @@ class FineDiffInsertOp extends FineDiffOp {
 	}
 
 class FineDiffReplaceOp extends FineDiffOp {
+	public $fromLen;
+	public $text;
 	public function __construct($fromLen, $text) {
 		$this->fromLen = $fromLen;
 		$this->text = $text;
@@ -162,6 +166,7 @@ class FineDiffReplaceOp extends FineDiffOp {
 	}
 
 class FineDiffCopyOp extends FineDiffOp {
+	public $len;
 	public function __construct($len) {
 		$this->len = $len;
 		}
@@ -210,6 +215,12 @@ class FineDiffOps {
 *
 */
 class FineDiff {
+	public $granularityStack;
+	public $edits;
+	public $from_text;
+	public $last_edit;
+	public $stackpointer;
+	public $from_offset;
 
 	/**------------------------------------------------------------------------
 	*

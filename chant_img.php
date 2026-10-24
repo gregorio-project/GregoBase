@@ -142,7 +142,7 @@ function mgabc2tex($c, $firstverse = False) {
 	#
 	# Parsing gabc
 	#
-	$g = json_decode($c['gabc']);
+	$g = json_decode($c['gabc'] ?? '');
 	if($c['initial'] != 1) $tex .= "\\gresetinitiallines{".$c['initial']."}\n";
 	if(is_array($g)) {
 		foreach($g as $l) {
@@ -183,7 +183,9 @@ function makeimgfiles($id, $tex, $suffix = '') {
 	chmod($path.'png/'.$id.$suffix.'.png', 0666);
 	exec('mutool draw -F png -r 100 -o '.$path.$id.$suffix.'.png '.$path.'pdf/'.$id.$suffix.'.pdf');
 	chmod($path.$id.$suffix.'.png', 0666);
-	exec('mutool draw -F svg -o '.$path.'svg/'.$id.$suffix.'.svg '.$path.'pdf/'.$id.$suffix.'.pdf');
+	# Recent mutool versions append the page number to SVG file names: name the page explicitly
+	exec('mutool draw -F svg -o '.$path.'svg/'.$id.$suffix.'.%d.svg '.$path.'pdf/'.$id.$suffix.'.pdf 1');
+	@rename($path.'svg/'.$id.$suffix.'.1.svg', $path.'svg/'.$id.$suffix.'.svg');
 	chmod($path.'svg/'.$id.$suffix.'.svg', 0666);
 	exec('gs -q -dNOPAUSE -dBATCH -dSAFER -sDEVICE=eps2write -dCompatibilityLevel=1.3 -dEmbedAllFonts=true -dSubsetFonts=true -sOutputFile='.$path.'eps/'.$id.$suffix.'.eps '.$path.'pdf/'.$id.$suffix.'.pdf');
 	chmod($path.'eps/'.$id.$suffix.'.eps', 0666);

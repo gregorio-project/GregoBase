@@ -9,7 +9,7 @@ if(array_key_exists("id", $_GET)) {
 $sql1 = 'SELECT * FROM '.db('tags').' WHERE `id` = '.$s;
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 $t = $req1->fetch_assoc();
-$title = 'Tag - '.$t['tag'];
+$title = 'Tag - '.($t['tag'] ?? '');
 include('include/header.php');
 echo "<h2>$title</h2>\n";
 

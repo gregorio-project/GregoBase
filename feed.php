@@ -21,34 +21,34 @@ $sql1 = 'SELECT * FROM '.db('changesets').' ORDER BY `time` DESC LIMIT '.$start.
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 
 $m = $req1->fetch_assoc();
+if($m) {
 echo '<updated>'.date(DATE_ATOM,$m['time']).'</updated>
 
 ';
-$user_info = get_userdata($m['user_id']);
 echo '<entry>
-	<title type="html">'.chant_from_id($m['chant_id'])[1].'</title>
+	<title type="html">'.(chant_from_id($m['chant_id'])[1] ?? '').'</title>
 	<link href="'.$dir.'chant.php?id='.$m['chant_id'].'" />
-	<summary>'.htmlspecialchars($m['comment']).'</summary>
+	<summary>'.htmlspecialchars($m['comment'] ?? '').'</summary>
 	<updated>'.date(DATE_ATOM,$m['time']).'</updated>
 	<author>
-		<name>'.$user_info->display_name.'</name>
+		<name>'.user_display_name($m['user_id']).'</name>
 	</author>
 	<id>'.$dir.'history.php?changeset='.$m['time'].'%7C'.$m['chant_id'].'%7C'.$m['user_id'].'</id>
 </entry>
 
 ';
+}
 
 while($m = $req1->fetch_assoc()) {
 	$t = chant_from_id($m['chant_id']);
 	if($t) {
-		$user_info = get_userdata($m['user_id']);
 		echo '<entry>
 	<title type="html">'.$t[1].'</title>
 	<link href="'.$dir.'chant.php?id='.$m['chant_id'].'" />
-	<summary>'.htmlspecialchars($m['comment']).'</summary>
+	<summary>'.htmlspecialchars($m['comment'] ?? '').'</summary>
 	<updated>'.date(DATE_ATOM,$m['time']).'</updated>
 	<author>
-		<name>'.$user_info->display_name.'</name>
+		<name>'.user_display_name($m['user_id']).'</name>
 	</author>
 	<id>'.$dir.'history.php?changeset='.$m['time'].'%7C'.$m['chant_id'].'%7C'.$m['user_id'].'</id>
 </entry>

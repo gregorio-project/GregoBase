@@ -26,9 +26,10 @@ echo "<h2>$title</h2>\n";
 $sql1 = 'SELECT * FROM '.db('changesets').' WHERE `user_id` = '.intval($chgset[2]).' AND `chant_id` = '.intval($chgset[1]).' AND `time` = '.intval($chgset[0]);
 $req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
 $m = $req1->fetch_assoc();
-$user_info = get_userdata($m['user_id']);
-echo "<h4>".date("M d, Y",$m['time'])." (".$user_info->display_name.")</h4>\n";
-echo "<p>".$m['comment']."</p>\n";
+if($m) {
+	echo "<h4>".date("M d, Y",$m['time'])." (".user_display_name($m['user_id']).")</h4>\n";
+	echo "<p>".$m['comment']."</p>\n";
+}
 $sql2 = 'SELECT * FROM '.db('changes').' WHERE changeset = "'.$mysqli->real_escape_string($_GET['changeset']).'" ORDER BY field';
 $req2 = $mysqli->query($sql2) or die('Erreur SQL !<br />'.$sql2.'<br />'.$mysqli->error);
 while($f = $req2->fetch_assoc()) {

@@ -18,6 +18,9 @@ $c = $req->fetch_assoc();
 if(!$c && $id != '0') {
 	die('Wrong id');
 }
+if(!$c) { // new score: empty fields
+	$c = array_fill_keys(array('id','cantusid','version','incipit','initial','office-part','mode','mode_var','transcriber','commentary','headers','gabc','gabc_verses','tex_verses','remarks','copyrighted','duplicateof'), null);
+}
 $c_s = array();
 $sql = 'SELECT * FROM '.db('chant_sources').' WHERE chant_id = '.$id;
 $req = $mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
@@ -62,7 +65,7 @@ if(!$logged_in) {
 	echo '<p>Please <a href="wp-login.php?redirect_to='.urlencode('http'.(empty($_SERVER['HTTPS'])?'':'s').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']).'&amp;reauth=1">login</a></p>';
 } elseif($id == '0' && count($mypost) > 0) {
 	$gabc = array();
-	for($i=0;$i<count($mypost['type']);$i++) {
+	for($i=0;$i<count($mypost['type'] ?? array());$i++) {
 		if($mypost['content'][$i] > '') {
 			$gabc[] = array($mypost['type'][$i],$mypost['content'][$i],array());
 		}
@@ -77,7 +80,7 @@ if(!$logged_in) {
 	unset($mypost['type']);
 	unset($mypost['content']);
 	$s_p = array();
-	for($i=0;$i<count($mypost['source']);$i++) {
+	for($i=0;$i<count($mypost['source'] ?? array());$i++) {
 		if($mypost['source'][$i] != '0') {
 			$s_p[] = array("chant_id" => (string)$id, "source" => $mypost['source'][$i], "page" => $mypost['page'][$i], "sequence" => $mypost['sequence'][$i], "extent" => $mypost['extent'][$i]);
 		}
@@ -99,7 +102,7 @@ if(!$logged_in) {
 			$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
 		}
 	}
-	foreach($mypost['tags'] as $t) {
+	foreach($mypost['tags'] ?? array() as $t) {
 		if($t > '') {
 			$sql1 = 'SELECT * FROM '.db('tags').' WHERE tag LIKE "'.$mysqli->real_escape_string($t).'"';
 			$req1 = $mysqli->query($sql1) or die('Erreur SQL !<br />'.$sql1.'<br />'.$mysqli->error);
@@ -129,14 +132,14 @@ if(!$logged_in) {
 	$chgset = explode('|',$mypost['changeset']);
 	$sql = 'UPDATE '.db('changesets').' SET `comment` = "'.$mysqli->real_escape_string($mypost['comment']).'"  WHERE `user_id` = '.intval($chgset[2]).' AND `chant_id` = '.intval($chgset[1]).' AND `time` = '.intval($chgset[0]);
 	$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
-	foreach($mypost['fix'] as $fix) {
-		$sql = 'UPDATE '.db('pleasefix').' SET `fixed` = 1, `fixed_by` = '.intval($chgset[2]).', `fixed_time` = '.intval($chgset[0]).'  WHERE `id` = '.$fix;
+	foreach($mypost['fix'] ?? array() as $fix) {
+		$sql = 'UPDATE '.db('pleasefix').' SET `fixed` = 1, `fixed_by` = '.intval($chgset[2]).', `fixed_time` = '.intval($chgset[0]).'  WHERE `id` = '.intval($fix);
 		$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
 	}
 	header('Location: chant.php?id='.$id);
 } elseif(count($mypost) > 0) {
 	$gabc = array();
-	for($i=0;$i<count($mypost['type']);$i++) {
+	for($i=0;$i<count($mypost['type'] ?? array());$i++) {
 		if($mypost['content'][$i] > '') {
 			$gabc[] = array($mypost['type'][$i],$mypost['content'][$i],array());
 		}
@@ -151,7 +154,7 @@ if(!$logged_in) {
 	unset($mypost['type']);
 	unset($mypost['content']);
 	$s_p = array();
-	for($i=0;$i<count($mypost['source']);$i++) {
+	for($i=0;$i<count($mypost['source'] ?? array());$i++) {
 		if($mypost['source'][$i] != '0') {
 			$s_p[] = array("chant_id" => (string)$id, "source" => $mypost['source'][$i], "page" => $mypost['page'][$i], "sequence" => $mypost['sequence'][$i], "extent" => $mypost['extent'][$i]);
 		}
@@ -162,7 +165,7 @@ if(!$logged_in) {
 	unset($mypost['extent']);
 
 	$new_tags = [];
-	foreach($mypost['tags'] as $t) {
+	foreach($mypost['tags'] ?? array() as $t) {
 		if($t > '') $new_tags[] = $t;
 	}
 	natcasesort($new_tags);
@@ -186,7 +189,7 @@ if(!$logged_in) {
 		$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
 		$mod = False;
 		foreach($old as $k => $v) {
-			$sql = 'INSERT into '.db('changes').' VALUES ("'.$chgset.'","'.$k.'","'.$mysqli->real_escape_string($v).'")';
+			$sql = 'INSERT into '.db('changes').' VALUES ("'.$chgset.'","'.$k.'","'.$mysqli->real_escape_string($v ?? '').'")';
 			$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
 			$sql = 'UPDATE '.db('chants').' SET `'.$k.'` = "'.$mysqli->real_escape_string($new[$k]).'" WHERE `id` = '.$id;
 			$mysqli->query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.$mysqli->error);
@@ -245,7 +248,7 @@ if(!$logged_in) {
 		echo "<p>No changes made</p>";
 	}
 } else {
-	$gabc = json_decode($c['gabc']);
+	$gabc = json_decode($c['gabc'] ?? '');
 	if(is_string($gabc)) {
 		$gabc = array(array('gabc', $gabc, array()),);
 	} elseif(empty($gabc)) {
@@ -361,7 +364,7 @@ if(!$logged_in) {
 			$source_label = "<i>".$sources[$s['source']]['title'].", ".$sources[$s['source']]['editor'].", ".$sources[$s['source']]['year']."</i>".($s['page']>''?", p. ".$s['page']:'');
 			echo '<p>'.$source_label."<br />\n";
 			for($i = 0; $i < max(1,$s['extent']); $i++) {
-				echo '<img src="sources/'.$s['source'].'/'.(array_search($s['page'],$sources[$s['source']]['pages'])+$i).'.png" alt="" /><br />'."\n";
+				echo '<img src="sources/'.$s['source'].'/'.((is_array($sources[$s['source']]['pages']) ? array_search($s['page'],$sources[$s['source']]['pages']) : null)+$i).'.png" alt="" /><br />'."\n";
 			}
 			echo "</p>\n<hr />\n";
 		}

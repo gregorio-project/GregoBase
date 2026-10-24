@@ -191,7 +191,7 @@ if(count($c_p) > 0) {
 				$next = $chants[$s[1]][array_search([$id,$s[4],$s[3]], $chants[$s[1]])+1];
 			} elseif(is_array($sources[$s[0]]['pages'])) {
 				$j = $s[2];
-				while($j < count($sources[$s[0]]['pages'])) {
+				while($j < count($sources[$s[0]]['pages']) - 1) {
 					$j++;
 					if(array_key_exists($sources[$s[0]]['pages'][$j], $chants) && count($chants[$sources[$s[0]]['pages'][$j]]) > 0) {
 						$next = $chants[$sources[$s[0]]['pages'][$j]][0];
@@ -205,8 +205,8 @@ if(count($c_p) > 0) {
 			if($next) $sources_img .= ' <a class="prevnext" href="chant.php?id='.$next[0].'" title="Next chant in this source" >▶</a>';
 			$sources_img .= "<br />\n";
 			for($i = 0; $i < max(1, $s[3]); $i++) {
-				if(is_array($urls)) $sources_img .= '<a target="_new" href="'.$urls[0].$urls[1][$s[2]+$i].$urls[2].'">';
-				$sources_img .= '<img src="sources/'.$s[0].'/'.($s[2]+$i).'.png" alt="" />';
+				if(is_array($urls)) $sources_img .= '<a target="_new" href="'.$urls[0].$urls[1][(int)$s[2]+$i].$urls[2].'">';
+				$sources_img .= '<img src="sources/'.$s[0].'/'.((int)$s[2]+$i).'.png" alt="" />';
 				if(is_array($urls)) $sources_img .= '</a>';
 				$sources_img .= '<br />'."\n";
 			}
@@ -234,8 +234,7 @@ if($logged_in && !$proof_done) {
 	echo '<li><form action="'.$_SERVER['PHP_SELF'].($_SERVER['QUERY_STRING']?'?'.$_SERVER['QUERY_STRING']:'').'" method="post"><input type="submit" name="proofread" value="Me" /></form></li>'."\n";
 }
 foreach($proof as $r) {
-	$user_info = get_userdata($r['user_id']);
-	echo "<li>".$user_info->display_name." (".date("M d, Y",$r['time']).")</li>\n";
+	echo "<li>".user_display_name($r['user_id'])." (".date("M d, Y",$r['time']).")</li>\n";
 }
 if(count($proof) > 0 || $logged_in) {
 	echo "</ul>\n";
@@ -253,7 +252,7 @@ POPUP1;
 }
 if(!$c['copyrighted']) {
 	echo "<h4>Download</h4>\n<ul>\n";
-	$content = json_decode($c['gabc']);
+	$content = json_decode($c['gabc'] ?? '');
 	if(is_string($content)) {
 		echo '<li><a href="download.php?id='.$c['id'].'&amp;format=gabc">GABC</a></li>'."\n";
 	} elseif(is_array($content)) {
@@ -286,6 +285,7 @@ if(!$c['copyrighted']) {
 	echo "<h4>Open with external tool</h4>\n<ul>\n";
 	$gabc = (($c['office-part'] && $txt['usage_s'][$c['office-part']] > '')?'annotation: '.$txt['usage_s'][$c['office-part']]."\n":'');
 	$mode_r = False;
+	$mode = '';
 	if($c['mode'] > '') {
 		if($c['mode'] == 'p') {
 		$mode = "T. pereg.";
@@ -322,8 +322,7 @@ if($req1->num_rows > 0 || $c['transcriber'] > '') {
 	echo "<h4>History</h4>\n<ul>\n";
 }
 while ($m = $req1->fetch_assoc()) {
-	$user_info = get_userdata($m['user_id']);
-	echo "<li>".date("M d, Y",$m['time']).": ".htmlspecialchars($m['comment'])." (".$user_info->display_name.') <a href="history.php?changeset='.$m['time'].'|'.$id.'|'.$m['user_id']."\">?</a></li>\n";
+	echo "<li>".date("M d, Y",$m['time']).": ".htmlspecialchars($m['comment'] ?? '')." (".user_display_name($m['user_id']).') <a href="history.php?changeset='.$m['time'].'|'.$id.'|'.$m['user_id']."\">?</a></li>\n";
 }
 if($c['transcriber'] > '') {
 	echo "<li>Original transcriber: ".$c['transcriber']."</li>\n";

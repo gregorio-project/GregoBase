@@ -13,8 +13,7 @@ if($req->num_rows > 0) {
 			echo '<h4><a href="chant.php?id='.$fix['chant_id'].'">'.format_incipit($t[1])."</a></h4>\n";
 			echo "<p><i>".nl2br(htmlspecialchars($fix['pleasefix'])).'</i> <span class="version"> (Reported on '.date("Y-m-d",$fix['time']);
 			if($fix['user_id']) {
-				$user_info = get_userdata($fix['user_id']);
-				echo ' by '.$user_info->display_name;
+				echo ' by '.user_display_name($fix['user_id']);
 			}
 			echo ")</span></p>\n";
 		}

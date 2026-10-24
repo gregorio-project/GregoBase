@@ -3,7 +3,7 @@ include('include/db.php');
 include('include/sources.php');
 
 if(array_key_exists("id", $_GET)) {
-	$s = intval($_GET['id']);
+	$s = ($_GET['id'] === 'none') ? 'none' : intval($_GET['id']);
 } else {
 	die('No id');
 }
@@ -30,7 +30,7 @@ include('include/header.php');
 echo "<h2>$title</h2>\n";
 if(array_key_exists('images', $_GET) && $_GET['images'] == '1') {
 	$ipp = 25;
-	if(is_array($sources[$s]['pages'])) {
+	if(is_array($sources[$s]['pages'] ?? null)) {
 		$urls = $sources[$s]['urls'];
 		$np = count($sources[$s]['pages']);
 		$start = array_key_exists('index', $_GET) ? intval($_GET['index']*$ipp) : 0;
@@ -78,11 +78,11 @@ if(array_key_exists('images', $_GET) && $_GET['images'] == '1') {
 		echo "<p><b>Pages</b> ".implode(' | ', $n)."</p>\n";
 	}
 } else {
-	if(is_array($sources[$s]['pages'])) {
+	if(is_array($sources[$s]['pages'] ?? null)) {
 		echo '<p><a href="source.php?id='.$s.'&images=1">Show source images</a></p>'."\n";
 	}
 	echo "<table>\n<tr>".($s == "none"?"":"<th>Page</th>")."<th>Incipit</th></tr>";
-	if(is_array($sources[$s]['pages'])) {
+	if(is_array($sources[$s]['pages'] ?? null)) {
 		foreach($sources[$s]['pages'] as $p) {
 			if(array_key_exists($p,$chants)) {
 				echo "<tr>".($s == "none"?"":"<td>$p</td>")."<td>";
@@ -112,6 +112,7 @@ if(array_key_exists('images', $_GET) && $_GET['images'] == '1') {
 		$l = array();
 		foreach($ch as $c) {
 			$t = chant_from_id($c[0]);
+			if(!$t) continue;
 			$l[] = $t[1]."=-=".$t[0]."=-=".$c[0]."=-=".$c[1]."=-=".$c[2];
 		}
 		natcasesort($l);

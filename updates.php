@@ -9,12 +9,11 @@ if(array_key_exists("days", $_GET)) {
 
 if(array_key_exists("user", $_GET)) {
 	$u = intval($_GET['user']);
-	$user_info = get_userdata($u);
 } else {
 	$u = False;
 }
 
-$title = 'Updates in the last '.$l.' days'.($u?' by '.$user_info->display_name:'');
+$title = 'Updates in the last '.$l.' days'.($u?' by '.user_display_name($u):'');
 include('include/header.php');
 echo "<h2>$title</h2>\n";
 $sql1 = 'SELECT * FROM '.db('changesets').' WHERE `time` > '.(time() - ($l*24*60*60)).($u?' AND user_id = '.$u:'').' ORDER BY `time` DESC';
@@ -31,9 +30,8 @@ foreach($mod as $d => $ml) {
 	foreach($ml as $m) {
 		$t = chant_from_id($m['chant_id']);
 		if($t) {
-			$user_info = get_userdata($m['user_id']);
 			echo "<li>".' <a href="chant.php?id='.$m['chant_id'].'">'.format_incipit($t[1])."</a><br />\n";
-			echo "<i>".htmlspecialchars($m['comment']).'</i>'.($u > ''?"":' <span class="version">(<a href="'.$_SERVER['PHP_SELF'].'?user='.$m['user_id'].'">'.$user_info->display_name."</a>)</span>")."</li>\n";
+			echo "<i>".htmlspecialchars($m['comment'] ?? '').'</i>'.($u > ''?"":' <span class="version">(<a href="'.$_SERVER['PHP_SELF'].'?user='.$m['user_id'].'">'.user_display_name($m['user_id'])."</a>)</span>")."</li>\n";
 		}
 	}
 	echo "</ul>\n";

@@ -40,7 +40,8 @@ if(array_key_exists('format', $_GET)) {
 	$f = $_GET['format'];
 	$filename = cleanString($c['office-part'].'--'.$c['incipit'].'--'.$c['version']);
 	if($f == 'gabc') {
-		$content = json_decode($c['gabc']);
+		$content = json_decode($c['gabc'] ?? '');
+		$gabc = '';
 		if(is_string($content)) {
 			$gabc = $content;
 		} elseif(is_array($content)) {
@@ -66,10 +67,10 @@ if(array_key_exists('format', $_GET)) {
 		header('Content-Disposition: attachment; filename='.$filename.$suffix.'.'.'gabc');
 
 		echo "name:".$c['incipit'].";\n";
-		if($c['annotation1'] > ''){
+		if(!empty($c['annotation1'])){
 			echo "annotation:".$c['annotation1'].";\n";
 		}
-		if($c['annotation2'] > ''){
+		if(!empty($c['annotation2'])){
 			echo "annotation:".$c['annotation2'].";\n";
 		}
 		if($c['office-part'] > ''){
