@@ -148,7 +148,7 @@ natcasesort($tags);
 
 if(count($tags) > 0) {
 	echo "<h4>Tags</h4><ul>\n";
-	foreach($tags as $t) echo "<li>".$t."</li>\n";
+	foreach($tags as $tid => $ttag) echo "<li><a href=\"tag.php?id=".$tid."\">".$ttag."</a></li>\n";
 	echo "</ul>\n";
 }
 
