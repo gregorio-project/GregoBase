@@ -49,6 +49,9 @@ class RomanNumber {
 
 $days = array('sund','sunday','sundays','monday','tuesday','wednesday','thursday','friday','saturday');
 $hours = array('matins','lauds','prime','terce','sext','none','vespers','compline');
+function modes() {
+	return array(1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 'c' => 'C', 'd' => 'D', 'e' => 'E', 'p' => 'T. pereg.');
+}
 
 function custom_split($str) {
 	global $days, $hours;
