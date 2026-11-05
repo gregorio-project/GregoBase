@@ -110,4 +110,46 @@ function custom_cmp($a,$b) {
 	return 1;
 }
 
+function print_mode_filter($current, $params) { // dropdown used in incipit.php, usage.php and tag.php
+
+	echo '<form class="mode-filter" method="get">';
+
+	foreach($params as $k => $v) {
+		echo '<input type="hidden" name="'.$k.'" value="'.$v.'" />';
+	}
+
+	echo '<select name="mode" onchange="this.form.submit()">';
+	echo '<option value="">All modes</option>';
+
+	echo '<option value="none"'
+		.($current == 'none' ? ' selected="selected"' : '')
+		.'>No mode</option>';
+
+	foreach(modes() as $k => $v) {
+		echo '<option value="'.$k.'"'
+			.($current == (string)$k ? ' selected="selected"' : '')
+			.'>'.$v.'</option>';
+	}
+
+	echo '</select>';
+	echo '</form>';
+}
+
+function mode_where_clause($mode) { // additional SQL clause to filter by mode
+
+	global $mysqli;
+
+	if($mode === '' || $mode === null) {
+		return '';
+	}
+
+	if($mode === 'none') {
+		return ' AND (`mode` IS NULL OR `mode` = "")';
+	}
+
+	return ' AND `mode` = "'
+		.$mysqli->real_escape_string($mode)
+		.'"';
+}
+
 ?>

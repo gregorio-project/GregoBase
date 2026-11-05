@@ -454,3 +454,9 @@ ul.sf-menu li li li.sfHover ul {
 .sf-menu ul a:hover {
     color: #FF4B33;
 }
+
+/*** DROPDOWN MENU FOR MODES ***/
+.mode-filter {
+    float: right;
+    margin-right: 20px;
+}
