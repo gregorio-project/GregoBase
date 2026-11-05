@@ -49,6 +49,9 @@ class RomanNumber {
 
 $days = array('sund','sunday','sundays','monday','tuesday','wednesday','thursday','friday','saturday');
 $hours = array('matins','lauds','prime','terce','sext','none','vespers','compline');
+function modes() {
+	return array(1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 'c' => 'C', 'd' => 'D', 'e' => 'E', 'p' => 'T. pereg.');
+}
 
 function custom_split($str) {
 	global $days, $hours;
@@ -95,15 +98,58 @@ function custom_cmp($a,$b) {
 			return (strtolower($a[$i]) < strtolower($b[$i])) ? -1 : 1;
 		}
 	}
-	if($a < $b) {
-		return -1;
-	} else {
-		return 1;
+	if($a != $b) { // compare the incipits
+		return ($a < $b) ? -1 : 1;
 	}
-	if($u[0] != $u[1]) {
+	if($u[0] != $u[1]) { // if incipits are the same, compare office-parts
 		return ($u[0] < $u[1]) ? -1 : 1;
 	}
-	return ($v[0] < $v[1]) ? -1 : 1;
+	if($v[0] != $v[1]) { // if office-parts are the same, compare versions
+		return ($v[0] < $v[1]) ? -1 : 1;
+	}
+	return 1;
+}
+
+function print_mode_filter($current, $params) { // dropdown used in incipit.php, usage.php and tag.php
+
+	echo '<form class="mode-filter" method="get">';
+
+	foreach($params as $k => $v) {
+		echo '<input type="hidden" name="'.$k.'" value="'.$v.'" />';
+	}
+
+	echo '<select name="mode" onchange="this.form.submit()">';
+	echo '<option value="">All modes</option>';
+
+	echo '<option value="none"'
+		.($current == 'none' ? ' selected="selected"' : '')
+		.'>No mode</option>';
+
+	foreach(modes() as $k => $v) {
+		echo '<option value="'.$k.'"'
+			.($current == (string)$k ? ' selected="selected"' : '')
+			.'>'.$v.'</option>';
+	}
+
+	echo '</select>';
+	echo '</form>';
+}
+
+function mode_where_clause($mode) { // additional SQL clause to filter by mode
+
+	global $mysqli;
+
+	if($mode === '' || $mode === null) {
+		return '';
+	}
+
+	if($mode === 'none') {
+		return ' AND (`mode` IS NULL OR `mode` = "")';
+	}
+
+	return ' AND `mode` = "'
+		.$mysqli->real_escape_string($mode)
+		.'"';
 }
 
 ?>

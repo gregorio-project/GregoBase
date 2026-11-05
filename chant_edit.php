@@ -290,7 +290,7 @@ if(!$logged_in) {
 	echo "<h4>Mode</h4>\n";
 	echo '<select name="mode">'."\n";
 	echo '<option value=""></option>'."\n";
-	foreach(array(1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 'c' => 'C', 'd' => 'D', 'e' => 'E', 'p' => 'T. pereg.') as $k => $v) {
+	foreach(modes() as $k => $v) {
 		echo '<option value="'.$k.'"'.($c['mode']==$k?' selected="selected"':'').'>'.$v.'</option>'."\n";
 	}
 	echo "</select>\n";
