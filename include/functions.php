@@ -95,15 +95,16 @@ function custom_cmp($a,$b) {
 			return (strtolower($a[$i]) < strtolower($b[$i])) ? -1 : 1;
 		}
 	}
-	if($a < $b) {
-		return -1;
-	} else {
-		return 1;
+	if($a != $b) { // compare the incipits
+		return ($a < $b) ? -1 : 1;
 	}
-	if($u[0] != $u[1]) {
+	if($u[0] != $u[1]) { // if incipits are the same, compare office-parts
 		return ($u[0] < $u[1]) ? -1 : 1;
 	}
-	return ($v[0] < $v[1]) ? -1 : 1;
+	if($v[0] != $v[1]) { // if office-parts are the same, compare versions
+		return ($v[0] < $v[1]) ? -1 : 1;
+	}
+	return 1;
 }
 
 ?>
