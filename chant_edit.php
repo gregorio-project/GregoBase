@@ -176,7 +176,7 @@ if(!$logged_in) {
 	$new = array();
 	foreach($fields as $f) {
 		$myfield = str_replace('",[]]','",{}]', str_replace("\r","",$mypost[$f]));
-		if($c[$f] != $myfield) {
+		if((string)$c[$f] !== (string)$myfield) {
 			$old[$f] = $c[$f];
 			$new[$f] = $myfield;
 		}
